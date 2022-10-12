@@ -19,5 +19,12 @@
     "name": "RPM",
     "email": "unity@example.com",
     "url": "https://www.unity3d.com"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Samples",
+      "description": "Contains all avatar loading and rendering samples",
+      "path": "Samples~"
+    }
+  ]
 }
