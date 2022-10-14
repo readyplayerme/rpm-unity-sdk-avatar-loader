@@ -26,10 +26,10 @@ namespace ReadyPlayerMe
 
         private static string GetPartnerSubdomain()
         {
-            ScriptableObject partner = Resources.Load<ScriptableObject>("Partner");
-            Type type = partner.GetType();
-            var method = type.GetMethod("GetSubdomain");
-            string partnerSubdomain = method?.Invoke(partner, null) as string;
+            var partner = Resources.Load<ScriptableObject>("Partner");
+            Type type = partner != null ? partner.GetType() : null;
+            var method = type?.GetMethod("GetSubdomain");
+            var partnerSubdomain = method?.Invoke(partner, null) as string;
             return partnerSubdomain;
         }
 

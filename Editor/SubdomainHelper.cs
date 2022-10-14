@@ -20,6 +20,11 @@ namespace ReadyPlayerMe
 
         public static void SaveToScriptableObject(string newSubdomain)
         {
+            if (partner == null)
+            {
+                return;
+            }
+            
             var type = partner.GetType();
             var field = type.GetField("Subdomain");
             field.SetValue(partner, newSubdomain);
@@ -31,8 +36,8 @@ namespace ReadyPlayerMe
         private static void Load()
         {
             partner = Resources.Load<ScriptableObject>("Partner");
-            var type = partner.GetType();
-            var method = type.GetMethod("GetSubdomain");
+            var type = partner != null ? partner.GetType() : null;
+            var method = type?.GetMethod("GetSubdomain");
             PartnerDomain = method?.Invoke(partner, null) as string;
         }
     }
