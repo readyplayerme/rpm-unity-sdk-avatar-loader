@@ -1,7 +1,7 @@
 {
-  "name": "me.readyplayer.unityavatarloader",
+  "name": "com.readyplayerme.avatarloader",
   "version": "0.1.0",
-  "displayName": "Unity Avatar Loader",
+  "displayName": "Ready Player Me Avatar Loader",
   "description": "For loading RPM Avatars",
   "unity": "2019.1",
   "unityRelease": "38f1",
@@ -9,6 +9,7 @@
   "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
   "licensesUrl": "",
   "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
   "keywords": [
     "avatar",
