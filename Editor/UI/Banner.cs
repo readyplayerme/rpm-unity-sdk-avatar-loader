@@ -5,7 +5,7 @@ namespace ReadyPlayerMe
 {
     public class Banner
     {
-        private const string BANNER_PATH = "Assets/Plugins/Ready Player Me/Editor/RPM_EditorImage_Banner.png";
+        private const string BANNER_PATH = "Packages/com.readyplayerme.avatarloader/Editor/RPM_EditorImage_Banner.png";
 
         private readonly Texture2D banner;
         private readonly GUIStyle versionTextStyle;
