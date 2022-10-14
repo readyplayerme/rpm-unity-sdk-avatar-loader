@@ -70,7 +70,7 @@ namespace ReadyPlayerMe
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(),
-                AvatarImporter ?? new GltfUtilityAvatarImporter(),
+                // AvatarImporter ?? new GltfUtilityAvatarImporter(),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;
