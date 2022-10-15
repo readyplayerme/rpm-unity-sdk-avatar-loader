@@ -9,6 +9,7 @@
   "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
   "licensesUrl": "",
   "dependencies": {
+    "com.unity.ugui": "1.0.0",
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
   "keywords": [
