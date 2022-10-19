@@ -1,8 +1,8 @@
 {
     "name": "ReadyPlayerMe",
     "references": [
-        "Siccity.GLTFUtility",
-        "WebView"
+        "WebView",
+        "glTFast"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
