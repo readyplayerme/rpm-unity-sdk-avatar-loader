@@ -61,15 +61,12 @@ namespace ReadyPlayerMe
             {
                 GameObject avatar = null;
 
-                //var filePath = "/path/to/file.glb";
-
                 byte[] data = File.ReadAllBytes(path);
 
                 var gltf = new GltfImport(deferAgent: new UninterruptedDeferAgent());
 
                 bool success = await gltf.LoadGltfBinary(
                     data,
-                    // The URI of the original data is important for resolving relative URIs within the glTF
                     new Uri(path)
                 );
 

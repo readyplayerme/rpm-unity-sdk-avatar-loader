@@ -6,7 +6,6 @@ namespace ReadyPlayerMe
 {
     public class GltFastGameObjectInstantiator : GameObjectInstantiator
     {
-
         public GltFastGameObjectInstantiator(
             IGltfReadable gltf,
             Transform parent,
@@ -15,7 +14,6 @@ namespace ReadyPlayerMe
         )
             : base(gltf, parent, logger, settings)
         {
-            Debug.Log("CREATE RPM GLTFAST GAME OBJECT INSTANTIATOR");
         }
 
         /// <inheritdoc />
@@ -30,8 +28,6 @@ namespace ReadyPlayerMe
             int primitiveNumeration = 0
         )
         {
-            Debug.Log($"ADDING PRIMITIVE {meshName}");
-
             if ((settings.mask & ComponentType.Mesh) == 0)
             {
                 return;
