@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
-    public class GltFastAvatarImporter : IAvatarImporter
+    public class GltFastAvatarImporter : IOperation<AvatarContext>
     {
         private const string TAG = nameof(GltFastAvatarImporter);
         public int Timeout { get; set; }

@@ -16,9 +16,6 @@ namespace ReadyPlayerMe
         /// Called upon avatar loader success.
         public event EventHandler<CompletionEventArgs> OnCompleted;
 
-        /// Avatar Importer instance used for importing the GLB model.
-        public IAvatarImporter AvatarImporter { get; set; }
-
         /// If true, saves the avatar in the Asset folder.
         public bool SaveInProjectFolder { get; set; }
 
@@ -70,7 +67,7 @@ namespace ReadyPlayerMe
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(), 
-                AvatarImporter ?? new GltFastAvatarImporter(),
+                new GltFastAvatarImporter(),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;
