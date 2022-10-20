@@ -69,8 +69,8 @@ namespace ReadyPlayerMe
             {
                 new UrlProcessor(),
                 new MetadataDownloader(),
-                new AvatarDownloader(),
-                // AvatarImporter ?? new GltfUtilityAvatarImporter(),
+                new AvatarDownloader(), 
+                AvatarImporter ?? new GltFastAvatarImporter(),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;

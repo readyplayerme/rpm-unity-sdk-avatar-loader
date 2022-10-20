@@ -56,6 +56,11 @@ namespace ReadyPlayerMe
 
             try
             {
+                if (avatar.transform.Find(BONE_HALF_BODY_ROOT))
+                {
+                    RemoveHalfBodyRoot(avatar);
+                }
+                
                 if (!avatar.transform.Find(BONE_ARMATURE))
                 {
                     AddArmatureBone(avatar);
@@ -86,8 +91,17 @@ namespace ReadyPlayerMe
         // Bone names
         private const string BONE_HIPS = "Hips";
         private const string BONE_ARMATURE = "Armature";
+        private const string BONE_HALF_BODY_ROOT = "AvatarRoot";
 
-
+        private void RemoveHalfBodyRoot(GameObject avatar)
+        {
+            var root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
+            for (var i = root.childCount-1; i >= 0; --i) {
+                root.GetChild(i).transform.SetParent(avatar.transform);
+            }
+            Object.DestroyImmediate(root.gameObject);
+        }
+        
         private void AddArmatureBone(GameObject avatar)
         {
             SDKLogger.Log(TAG, "Adding armature bone");
@@ -97,7 +111,7 @@ namespace ReadyPlayerMe
             armature.transform.parent = avatar.transform;
 
             var hips = avatar.transform.Find(BONE_HIPS);
-            hips.parent = armature.transform;
+            if (hips) hips.parent = armature.transform;
         }
 
         private void SetupAnimator(GameObject avatar, OutfitGender gender)
