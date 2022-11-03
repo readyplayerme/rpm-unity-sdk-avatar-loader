@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarDownloader : IOperation<AvatarContext>
     {

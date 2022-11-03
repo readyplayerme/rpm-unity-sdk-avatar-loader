@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Linq;
 using System.Threading;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class ExtensionMethods
     {

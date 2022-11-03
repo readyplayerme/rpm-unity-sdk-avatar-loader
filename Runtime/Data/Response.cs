@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe
+﻿namespace ReadyPlayerMe.AvatarLoader
 {
     public struct Response
     {

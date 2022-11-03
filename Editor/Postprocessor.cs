@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class Postprocessor : AssetPostprocessor
     {

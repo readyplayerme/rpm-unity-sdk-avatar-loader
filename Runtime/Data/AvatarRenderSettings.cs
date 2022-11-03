@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public struct AvatarRenderSettings
     {
