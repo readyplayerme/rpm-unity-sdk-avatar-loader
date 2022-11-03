@@ -3,8 +3,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReadyPlayerMe.AvatarLoader;
+using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.Loader
 {
     public class MetadataDownloader : IOperation<AvatarContext>
     {

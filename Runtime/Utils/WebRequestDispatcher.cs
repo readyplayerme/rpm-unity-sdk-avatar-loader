@@ -2,10 +2,11 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class WebRequestDispatcher
     {

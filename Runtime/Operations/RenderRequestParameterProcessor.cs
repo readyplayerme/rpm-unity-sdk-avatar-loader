@@ -4,8 +4,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class RenderRequestParameterProcessor : IOperation<AvatarContext>
     {

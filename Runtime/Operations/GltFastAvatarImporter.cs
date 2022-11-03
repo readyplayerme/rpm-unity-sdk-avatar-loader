@@ -3,9 +3,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using GLTFast;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class GltFastAvatarImporter : IOperation<AvatarContext>
     {

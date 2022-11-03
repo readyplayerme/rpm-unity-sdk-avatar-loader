@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ReadyPlayerMe.Core;
 using UnityEngine.Networking;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class UrlProcessor : IOperation<AvatarContext>
     {

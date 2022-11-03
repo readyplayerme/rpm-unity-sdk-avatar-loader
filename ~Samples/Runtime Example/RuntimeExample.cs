@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ReadyPlayerMe.AvatarLoader;
+using UnityEngine;
+using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe
 {
@@ -12,7 +14,7 @@ namespace ReadyPlayerMe
         private void Start()
         {
             ApplicationData.Log();
-            var avatarLoader = new AvatarLoader();
+            var avatarLoader = new AvatarObjectLoader();
             avatarLoader.OnCompleted += (_, args) =>
             {
                 avatar = args.Avatar;

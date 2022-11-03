@@ -1,10 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     [CustomEditor(typeof(AvatarConfig))]
-    public class AvatarConfigEditor : Editor
+    public class AvatarConfigEditor : UnityEditor.Editor
     {
         private AvatarConfig avatarConfigTarget;
 

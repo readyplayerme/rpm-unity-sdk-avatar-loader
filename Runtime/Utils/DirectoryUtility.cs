@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class DirectoryUtility
     {
