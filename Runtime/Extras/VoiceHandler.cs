@@ -3,6 +3,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using ReadyPlayerMe.Core;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;

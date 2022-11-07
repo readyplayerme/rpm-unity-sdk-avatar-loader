@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader

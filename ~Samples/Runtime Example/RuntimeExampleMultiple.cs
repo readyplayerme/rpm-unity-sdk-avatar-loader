@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-
+using BodyType = ReadyPlayerMe.Core.BodyType;
 namespace ReadyPlayerMe
 {
     public class RuntimeExampleMultiple : MonoBehaviour

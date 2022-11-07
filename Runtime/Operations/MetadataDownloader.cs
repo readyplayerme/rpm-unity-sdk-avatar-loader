@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
+using BodyType = ReadyPlayerMe.Core.BodyType;
 
 namespace ReadyPlayerMe.Loader
 {

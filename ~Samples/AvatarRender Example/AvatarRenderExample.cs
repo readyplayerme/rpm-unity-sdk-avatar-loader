@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarRenderExample : MonoBehaviour
     {

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
