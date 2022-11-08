@@ -1,6 +1,7 @@
 using System;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -20,7 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public AvatarObjectLoader()
         {
-            var loaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+            var loaderSettings = AvatarLoaderSettings.GetAsset();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
         }

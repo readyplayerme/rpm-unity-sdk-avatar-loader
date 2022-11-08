@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public static void ShowWindowMenu()
         {
+            
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
             window.titleContent = new GUIContent("Avatar Loader");
             window.ShowUtility();
@@ -171,7 +172,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
-                    avatarLoaderSettings = AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+                    avatarLoaderSettings = EditorAssetLoader.LoadAvatarLoaderSettings();
                     var avatarLoader = new AvatarObjectLoader();
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;
