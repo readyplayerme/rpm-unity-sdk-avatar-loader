@@ -9,28 +9,13 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         private const string TAG = nameof(AvatarObjectLoader);
 
-        /// Called upon avatar loader failure.
-        public event EventHandler<FailureEventArgs> OnFailed;
-
-        /// Called upon avatar loader progress change.
-        public event EventHandler<ProgressChangeEventArgs> OnProgressChanged;
-
-        /// Called upon avatar loader success.
-        public event EventHandler<AvatarEventArgs> OnCompleted;
-
-        /// If true, saves the avatar in the Asset folder.
-        public bool SaveInProjectFolder { get; set; }
-
-        /// Set the timeout for download requests 
-        public int Timeout { get; set; } = 20;
+        private readonly bool avatarCachingEnabled;
 
         /// Scriptable Object Avatar API request parameters configuration
         public AvatarConfig AvatarConfig;
-
-        private bool avatarCachingEnabled;
+        private string avatarUrl;
 
         private OperationExecutor<AvatarContext> executor;
-        private string avatarUrl;
         private float startTime;
 
         public AvatarObjectLoader()
@@ -39,6 +24,21 @@ namespace ReadyPlayerMe.AvatarLoader
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
         }
+
+        /// If true, saves the avatar in the Asset folder.
+        public bool SaveInProjectFolder { get; set; }
+
+        /// Set the timeout for download requests
+        public int Timeout { get; set; } = 20;
+
+        /// Called upon avatar loader failure.
+        public event EventHandler<FailureEventArgs> OnFailed;
+
+        /// Called upon avatar loader progress change.
+        public event EventHandler<ProgressChangeEventArgs> OnProgressChanged;
+
+        /// Called upon avatar loader success.
+        public event EventHandler<AvatarEventArgs> OnCompleted;
 
         /// Load avatar from given url
         public void LoadAvatar(string url)
@@ -68,7 +68,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 new UrlProcessor(),
                 new MetadataDownloader(),
-                new AvatarDownloader(), 
+                new AvatarDownloader(),
                 new GltFastAvatarImporter(),
                 new AvatarProcessor()
             });
@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (executor.IsCancelled)
             {
-                SDKLogger.Log(TAG, $"Avatar loading cancelled");
+                SDKLogger.Log(TAG, "Avatar loading cancelled");
             }
             else
             {

@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 GameObject avatar = null;
 
                 var gltf = new GltfImport(deferAgent: new UninterruptedDeferAgent());
-                bool success = await gltf.LoadGltfBinary(
+                var success = await gltf.LoadGltfBinary(
                     bytes
                 );
                 if (success)
@@ -62,11 +62,11 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 GameObject avatar = null;
 
-                byte[] data = File.ReadAllBytes(path);
+                var data = File.ReadAllBytes(path);
 
                 var gltf = new GltfImport(deferAgent: new UninterruptedDeferAgent());
 
-                bool success = await gltf.LoadGltfBinary(
+                var success = await gltf.LoadGltfBinary(
                     data,
                     new Uri(path)
                 );
@@ -88,7 +88,10 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
-        private void OnProgressChanged(float progress) => ProgressChanged?.Invoke(progress);
+        private void OnProgressChanged(float progress)
+        {
+            ProgressChanged?.Invoke(progress);
+        }
 
         private Exception Fail(string error)
         {

@@ -23,16 +23,19 @@ namespace ReadyPlayerMe.AvatarLoader
             return saveInProjectFolder ? $"{GetAvatarsDirectoryPath(true)}/{guid}" : $"{GetAvatarsDirectoryPath()}/{guid}/{paramsHash}";
         }
 
-        public static string GetRelativeProjectPath(string guid) => $"Assets/{DefaultAvatarFolder}/{guid}";
+        public static string GetRelativeProjectPath(string guid)
+        {
+            return $"Assets/{DefaultAvatarFolder}/{guid}";
+        }
 
         public static long GetDirectorySize(DirectoryInfo directoryInfo)
         {
             // Add file sizes.
-            var fileInfos = directoryInfo.GetFiles();
+            FileInfo[] fileInfos = directoryInfo.GetFiles();
             var size = fileInfos.Sum(fi => fi.Length);
 
             // Add subdirectory sizes.
-            var directoryInfos = directoryInfo.GetDirectories();
+            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
             size += directoryInfos.Sum(GetDirectorySize);
             return size;
         }

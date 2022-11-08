@@ -1,6 +1,3 @@
-﻿using System.ComponentModel;
-using UnityEngine;
-
-namespace ReadyPlayerMe.AvatarLoader
+﻿namespace ReadyPlayerMe.AvatarLoader
 {
 }

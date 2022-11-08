@@ -45,8 +45,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private AvatarContext CreateRenderRequestParameters(AvatarContext context)
         {
-            var metadata = context.Metadata;
-            var renderSettings = context.RenderSettings;
+            AvatarMetadata metadata = context.Metadata;
+            AvatarRenderSettings renderSettings = context.RenderSettings;
 
             if (metadata.BodyType == BodyType.HalfBody && renderSettings.Scene == AvatarRenderScene.FullBodyPostureTransparent)
             {

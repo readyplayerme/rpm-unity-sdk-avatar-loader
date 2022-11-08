@@ -36,7 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 if (saveInProjectFolder)
                 {
 #if UNITY_EDITOR
-                    foreach (var dir in info.GetDirectories())
+                    foreach (DirectoryInfo dir in info.GetDirectories())
                     {
                         AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
                     }
@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 }
                 else
                 {
-                    foreach (var dir in info.GetDirectories())
+                    foreach (DirectoryInfo dir in info.GetDirectories())
                     {
                         Directory.Delete(dir.FullName, true);
                     }
@@ -57,7 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
             return !Directory.Exists(path) ||
-                   (Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0);
+                   Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0;
         }
 
         /// Total Avatars stored in persistent cache.

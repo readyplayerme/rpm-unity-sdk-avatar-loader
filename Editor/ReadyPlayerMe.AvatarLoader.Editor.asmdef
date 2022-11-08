@@ -1,19 +1,19 @@
 {
-    "name": "ReadyPlayerMe.AvatarLoader.Editor",
-    "references": [
-        "ReadyPlayerMe.AvatarLoader",
-        "ReadyPlayerMe.Core.Editor",
-        "ReadyPlayerMe.Core"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "ReadyPlayerMe.AvatarLoader.Editor",
+  "references": [
+    "ReadyPlayerMe.AvatarLoader",
+    "ReadyPlayerMe.Core.Editor",
+    "ReadyPlayerMe.Core"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

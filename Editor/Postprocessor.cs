@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private static void AddRpmDefineSymbol()
         {
-            var target = EditorUserBuildSettings.selectedBuildTargetGroup;
+            BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
             var defineString = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
             var symbols = new HashSet<string>(defineString.Split(';')) { RPM_SYMBOL };
             var newDefineString = string.Join(";", symbols.ToArray());
@@ -98,12 +98,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
-            var shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
+            SerializedProperty shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
             var includesShader = false;
 
             foreach (var includeShaderName in AlwaysIncludeShader)
             {
-                var shader = Shader.Find(includeShaderName);
+                Shader shader = Shader.Find(includeShaderName);
                 if (shader == null)
                 {
                     break;
@@ -111,7 +111,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 for (var i = 0; i < shaderIncludeArray.arraySize; ++i)
                 {
-                    var shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(i);
+                    SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(i);
                     if (shader == shaderInArray.objectReferenceValue)
                     {
                         includesShader = true;
@@ -123,7 +123,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     var newArrayIndex = shaderIncludeArray.arraySize;
                     shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
-                    var shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
+                    SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
                     shaderInArray.objectReferenceValue = shader;
                     serializedGraphicsObject.ApplyModifiedProperties();
                 }

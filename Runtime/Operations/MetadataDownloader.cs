@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
-using BodyType = ReadyPlayerMe.Core.BodyType;
 
 namespace ReadyPlayerMe.Loader
 {
@@ -33,7 +32,7 @@ namespace ReadyPlayerMe.Loader
 
         public async Task<AvatarMetadata> Download(string url, CancellationToken token = new CancellationToken())
         {
-            SDKLogger.Log(TAG, $"Downloading metadata into memory.");
+            SDKLogger.Log(TAG, "Downloading metadata into memory.");
             var dispatcher = new WebRequestDispatcher();
             dispatcher.ProgressChanged += ProgressChanged;
 
@@ -43,7 +42,7 @@ namespace ReadyPlayerMe.Loader
                 // add random tail to the url to prevent JSON from being loaded from the browser cache
                 var response = await dispatcher.DownloadIntoMemory(url + "?tail=" + Guid.NewGuid(), token, Timeout);
 #else
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
 #endif
                 return ParseResponse(response.Text, response.LastModified);
 
@@ -89,7 +88,7 @@ namespace ReadyPlayerMe.Loader
 
         private bool IsUpdated(AvatarMetadata metadata, AvatarUri uri, bool avatarCachingEnabled)
         {
-            var previousMetadata = LoadFromFile(uri.LocalMetadataPath, avatarCachingEnabled);
+            AvatarMetadata previousMetadata = LoadFromFile(uri.LocalMetadataPath, avatarCachingEnabled);
             if (avatarCachingEnabled && metadata.LastModified == previousMetadata.LastModified) return false;
             return true;
         }
