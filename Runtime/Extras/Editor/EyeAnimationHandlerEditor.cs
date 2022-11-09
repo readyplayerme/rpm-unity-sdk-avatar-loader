@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.AvatarLoader;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe

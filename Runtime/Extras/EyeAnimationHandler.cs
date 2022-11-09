@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Ready Player Me/Eye Animation Handler", 0)]

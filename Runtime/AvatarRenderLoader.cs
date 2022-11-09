@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Loader;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace  ReadyPlayerMe.AvatarLoader
 {
     public class AvatarRenderLoader
     {

@@ -2,7 +2,7 @@
 using GLTFast.Logging;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class GltFastGameObjectInstantiator : GameObjectInstantiator
     {

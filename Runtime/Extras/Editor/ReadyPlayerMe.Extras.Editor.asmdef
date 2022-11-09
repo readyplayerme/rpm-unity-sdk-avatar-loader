@@ -1,7 +1,8 @@
 {
     "name": "ReadyPlayerMe.Extras.Editor",
     "references": [
-        "ReadyPlayerMe"
+        "ReadyPlayerMe",
+        "ReadyPlayerMe.AvatarLoader"
     ],
     "includePlatforms": [
         "Editor"

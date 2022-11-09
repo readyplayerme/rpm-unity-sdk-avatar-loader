@@ -1,11 +1,13 @@
 using System;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Loader;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
-    public class AvatarLoader
+    public class AvatarObjectLoader
     {
-        private const string TAG = nameof(AvatarLoader);
+        private const string TAG = nameof(AvatarObjectLoader);
 
         /// Called upon avatar loader failure.
         public event EventHandler<FailureEventArgs> OnFailed;
@@ -14,7 +16,7 @@ namespace ReadyPlayerMe
         public event EventHandler<ProgressChangeEventArgs> OnProgressChanged;
 
         /// Called upon avatar loader success.
-        public event EventHandler<CompletionEventArgs> OnCompleted;
+        public event EventHandler<AvatarEventArgs> OnCompleted;
 
         /// If true, saves the avatar in the Asset folder.
         public bool SaveInProjectFolder { get; set; }
@@ -31,7 +33,7 @@ namespace ReadyPlayerMe
         private string avatarUrl;
         private float startTime;
 
-        public AvatarLoader()
+        public AvatarObjectLoader()
         {
             var loaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
@@ -73,7 +75,7 @@ namespace ReadyPlayerMe
             executor.ProgressChanged += ProgressChanged;
             executor.Timeout = Timeout;
 
-            ProgressChanged(0, nameof(AvatarLoader));
+            ProgressChanged(0, nameof(AvatarObjectLoader));
             try
             {
                 context = await executor.Execute(context);
@@ -92,7 +94,7 @@ namespace ReadyPlayerMe
             {
                 var avatar = (GameObject) context.Data;
                 avatar.SetActive(true);
-                OnCompleted?.Invoke(this, new CompletionEventArgs
+                OnCompleted?.Invoke(this, new AvatarEventArgs
                 {
                     Avatar = avatar,
                     Url = context.Url,

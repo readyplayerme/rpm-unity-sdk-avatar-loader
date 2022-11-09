@@ -1,8 +1,10 @@
-using ReadyPlayerMe.Analytics;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class AvatarLoaderEditorWindow : EditorWindowBase
     {
@@ -170,7 +172,7 @@ namespace ReadyPlayerMe
                 {
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
                     avatarLoaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
-                    var avatarLoader = new AvatarLoader();
+                    var avatarLoader = new AvatarObjectLoader();
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;
                     avatarLoader.OnCompleted += Completed;

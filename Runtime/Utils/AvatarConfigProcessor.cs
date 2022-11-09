@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ReadyPlayerMe.Core;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class AvatarConfigProcessor
     {

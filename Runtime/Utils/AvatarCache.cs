@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class AvatarCache
     {

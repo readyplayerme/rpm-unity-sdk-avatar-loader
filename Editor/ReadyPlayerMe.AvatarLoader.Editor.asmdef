@@ -1,10 +1,13 @@
 {
-    "name": "ReadyPlayerMe",
+    "name": "ReadyPlayerMe.AvatarLoader.Editor",
     "references": [
-        "WebView",
-        "glTFast"
+        "ReadyPlayerMe.AvatarLoader",
+        "ReadyPlayerMe.Core.Editor",
+        "ReadyPlayerMe.Core"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

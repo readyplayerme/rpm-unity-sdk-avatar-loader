@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public enum BodyType
     {
@@ -23,23 +23,6 @@ namespace ReadyPlayerMe
         HeadMesh,
         BeardMesh,
         TeethMesh
-    }
-
-    public enum FailureType
-    {
-        None,
-        NoInternetConnection,
-        UrlProcessError,
-        ShortCodeError,
-        DownloadError,
-        MetadataDownloadError,
-        MetadataParseError,
-        ModelDownloadError,
-        ModelImportError,
-        DirectoryAccessError,
-        AvatarProcessError,
-        AvatarRenderError,
-        OperationCancelled
     }
 
     public enum AvatarRenderScene

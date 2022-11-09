@@ -3,13 +3,12 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using static ReadyPlayerMe.ExtensionMethods;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
 #endif
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public enum AudioProviderType
     {
