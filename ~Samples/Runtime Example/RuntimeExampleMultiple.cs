@@ -8,6 +8,7 @@ namespace ReadyPlayerMe
 {
     public class RuntimeExampleMultiple : MonoBehaviour
     {
+        private const int RADIUS = 1;
         [SerializeField]
         private string[] avatarUrls =
         {
@@ -16,7 +17,6 @@ namespace ReadyPlayerMe
             "https://api.readyplayer.me/v1/avatars/632d68079b4c6a4352a9bb29.glb",
             "https://api.readyplayer.me/v1/avatars/632d68559b4c6a4352a9bb75.glb"
         };
-        private const int RADIUS = 1;
         private List<GameObject> avatarList;
 
         private void Start()
@@ -27,6 +27,20 @@ namespace ReadyPlayerMe
             var urlSet = new HashSet<string>(avatarUrls);
 
             StartCoroutine(LoadAvatars(urlSet));
+        }
+
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+            if (avatarList != null)
+            {
+                foreach (GameObject avatar in avatarList)
+                {
+                    Destroy(avatar);
+                }
+                avatarList.Clear();
+                avatarList = null;
+            }
         }
 
         private IEnumerator LoadAvatars(HashSet<string> urlSet)
@@ -59,17 +73,6 @@ namespace ReadyPlayerMe
             else
             {
                 Destroy(avatar);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            StopAllCoroutines();
-            if (avatarList != null)
-            {
-                foreach (GameObject avatar in avatarList) Destroy(avatar);
-                avatarList.Clear();
-                avatarList = null;
             }
         }
     }

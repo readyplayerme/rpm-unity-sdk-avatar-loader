@@ -1,6 +1,7 @@
 using System;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
+using UnityEditor;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -8,6 +9,28 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarObjectLoader
     {
         private const string TAG = nameof(AvatarObjectLoader);
+
+        private readonly bool avatarCachingEnabled;
+
+        /// Scriptable Object Avatar API request parameters configuration
+        public AvatarConfig AvatarConfig;
+        private string avatarUrl;
+
+        private OperationExecutor<AvatarContext> executor;
+        private float startTime;
+
+        public AvatarObjectLoader()
+        {
+            var loaderSettings = AvatarLoaderSettings.GetAsset();
+            avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
+            AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
+        }
+
+        /// If true, saves the avatar in the Asset folder.
+        public bool SaveInProjectFolder { get; set; }
+
+        /// Set the timeout for download requests
+        public int Timeout { get; set; } = 20;
 
         /// Called upon avatar loader failure.
         public event EventHandler<FailureEventArgs> OnFailed;
@@ -17,28 +40,6 @@ namespace ReadyPlayerMe.AvatarLoader
 
         /// Called upon avatar loader success.
         public event EventHandler<AvatarEventArgs> OnCompleted;
-
-        /// If true, saves the avatar in the Asset folder.
-        public bool SaveInProjectFolder { get; set; }
-
-        /// Set the timeout for download requests 
-        public int Timeout { get; set; } = 20;
-
-        /// Scriptable Object Avatar API request parameters configuration
-        public AvatarConfig AvatarConfig;
-
-        private bool avatarCachingEnabled;
-
-        private OperationExecutor<AvatarContext> executor;
-        private string avatarUrl;
-        private float startTime;
-
-        public AvatarObjectLoader()
-        {
-            var loaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
-            avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
-            AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
-        }
 
         /// Load avatar from given url
         public void LoadAvatar(string url)
@@ -68,7 +69,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 new UrlProcessor(),
                 new MetadataDownloader(),
-                new AvatarDownloader(), 
+                new AvatarDownloader(),
                 new GltFastAvatarImporter(),
                 new AvatarProcessor()
             });
@@ -88,7 +89,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (executor.IsCancelled)
             {
-                SDKLogger.Log(TAG, $"Avatar loading cancelled");
+                SDKLogger.Log(TAG, "Avatar loading cancelled");
             }
             else
             {

@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
 
-namespace  ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarRenderLoader
     {

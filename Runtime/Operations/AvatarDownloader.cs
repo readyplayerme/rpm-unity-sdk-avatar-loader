@@ -11,14 +11,14 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string TAG = nameof(AvatarDownloader);
         private readonly bool downloadInMemory;
 
-        public int Timeout { get; set; }
-
-        public Action<float> ProgressChanged { get; set; }
-
         public AvatarDownloader(bool downloadInMemory = false)
         {
             this.downloadInMemory = downloadInMemory;
         }
+
+        public int Timeout { get; set; }
+
+        public Action<float> ProgressChanged { get; set; }
 
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)
@@ -90,7 +90,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                var response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
+                Response response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)

@@ -10,20 +10,6 @@ namespace ReadyPlayerMe
 {
     public class RuntimeExampleMultipleQuality : MonoBehaviour
     {
-        [Serializable]
-        private struct AvatarConfigData
-        {
-            public AvatarConfig Config;
-            public float PosX;
-
-            // TODO Find a fix for ignoring warning
-            // Had to add this constructor because of "Field is never assigned" warning
-            public AvatarConfigData(AvatarConfig config, float posX)
-            {
-                Config = config;
-                PosX = posX;
-            }
-        }
 
         [SerializeField]
         private string avatarUrl = "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb";
@@ -41,11 +27,25 @@ namespace ReadyPlayerMe
             StartCoroutine(LoadAvatars());
         }
 
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+            if (avatarList != null)
+            {
+                foreach (GameObject avatar in avatarList)
+                {
+                    Destroy(avatar);
+                }
+                avatarList.Clear();
+                avatarList = null;
+            }
+        }
+
         private IEnumerator LoadAvatars()
         {
             var loading = false;
 
-            foreach (var config in avatarConfigs)
+            foreach (AvatarConfigData config in avatarConfigs)
             {
                 loading = true;
                 var loader = new AvatarObjectLoader();
@@ -67,7 +67,7 @@ namespace ReadyPlayerMe
             if (avatarList != null)
             {
                 var quality = data.Config.name.Substring("Avatar Configuration".Length);
-                var container = Instantiate(qualityContainerPrefab);
+                Transform container = Instantiate(qualityContainerPrefab);
                 container.name = quality;
                 container.position = new Vector3(data.PosX, 0, 0);
                 container.GetComponentInChildren<Text>().text = "<b>" + quality + "</b>\n" +
@@ -83,14 +83,18 @@ namespace ReadyPlayerMe
             }
         }
 
-        private void OnDestroy()
+        [Serializable]
+        private struct AvatarConfigData
         {
-            StopAllCoroutines();
-            if (avatarList != null)
+            public AvatarConfig Config;
+            public float PosX;
+
+            // TODO Find a fix for ignoring warning
+            // Had to add this constructor because of "Field is never assigned" warning
+            public AvatarConfigData(AvatarConfig config, float posX)
             {
-                foreach (var avatar in avatarList) Destroy(avatar);
-                avatarList.Clear();
-                avatarList = null;
+                Config = config;
+                PosX = posX;
             }
         }
     }

@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public static void ShowWindowMenu()
         {
+            
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
             window.titleContent = new GUIContent("Avatar Loader");
             window.ShowUtility();
@@ -41,16 +42,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
         }
 
-        private void OnFocus()
-        {
-            isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
-        }
-
         private void OnGUI()
         {
             if (!initialized) Initialize();
             LoadStyles();
             DrawContent(DrawContent);
+        }
+
+        private void OnFocus()
+        {
+            isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
         }
 
         private void DrawContent()
@@ -123,7 +124,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
                     }
 
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath("Assets/Plugins/Ready Player Me/Editor/error.png", typeof(Texture)), URL_SHORTCODE_ERROR);
+                    var button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), URL_SHORTCODE_ERROR);
 
                     if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
                     {
@@ -171,7 +172,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
-                    avatarLoaderSettings = Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.RESOURCE_PATH);
+                    avatarLoaderSettings = EditorAssetLoader.LoadAvatarLoaderSettings();
                     var avatarLoader = new AvatarObjectLoader();
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;

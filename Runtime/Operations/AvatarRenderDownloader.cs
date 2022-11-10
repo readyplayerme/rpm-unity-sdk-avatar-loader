@@ -56,7 +56,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             try
             {
-                var renderData = JObject.Parse(json);
+                JObject renderData = JObject.Parse(json);
                 var avatarRenderUrl = renderData[RENDERS][0].ToString();
 
                 if (string.IsNullOrEmpty(avatarRenderUrl) || !ValidateRenderUrl(avatarRenderUrl))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,12 +23,12 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (HasInternetConnection)
             {
-                using (var request = UnityWebRequest.Put(url, bytes))
+                using (UnityWebRequest request = UnityWebRequest.Put(url, bytes))
                 {
                     request.method = "POST";
                     request.SetRequestHeader("Content-Type", "application/json");
 
-                    var asyncOperation = request.SendWebRequest();
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
                         await Task.Yield();
@@ -57,12 +58,12 @@ namespace ReadyPlayerMe.AvatarLoader
                     request.timeout = timeout;
                     request.downloadHandler = new DownloadHandlerBuffer();
                     request.method = UnityWebRequest.kHttpVerbGET;
-                    foreach (var header in CommonHeaders.GetRequestHeaders())
+                    foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                     {
                         request.SetRequestHeader(header.Key, header.Value);
                     }
 
-                    var asyncOperation = request.SendWebRequest();
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
                         await Task.Yield();
@@ -96,13 +97,13 @@ namespace ReadyPlayerMe.AvatarLoader
                     var downloadHandler = new DownloadHandlerFile(path);
                     downloadHandler.removeFileOnAbort = true;
                     request.downloadHandler = downloadHandler;
-                    
-                    foreach (var header in CommonHeaders.GetRequestHeaders())
+
+                    foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                     {
                         request.SetRequestHeader(header.Key, header.Value);
                     }
 
-                    var asyncOperation = request.SendWebRequest();
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
                         await Task.Yield();
@@ -142,9 +143,9 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (HasInternetConnection)
             {
-                using (var request = UnityWebRequestTexture.GetTexture(url))
+                using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
                 {
-                    var asyncOperation = request.SendWebRequest();
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
                         await Task.Yield();
