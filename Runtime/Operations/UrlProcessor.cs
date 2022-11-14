@@ -10,8 +10,7 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         private const string TAG = nameof(UrlProcessor);
 
-        //TODO need to remove the develop. from short code URL before release
-        private const string SHORT_CODE_BASE_URL = "https://readyplayer.me/api/avatar/";
+        private const string SHORT_CODE_BASE_URL = "https://api.readyplayer.me/v1/avatars";
         private const string GLB_EXTENSION = ".glb";
         private const string JSON_EXTENSION = ".json";
 
@@ -43,8 +42,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public async Task<AvatarUri> Create(string url, string paramsHash, CancellationToken token = new CancellationToken())
         {
-            //TODO until Avatar API support is added fully this removes the params to prevent URL creation issues
-            var fractions = url.Split('?');
+            var fractions = url.Split('?'); // separate parameters
             url = fractions[0];
             var avatarApiParameters = fractions.Length > 1 ? $"?{fractions[1]}" : "";
             if (url.ToLower().EndsWith(GLB_EXTENSION))
@@ -52,7 +50,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 return CreateFromUrl(url, paramsHash, avatarApiParameters).Result;
             }
 
-            var urlFromShortCode = await GetUrlFromShortCode(url, token);
+            var urlFromShortCode = await GetUrlFromShortCode(url);
             return CreateFromUrl(urlFromShortCode, paramsHash, avatarApiParameters).Result;
         }
 
@@ -83,28 +81,10 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
-        private async Task<string> GetUrlFromShortCode(string shortCode, CancellationToken token)
+        private Task<string> GetUrlFromShortCode(string shortCode)
         {
-            SDKLogger.Log(TAG, "Getting URL from shortcode");
-            var url = shortCode.Contains("/") ? shortCode : $"{SHORT_CODE_BASE_URL}{shortCode}";
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
-            {
-                UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
-                while (!asyncOperation.isDone && !token.IsCancellationRequested)
-                {
-                    await Task.Yield();
-                    ProgressChanged?.Invoke(request.downloadProgress);
-                }
-
-                token.ThrowCustomExceptionIfCancellationRequested();
-
-                if (request.isHttpError || request.isNetworkError)
-                {
-                    throw Fail(FailureType.ShortCodeError, $"Invalid avatar shortcode {request.error}");
-                }
-
-                return request.url;
-            }
+            var url = $"{SHORT_CODE_BASE_URL}/{shortCode}{GLB_EXTENSION}";
+            return Task.FromResult(url);
         }
 
         private Exception Fail(FailureType failureType, string message)
