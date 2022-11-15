@@ -11,7 +11,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [PostProcessBuild(1)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
-            var appData = ApplicationData.GetData();
+            AppData appData = ApplicationData.GetData();
             AnalyticsEditorLogger.EventLogger.LogBuildApplication(appData.BuildTarget, PlayerSettings.productName, !Debug.isDebugBuild);
         }
     }

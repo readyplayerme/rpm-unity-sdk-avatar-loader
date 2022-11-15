@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 context.Data = Object.Instantiate(avatarAsset);
             }
 #endif
-            var oldInstance = GameObject.Find(context.AvatarUri.Guid);
+            GameObject oldInstance = GameObject.Find(context.AvatarUri.Guid);
             if (oldInstance)
             {
                 Object.DestroyImmediate(oldInstance);
@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 {
                     RemoveHalfBodyRoot(avatar);
                 }
-                
+
                 if (!avatar.transform.Find(BONE_ARMATURE))
                 {
                     AddArmatureBone(avatar);
@@ -96,13 +96,14 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void RemoveHalfBodyRoot(GameObject avatar)
         {
-            var root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
-            for (var i = root.childCount-1; i >= 0; --i) {
+            Transform root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
+            for (var i = root.childCount - 1; i >= 0; --i)
+            {
                 root.GetChild(i).transform.SetParent(avatar.transform);
             }
             Object.DestroyImmediate(root.gameObject);
         }
-        
+
         private void AddArmatureBone(GameObject avatar)
         {
             SDKLogger.Log(TAG, "Adding armature bone");
@@ -111,7 +112,7 @@ namespace ReadyPlayerMe.AvatarLoader
             armature.name = BONE_ARMATURE;
             armature.transform.parent = avatar.transform;
 
-            var hips = avatar.transform.Find(BONE_HIPS);
+            Transform hips = avatar.transform.Find(BONE_HIPS);
             if (hips) hips.parent = armature.transform;
         }
 
@@ -157,9 +158,9 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         private void RenameChildMeshes(GameObject avatar)
         {
-            var renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer[] renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-            foreach (var renderer in renderers)
+            foreach (SkinnedMeshRenderer renderer in renderers)
             {
                 var assetName = renderer.name.Replace(PREFIX, "");
 
@@ -183,7 +184,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                 if (renderer.sharedMaterial.HasProperty(propertyID))
                 {
-                    var texture = renderer.sharedMaterial.GetTexture(propertyID);
+                    Texture texture = renderer.sharedMaterial.GetTexture(propertyID);
                     if (texture != null) texture.name = $"{AVATAR_PREFIX}{propertyName}_{assetName}";
                 }
             }

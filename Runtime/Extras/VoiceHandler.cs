@@ -3,6 +3,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using ReadyPlayerMe.Core;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -16,8 +17,7 @@ namespace ReadyPlayerMe.AvatarLoader
         AudioClip = 1
     }
 
-    [DisallowMultipleComponent]
-    [AddComponentMenu("Ready Player Me/Voice Handler", 0)]
+    [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Voice Handler", 0)]
     public class VoiceHandler : MonoBehaviour
     {
         private const string MOUTH_OPEN_BLEND_SHAPE_NAME = "mouthOpen";
@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             catch (Exception e)
             {
-                Debug.LogError($"VoiceHandler.Initialize:/n" + e);
+                Debug.LogError("VoiceHandler.Initialize:/n" + e);
             }
         }
 
@@ -140,7 +140,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private SkinnedMeshRenderer GetMeshAndSetIndex(MeshType meshType, ref int index)
         {
-            var mesh = gameObject.GetMeshRenderer(meshType);
+            SkinnedMeshRenderer mesh = gameObject.GetMeshRenderer(meshType);
             if (mesh != null)
             {
                 index = mesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);

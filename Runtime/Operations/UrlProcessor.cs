@@ -14,10 +14,10 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string GLB_EXTENSION = ".glb";
         private const string JSON_EXTENSION = ".json";
 
+        private bool SaveInProjectFolder { get; set; }
+
         public int Timeout { get; set; }
         public Action<float> ProgressChanged { get; set; }
-
-        private bool SaveInProjectFolder { get; set; }
 
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {

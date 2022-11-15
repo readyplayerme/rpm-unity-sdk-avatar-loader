@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
-namespace ReadyPlayerMe
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarRenderExample : MonoBehaviour
     {
@@ -14,15 +13,15 @@ namespace ReadyPlayerMe
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private GameObject loadingPanel;
 
-        private string blendShapeMesh = "Wolf3D_Avatar";
-        private Dictionary<string, float> blendShapes = new Dictionary<string, float>
+        private readonly string blendShapeMesh = "Wolf3D_Avatar";
+        private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
         {
             { "mouthSmile", 0.7f },
             { "viseme_aa", 0.5f },
             { "jawOpen", 0.3f }
         };
 
-        void Start()
+        private void Start()
         {
             var avatarRenderer = new AvatarRenderLoader();
             avatarRenderer.OnCompleted = UpdateSprite;

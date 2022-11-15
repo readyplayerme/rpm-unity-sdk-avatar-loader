@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ReadyPlayerMe.Core;
@@ -9,6 +10,15 @@ namespace ReadyPlayerMe.AvatarLoader
 {
     public static class ExtensionMethods
     {
+
+        public static void ThrowCustomExceptionIfCancellationRequested(this CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                throw new CustomException(FailureType.OperationCancelled, "Operation was cancelled");
+            }
+        }
+
         #region Coroutine Runner
 
         [ExecuteInEditMode]
@@ -63,7 +73,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public static SkinnedMeshRenderer GetMeshRenderer(this GameObject gameObject, MeshType meshType)
         {
             SkinnedMeshRenderer mesh;
-            var children = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            List<SkinnedMeshRenderer> children = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
 
             if (children.Count == 0)
             {
@@ -93,14 +103,5 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         #endregion
-
-        public static void ThrowCustomExceptionIfCancellationRequested(this CancellationToken token)
-        {
-            if (token.IsCancellationRequested)
-            {
-                throw new CustomException(FailureType.OperationCancelled, "Operation was cancelled");
-            }
-        }
-
     }
 }
