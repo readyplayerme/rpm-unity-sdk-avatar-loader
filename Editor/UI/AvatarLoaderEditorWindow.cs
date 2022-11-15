@@ -172,7 +172,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
-                    avatarLoaderSettings = EditorAssetLoader.LoadAvatarLoaderSettings();
+                    if (avatarLoaderSettings == null)
+                    {
+                        avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
+                    }
                     var avatarLoader = new AvatarObjectLoader();
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;
