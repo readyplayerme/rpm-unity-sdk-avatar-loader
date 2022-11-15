@@ -21,7 +21,6 @@ namespace ReadyPlayerMe
             cameraStartPos = mainCamera ? mainCamera.transform.position : Vector3.zero;
 
             uiSlider.onValueChanged.AddListener(UpdatePosition);
-            uiSlider.onValueChanged.AddListener(UpdateCurrentLod);
         }
 
         public void Show()
@@ -32,9 +31,10 @@ namespace ReadyPlayerMe
         private void UpdatePosition(float value)
         {
             mainCamera.transform.position = new Vector3(cameraStartPos.x, cameraStartPos.y, cameraStartPos.z + value);
+            Invoke(nameof(UpdateCurrentLod), 0.1f);
         }
 
-        private void UpdateCurrentLod(float value)
+        private void UpdateCurrentLod()
         {
             if (LodGroup != null)
             {

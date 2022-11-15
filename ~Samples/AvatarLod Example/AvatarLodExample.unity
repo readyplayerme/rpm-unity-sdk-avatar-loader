@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lodExampleUI: {fileID: 217845738}
-  avatarUrl: https://api.readyplayer.me/v1/avatars/635a5bef5401dcf54b7c7df9.glb
+  avatarUrl: https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb
   lodConfigs:
   - {fileID: 11400000, guid: 99552ccf737554f2fab58e864f9416e4, type: 2}
   - {fileID: 11400000, guid: 1d2a8b01037e24f54b99b6aa9a51f0db, type: 2}
