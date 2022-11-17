@@ -16,10 +16,10 @@ namespace ReadyPlayerMe
 
         public void Init()
         {
+            QualitySettings.lodBias = 1f;
             lodInfoText = GetComponentInChildren<Text>();
             uiSlider = GetComponentInChildren<Slider>();
             cameraStartPos = mainCamera ? mainCamera.transform.position : Vector3.zero;
-
             uiSlider.onValueChanged.AddListener(UpdatePosition);
         }
 

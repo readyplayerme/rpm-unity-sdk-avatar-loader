@@ -8,6 +8,9 @@ namespace ReadyPlayerMe
 {
     public class AvatarLodExample : MonoBehaviour
     {
+        private const string LOD_MESH_SUFFIX = "_LOD";
+        private const float CULL_TRANSITION = 0.05f;
+        
         [SerializeField] private AvatarLodExampleUI lodExampleUI;
         [SerializeField] private string avatarUrl;
         [SerializeField] private AvatarConfig[] lodConfigs;
@@ -42,11 +45,11 @@ namespace ReadyPlayerMe
                     {
                         bodyType = args.Metadata.BodyType;
                         mainAvatar = Instantiate(args.Avatar);
-                        mainAvatar.name = args.Avatar.name + "_LOD";
+                        mainAvatar.name = args.Avatar.name + LOD_MESH_SUFFIX;
 
                         mainMeshRenderer = mainAvatar.GetComponentInChildren<SkinnedMeshRenderer>();
                         var meshTransform = mainMeshRenderer.transform;
-                        meshTransform.name = meshTransform.name += $"_LOD{lodLevel}";
+                        meshTransform.name = meshTransform.name += $"{LOD_MESH_SUFFIX}{lodLevel}";
                         mainMeshRenderer.enabled = false;
                         meshRenderersList.Add(mainMeshRenderer);
                     }
@@ -55,7 +58,7 @@ namespace ReadyPlayerMe
                         var lodSkinnedMeshRenderer = args.Avatar.GetComponentInChildren<SkinnedMeshRenderer>();
                         lodSkinnedMeshRenderer.rootBone = mainMeshRenderer.rootBone;
                         lodSkinnedMeshRenderer.bones = mainMeshRenderer.bones;
-                        lodSkinnedMeshRenderer.transform.name += $"_LOD{lodLevel}";
+                        lodSkinnedMeshRenderer.transform.name += $"{LOD_MESH_SUFFIX}{lodLevel}";
                         lodSkinnedMeshRenderer.transform.SetParent(mainAvatar.transform);
                         lodSkinnedMeshRenderer.transform.SetSiblingIndex(lodLevel);
                         lodSkinnedMeshRenderer.enabled = false;
@@ -86,12 +89,18 @@ namespace ReadyPlayerMe
             for (var i = 0; i < lodConfigs.Length; i++)
             {
                 meshRenderersList[i].enabled = true;
-                lods[i] = new LOD(1.05f - ((i + 1f) / lodConfigs.Length), new Renderer[] { meshRenderersList[i] });
+                lods[i] = new LOD(CalculateTransitionHeight(i), new Renderer[] { meshRenderersList[i] });
             }
             lodGroup.SetLODs(lods);
             lodGroup.RecalculateBounds();
 
             lodExampleUI.LodGroup = lodGroup;
+        }
+
+        private float CalculateTransitionHeight(int lodConfig)
+        {
+            var lodTransition = (lodConfig + 1f) / lodConfigs.Length;
+            return (1 - lodTransition + CULL_TRANSITION);
         }
 
         private void OnDestroy()
