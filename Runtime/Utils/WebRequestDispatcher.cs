@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string LAST_MODIFIED = "Last-Modified";
         private const string NO_INTERNET_CONNECTION = "No internet connection.";
         private const string CLOUDFRONT_IDENTIFIER = "cloudfront";
-        
+
         public Action<float> ProgressChanged;
 
         private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
@@ -62,7 +62,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                     if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
                     {
-                        foreach (var header in CommonHeaders.GetRequestHeaders())
+                        foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                         {
                             request.SetRequestHeader(header.Key, header.Value);
                         }
@@ -105,13 +105,13 @@ namespace ReadyPlayerMe.AvatarLoader
 
                     if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
                     {
-                        foreach (var header in CommonHeaders.GetRequestHeaders())
+                        foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                         {
                             request.SetRequestHeader(header.Key, header.Value);
                         }
                     }
-                    
-                    var asyncOperation = request.SendWebRequest();
+
+                    UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
                         await Task.Yield();

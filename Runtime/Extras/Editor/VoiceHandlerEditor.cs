@@ -19,13 +19,6 @@ namespace ReadyPlayerMe
         private SerializedProperty audioSource;
         private SerializedProperty audioProvider;
 
-        private void OnEnable()
-        {
-            audioClip = serializedObject.FindProperty("AudioClip");
-            audioSource = serializedObject.FindProperty("AudioSource");
-            audioProvider = serializedObject.FindProperty("AudioProvider");
-        }
-
         public override void OnInspectorGUI()
         {
             DrawPropertyField(audioProvider, audioProviderLabel);
@@ -50,6 +43,13 @@ namespace ReadyPlayerMe
                 EditorGUILayout.HelpBox("Microphone is not supported in WebGL.", MessageType.Warning);
             }
 #endif
+        }
+
+        private void OnEnable()
+        {
+            audioClip = serializedObject.FindProperty("AudioClip");
+            audioSource = serializedObject.FindProperty("AudioSource");
+            audioProvider = serializedObject.FindProperty("AudioProvider");
         }
 
         private void DrawPropertyField(SerializedProperty property, GUIContent content)

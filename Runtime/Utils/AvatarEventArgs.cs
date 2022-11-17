@@ -1,5 +1,4 @@
-﻿using ReadyPlayerMe.AvatarLoader;
-using ReadyPlayerMe.Core;
+﻿using ReadyPlayerMe.Core;
 
 public class AvatarEventArgs : CompletionEventArgs
 {

@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public AvatarObjectLoader()
         {
-            var loaderSettings = AvatarLoaderSettings.LoadSettings();
+            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
         }
