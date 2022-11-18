@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader
                     avatar.SetActive(false);
                     var customInstantiator = new GltFastGameObjectInstantiator(gltf, avatar.transform);
 
-                    await gltf.InstantiateMainScene(customInstantiator);
+                    await gltf.InstantiateMainSceneAsync(customInstantiator);
                 }
 
                 return avatar;
@@ -77,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader
                     avatar.SetActive(false);
                     var customInstantiator = new GltFastGameObjectInstantiator(gltf, avatar.transform);
 
-                    await gltf.InstantiateMainScene(customInstantiator);
+                    await gltf.InstantiateMainSceneAsync(customInstantiator);
                 }
 
                 return avatar;
