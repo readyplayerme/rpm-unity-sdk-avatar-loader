@@ -25,6 +25,7 @@ jobs:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout submodule branch
         run: |
           cd Assets/ReadyPlayerMe/${{ github.event.repository.name }}
