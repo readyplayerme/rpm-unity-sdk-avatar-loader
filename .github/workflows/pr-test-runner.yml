@@ -19,18 +19,18 @@ jobs:
         unityVersion:
           - 2019.4.38f1
     steps:
-      - name: Checkout Repository
+      - name: Checkout Unity-SDK Repository
         uses: actions/checkout@v3
         with:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
           fetch-depth: 0
-          token: ${{ secrets.PAT }}
-          - name: Checkout submodule branch
-            run: |
-              git fetch -a
-              git checkout ${{ github.event.pull_request.head.ref }}
-              git pull origin ${{ github.event.pull_request.head.ref }}
+      - name: Checkout submodule branch
+        run: |
+          cd Assets/ReadyPlayerMe/${{ github.event.repository.name }}
+          git fetch -a
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git pull origin ${{ github.event.pull_request.head.ref }}
     
       - name: Cache Project
         uses: actions/cache@v3
