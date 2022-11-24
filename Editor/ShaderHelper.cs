@@ -18,6 +18,12 @@ public static class ShaderHelper
     private const string URP_SHADERS = "Packages/com.readyplayerme.avatarloader/Shaders/DefaultglTFastShadersURP.shadervariants";
 #endif
 
+    [InitializeOnLoadMethod]
+    private static void InitializeOnLoad()
+    {
+        AddPreloadShaders();
+    }
+    
     public static void AddPreloadShaders()
     {
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
@@ -30,10 +36,21 @@ public static class ShaderHelper
 
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
         var newArrayIndex = shaderIncludeArray.arraySize;
-        shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
-        SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
-        shaderInArray.objectReferenceValue = shaderVariants;
-        serializedGraphicsObject.ApplyModifiedProperties();
+        
+        var shadersIncluded = false;
+        for (int i = 0; i < shaderIncludeArray.arraySize; i++)
+        {
+            var shaderCollection = shaderIncludeArray.GetArrayElementAtIndex(i);
+            shadersIncluded = shaderCollection.name == shaderVariants.name;
+        }
+        
+        if (shadersIncluded)
+        {
+            shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
+            SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
+            shaderInArray.objectReferenceValue = shaderVariants;
+            serializedGraphicsObject.ApplyModifiedProperties();
+        }
 
         AssetDatabase.SaveAssets();
     }
