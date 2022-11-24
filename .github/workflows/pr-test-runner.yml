@@ -25,10 +25,11 @@ jobs:
           repository: "readyplayerme/Unity-SDK"
           submodules: true
           fetch-depth: 0
+          ref: develop
           token: ${{ secrets.PAT }}
       - name: Checkout submodule branch
         run: |
-          cd Assets/Ready\ Player\ Me/Avatar\ Loader 
+          cd ${{ AVATAR_LOADER_PATH }}
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
