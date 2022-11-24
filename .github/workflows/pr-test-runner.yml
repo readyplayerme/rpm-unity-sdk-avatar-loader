@@ -28,7 +28,7 @@ jobs:
           token: ${{ secrets.PAT }}
       - name: Checkout submodule branch
         run: |
-          cd Assets/ReadyPlayerMe/${{ github.event.repository.name }}
+          cd Assets/Ready\ Player\ Me/Avatar\ Loader 
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
