@@ -68,66 +68,54 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         #region Shader Settings
 
-        private const string INCLUDE_SHADER_PROPERTY = "m_AlwaysIncludedShaders";
+        private const string INCLUDE_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
-
-        private static readonly string[] AlwaysIncludeShader = new string[4];
-
-        private static readonly string[] ShaderNames =
-        {
-            "Standard (Specular)",
-            "Standard Transparent (Specular)",
-            "Standard (Metallic)",
-            "Standard Transparent (Metallic)"
-        };
-
-        private static string GetShaderRoot()
-        {
-            var pipeline = GraphicsSettings.defaultRenderPipeline == null
-                ? "GLTFUtility"
-                : "GLTFUtility/URP";
-            return pipeline;
-        }
+#if DISABLE_AUTO_INSTALLER
+        private const string STANDARD_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShaders.shadervariants";
+#else
+        private const string STANDARD_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShaders.shadervariants";
+#endif
+        
+#if DISABLE_AUTO_INSTALLER
+        private const string URP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShadersURP.shadervariants";
+#else
+        private const string URP_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShadersURP.shadervariants";
+#endif
+        
+#if DISABLE_AUTO_INSTALLER
+        private const string HDRP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShadersURP.shadervariants";
+#else
+        private const string HDRP_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShadersURP.shadervariants";
+#endif
 
         private static void UpdateAlwaysIncludedShaderList()
         {
-            for (var i = 0; i < AlwaysIncludeShader.Length; i++)
-            {
-                AlwaysIncludeShader[i] = $"{GetShaderRoot()}/{ShaderNames[i]}";
-            }
-
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
+            
             SerializedProperty shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
-            var includesShader = false;
 
-            foreach (var includeShaderName in AlwaysIncludeShader)
+            var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
+            string shaderPath;
+            if (renderPipelineAsset == null)
             {
-                Shader shader = Shader.Find(includeShaderName);
-                if (shader == null)
-                {
-                    break;
-                }
-
-                for (var i = 0; i < shaderIncludeArray.arraySize; ++i)
-                {
-                    SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(i);
-                    if (shader == shaderInArray.objectReferenceValue)
-                    {
-                        includesShader = true;
-                        break;
-                    }
-                }
-
-                if (!includesShader)
-                {
-                    var newArrayIndex = shaderIncludeArray.arraySize;
-                    shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
-                    SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
-                    shaderInArray.objectReferenceValue = shader;
-                    serializedGraphicsObject.ApplyModifiedProperties();
-                }
+                shaderPath = STANDARD_SHADERS;
             }
+            else if (renderPipelineAsset.GetType().Name == "UniversalRenderPipelineAsset")
+            {
+                shaderPath = URP_SHADERS;
+            }
+            else
+            {
+                shaderPath = HDRP_SHADERS;
+            }
+
+            var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
+            var newArrayIndex = shaderIncludeArray.arraySize;
+            shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
+            SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
+            shaderInArray.objectReferenceValue = shaderVariants;
+            serializedGraphicsObject.ApplyModifiedProperties();
 
             AssetDatabase.SaveAssets();
         }
