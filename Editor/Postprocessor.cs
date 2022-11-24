@@ -17,7 +17,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 // TODO Find a better way
                 if (item.Contains("RPM_EditorImage_"))
                 {
-                    UpdateAlwaysIncludedShaderList();
+                    ShaderHelper.AddPreloadShaders();
                     AddRpmDefineSymbol();
                     return;
                 }
@@ -65,61 +65,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         }
 
         #endregion
-
-        #region Shader Settings
-
-        private const string INCLUDE_SHADER_PROPERTY = "m_PreloadedShaders";
-        private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
-#if DISABLE_AUTO_INSTALLER
-        private const string STANDARD_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShaders.shadervariants";
-#else
-        private const string STANDARD_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShaders.shadervariants";
-#endif
         
-#if DISABLE_AUTO_INSTALLER
-        private const string URP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShadersURP.shadervariants";
-#else
-        private const string URP_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShadersURP.shadervariants";
-#endif
-        
-#if DISABLE_AUTO_INSTALLER
-        private const string HDRP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/DefaultglTFastShadersURP.shadervariants";
-#else
-        private const string HDRP_SHADERS = "Packages/com.readplayer.me/Shaders/DefaultglTFastShadersURP.shadervariants";
-#endif
-
-        private static void UpdateAlwaysIncludedShaderList()
-        {
-            var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
-            var serializedGraphicsObject = new SerializedObject(graphicsSettings);
-            
-            SerializedProperty shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
-
-            var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
-            string shaderPath;
-            if (renderPipelineAsset == null)
-            {
-                shaderPath = STANDARD_SHADERS;
-            }
-            else if (renderPipelineAsset.GetType().Name == "UniversalRenderPipelineAsset")
-            {
-                shaderPath = URP_SHADERS;
-            }
-            else
-            {
-                shaderPath = HDRP_SHADERS;
-            }
-
-            var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
-            var newArrayIndex = shaderIncludeArray.arraySize;
-            shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
-            SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
-            shaderInArray.objectReferenceValue = shaderVariants;
-            serializedGraphicsObject.ApplyModifiedProperties();
-
-            AssetDatabase.SaveAssets();
-        }
-
-        #endregion
     }
 }
