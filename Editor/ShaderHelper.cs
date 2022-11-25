@@ -24,7 +24,6 @@ public static class ShaderHelper
         AddPreloadShaders();
     }
     
-    [MenuItem("Ready Player Me/Setup Shaders", priority = 1)]
     public static void AddPreloadShaders()
     {
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);

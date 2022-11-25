@@ -8,6 +8,6 @@ ShaderVariantCollection:
   m_PrefabAsset: {fileID: 0}
   m_Name: DefaultglTFastShadersURP
   m_Shaders:
-  - first: {fileID: 4800000, guid: 99fa998bbbed3408aafa652b466d261d, type: 3}
+  - first: {fileID: 4800000, guid: b9d29dfa1474148e792ac720cbd45122, type: 3}
     second:
       variants: []
