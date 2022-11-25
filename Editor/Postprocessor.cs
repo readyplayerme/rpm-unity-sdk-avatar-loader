@@ -14,7 +14,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             foreach (var item in importedAssets)
             {
-                Debug.Log("RUNNING LOADER POST PROCESSOR");
                 // TODO Find a better way
                 if (item.Contains("RPM_EditorImage_"))
                 {

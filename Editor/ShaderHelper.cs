@@ -24,9 +24,9 @@ public static class ShaderHelper
         AddPreloadShaders();
     }
     
+    [MenuItem("Ready Player Me/Setup Shaders", priority = 1)]
     public static void AddPreloadShaders()
     {
-        Debug.Log("RUNNING PRELOAD SHADERS");
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
         var serializedGraphicsObject = new SerializedObject(graphicsSettings);
         
@@ -37,20 +37,28 @@ public static class ShaderHelper
 
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
         var newArrayIndex = shaderIncludeArray.arraySize;
-        
         var shadersIncluded = false;
+        var serialize = new SerializedObject(shaderVariants);
         for (int i = 0; i < shaderIncludeArray.arraySize; i++)
         {
             var shaderCollection = shaderIncludeArray.GetArrayElementAtIndex(i);
-            shadersIncluded = shaderCollection.name == shaderVariants.name;
+            if (shaderCollection.objectReferenceValue.name == serialize.targetObject.name)
+            {
+                Debug.Log($"Gltfast Shader Variants Found");
+                shadersIncluded = true;
+                break;
+            }
         }
         
-        if (shadersIncluded)
+        if (!shadersIncluded)
         {
+            Debug.Log($"Adding gltFast shader to Preloaded Shaders ");
+
             shaderIncludeArray.InsertArrayElementAtIndex(newArrayIndex);
             SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
             serializedGraphicsObject.ApplyModifiedProperties();
+            AssetDatabase.SaveAssets();
         }
 
         AssetDatabase.SaveAssets();
