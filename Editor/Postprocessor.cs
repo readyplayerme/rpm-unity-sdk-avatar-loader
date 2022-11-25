@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -17,7 +15,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 // TODO Find a better way
                 if (item.Contains("RPM_EditorImage_"))
                 {
-                    ShaderHelper.AddPreloadShaders();
                     AddRpmDefineSymbol();
                     return;
                 }

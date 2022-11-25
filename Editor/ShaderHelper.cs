@@ -18,6 +18,12 @@ public static class ShaderHelper
     private const string URP_SHADERS = "Packages/com.readyplayerme.avatarloader/Shaders/DefaultglTFastShadersURP.shadervariants";
 #endif
 
+    [InitializeOnLoadMethod]
+    private static void InitializeOnLoad()
+    {
+        AddPreloadShaders();
+    }
+    
     public static void AddPreloadShaders()
     {
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
