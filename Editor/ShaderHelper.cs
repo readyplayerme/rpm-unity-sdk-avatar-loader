@@ -26,6 +26,7 @@ public static class ShaderHelper
     
     public static void AddPreloadShaders()
     {
+        Debug.Log("RUNNING PRELOAD SHADERS");
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
         var serializedGraphicsObject = new SerializedObject(graphicsSettings);
         
