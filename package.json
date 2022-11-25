@@ -24,9 +24,29 @@
   },
   "samples": [
     {
-      "displayName": "Examples",
-      "description": "Contains all avatar loading and rendering examples",
-      "path": "~Samples"
+      "displayName": "AvatarLoading",
+      "description": "Loads an avatar.",
+      "path": "~Samples/AvatarLoading"
+    },
+    {
+      "displayName": "AvatarLod",
+      "description": "Demonstration of LOD for an avatar.",
+      "path": "~Samples/AvatarLod"
+    },
+    {
+      "displayName": "AvatarRender",
+      "description": "Renders an Avatar.",
+      "path": "~Samples/AvatarRender"
+    },
+    {
+      "displayName": "MultipleAvatarLoading",
+      "description": "Loads multiple avatars.",
+      "path": "~Samples/MultipleAvatarLoading"
+    },
+    {
+      "displayName": "MultipleQualityAvatarLoading",
+      "description": "Loads same avatar multiple time with different quality.",
+      "path": "~Samples/MultipleQualityAvatarLoading"
     }
   ]
 }
