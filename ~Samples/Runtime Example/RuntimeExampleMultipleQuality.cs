@@ -66,7 +66,7 @@ namespace ReadyPlayerMe
         {
             if (avatarList != null)
             {
-                var quality = data.Config.name.Substring("Avatar Configuration".Length);
+                var quality = data.Config.name.Substring("Avatar Config".Length);
                 Transform container = Instantiate(qualityContainerPrefab);
                 container.name = quality;
                 container.position = new Vector3(data.PosX, 0, 0);
