@@ -24,7 +24,6 @@ public static class ShaderHelper
         AddPreloadShaders();
     }
     
-    [MenuItem("Ready Player Me/Add glTF Shaders", priority = 0)]
     public static void AddPreloadShaders()
     {
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
