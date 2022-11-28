@@ -28,14 +28,14 @@ public static class ShaderHelper
     {
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
         var serializedGraphicsObject = new SerializedObject(graphicsSettings);
-        
+
         SerializedProperty shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
         if (shaderIncludeArray == null)
             return;
 
         var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
         string shaderPath = renderPipelineAsset == null ? STANDARD_SHADERS :  URP_SHADERS;
-
+        AssetDatabase.Refresh();
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
 
         if (shaderVariants == null)
