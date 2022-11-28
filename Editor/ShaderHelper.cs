@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -21,7 +22,7 @@ public static class ShaderHelper
     [InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
-        AddPreloadShaders();
+        ModuleInstaller.ModuleInstallComplete += AddPreloadShaders;
     }
     
     public static void AddPreloadShaders()
