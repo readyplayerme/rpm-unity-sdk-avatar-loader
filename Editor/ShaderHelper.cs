@@ -39,7 +39,12 @@ public static class ShaderHelper
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
 
         if (shaderVariants == null)
+        {
+            Debug.Log($"Shader variants null Path: {shaderPath}");
+            serializedGraphicsObject.Dispose();
             return;
+        }
+
         var newArrayIndex = shaderIncludeArray.arraySize;
         var shadersIncluded = false;
         var serializedVariants = new SerializedObject(shaderVariants);
@@ -64,5 +69,6 @@ public static class ShaderHelper
             serializedGraphicsObject.ApplyModifiedProperties();
         }
         AssetDatabase.SaveAssets();
+        serializedVariants.Dispose();
     }
 }
