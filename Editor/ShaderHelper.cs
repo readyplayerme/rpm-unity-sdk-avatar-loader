@@ -24,10 +24,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
-            Debug.Log("SHADER HELPER INIT");
-#if !DISABLE_AUTO_INSTALLER
-            ModuleInstaller.ModuleInstallComplete += AddPreloadShaders;
-#endif
+            AddPreloadShaders();
         }
 
         public static void AddPreloadShaders()
