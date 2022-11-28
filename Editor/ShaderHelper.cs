@@ -1,5 +1,7 @@
-﻿using ReadyPlayerMe.Core.Editor;
+﻿using System.Threading;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -24,6 +26,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
+            var listRequest = Client.List(true);
+            while (!listRequest.IsCompleted)
+                Thread.Sleep(100);
             AddPreloadShaders();
         }
 
