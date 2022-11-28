@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -29,11 +28,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(100);
-            AddPreloadShaders();
+            EditorApplication.update += AddPreloadShaders;
         }
 
         public static void AddPreloadShaders()
         {
+            EditorApplication.update -= AddPreloadShaders;
             Debug.Log("Run add preload shaders");
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
