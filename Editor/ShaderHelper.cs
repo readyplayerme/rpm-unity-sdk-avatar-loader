@@ -30,16 +30,20 @@ public static class ShaderHelper
         var serializedGraphicsObject = new SerializedObject(graphicsSettings);
         
         SerializedProperty shaderIncludeArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
+        if (shaderIncludeArray == null)
+            return;
 
         var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
         string shaderPath = renderPipelineAsset == null ? STANDARD_SHADERS :  URP_SHADERS;
 
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
 
+        if (shaderVariants == null)
+            return;
         var newArrayIndex = shaderIncludeArray.arraySize;
         var shadersIncluded = false;
         var serializedVariants = new SerializedObject(shaderVariants);
-        
+        if (serializedVariants == null) return;
         foreach (SerializedProperty shaderInclude in shaderIncludeArray)
         {
             if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
