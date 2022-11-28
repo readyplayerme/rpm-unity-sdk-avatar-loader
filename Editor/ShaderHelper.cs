@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -35,13 +35,14 @@ public static class ShaderHelper
         string shaderPath = renderPipelineAsset == null ? STANDARD_SHADERS :  URP_SHADERS;
 
         var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
+
         var newArrayIndex = shaderIncludeArray.arraySize;
         var shadersIncluded = false;
-        var serialize = new SerializedObject(shaderVariants);
+        var serializedVariants = new SerializedObject(shaderVariants);
         
         foreach (SerializedProperty shaderInclude in shaderIncludeArray)
         {
-            if (shaderInclude.objectReferenceValue.name == serialize.targetObject.name)
+            if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
             {
                 Debug.Log("glTFast shader variants found in Graphics Settings->Preloaded Shaders");
                 shadersIncluded = true;
@@ -57,9 +58,11 @@ public static class ShaderHelper
             SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
             serializedGraphicsObject.ApplyModifiedProperties();
+            shaderInArray.DeleteCommand();
         }
-        
+        serializedVariants.Dispose();
+        AssetDatabase.SaveAssets();
+        shaderIncludeArray.DeleteCommand();
         Object.DestroyImmediate(shaderVariants);
-        Object.DestroyImmediate(serialize.context);
     }
 }
