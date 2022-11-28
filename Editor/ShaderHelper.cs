@@ -43,7 +43,7 @@ public static class ShaderHelper
         var newArrayIndex = shaderIncludeArray.arraySize;
         var shadersIncluded = false;
         var serializedVariants = new SerializedObject(shaderVariants);
-        if (serializedVariants == null) return;
+        
         foreach (SerializedProperty shaderInclude in shaderIncludeArray)
         {
             if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
@@ -62,11 +62,7 @@ public static class ShaderHelper
             SerializedProperty shaderInArray = shaderIncludeArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
             serializedGraphicsObject.ApplyModifiedProperties();
-            shaderInArray.DeleteCommand();
         }
-        serializedVariants.Dispose();
         AssetDatabase.SaveAssets();
-        shaderIncludeArray.DeleteCommand();
-        Object.DestroyImmediate(shaderVariants);
     }
 }

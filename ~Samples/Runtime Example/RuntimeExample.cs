@@ -19,6 +19,7 @@ namespace ReadyPlayerMe
             {
                 avatar = args.Avatar;
                 AvatarAnimatorHelper.SetupAnimator(args.Metadata.BodyType, avatar);
+                avatar.SetActive(false);
             };
             avatarLoader.LoadAvatar(avatarUrl);
         }
