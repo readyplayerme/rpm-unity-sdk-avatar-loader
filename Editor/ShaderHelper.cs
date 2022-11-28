@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -58,7 +58,8 @@ public static class ShaderHelper
             shaderInArray.objectReferenceValue = shaderVariants;
             serializedGraphicsObject.ApplyModifiedProperties();
         }
-
-        AssetDatabase.SaveAssets();
+        
+        Object.DestroyImmediate(shaderVariants);
+        Object.DestroyImmediate(serialize.context);
     }
 }
