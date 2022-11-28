@@ -1,4 +1,4 @@
-﻿using ReadyPlayerMe;
+﻿using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -22,11 +22,13 @@ public static class ShaderHelper
     [InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
+        Debug.Log("SHADER HELPER INIT");
         ModuleInstaller.ModuleInstallComplete += AddPreloadShaders;
     }
     
     public static void AddPreloadShaders()
     {
+        Debug.Log("Run add preload shaders");
         var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
         var serializedGraphicsObject = new SerializedObject(graphicsSettings);
 
