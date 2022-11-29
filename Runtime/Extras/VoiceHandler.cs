@@ -30,8 +30,6 @@ namespace ReadyPlayerMe.AvatarLoader
         private SkinnedMeshRenderer beardMesh;
         private SkinnedMeshRenderer teethMesh;
 
-        private const float MOUTH_OPEN_MULTIPLIER = 100f;
-
         private int mouthOpenBlendShapeIndexOnHeadMesh = -1;
         private int mouthOpenBlendShapeIndexOnBeardMesh = -1;
         private int mouthOpenBlendShapeIndexOnTeethMesh = -1;
@@ -159,7 +157,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 if (index >= 0)
                 {
-                    mesh.SetBlendShapeWeight(index, weight * MOUTH_OPEN_MULTIPLIER);
+                    mesh.SetBlendShapeWeight(index, weight);
                 }
             }
         }
