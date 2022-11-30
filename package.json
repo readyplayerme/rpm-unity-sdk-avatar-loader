@@ -30,12 +30,12 @@
     },
     {
       "displayName": "AvatarLod",
-      "description": "Demonstration of LOD for an avatar.",
+      "description": "Demonstration of how to implement Avatar LOD's.",
       "path": "~Samples/AvatarLod"
     },
     {
       "displayName": "AvatarRender",
-      "description": "Renders an Avatar.",
+      "description": "Creates a 2D render of an avatar using the Render API.",
       "path": "~Samples/AvatarRender"
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "displayName": "MultipleQualityAvatarLoading",
-      "description": "Loads same avatar multiple time with different quality.",
+      "description": "Loads the same avatar multiple times with different quality settings.",
       "path": "~Samples/MultipleQualityAvatarLoading"
     }
   ]
