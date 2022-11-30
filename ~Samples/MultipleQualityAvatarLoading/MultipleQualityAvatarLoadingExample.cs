@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace ReadyPlayerMe
 {
-    public class RuntimeExampleMultipleQuality : MonoBehaviour
+    public class MultipleQualityAvatarLoadingExample : MonoBehaviour
     {
 
         [SerializeField]

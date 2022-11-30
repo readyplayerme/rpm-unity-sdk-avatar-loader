@@ -24,9 +24,29 @@
   },
   "samples": [
     {
-      "displayName": "Examples",
-      "description": "Contains all avatar loading and rendering examples",
-      "path": "~Samples"
+      "displayName": "AvatarLoading",
+      "description": "Loads an avatar.",
+      "path": "~Samples/AvatarLoading"
+    },
+    {
+      "displayName": "AvatarLod",
+      "description": "Demonstration of how to implement Avatar LOD's.",
+      "path": "~Samples/AvatarLod"
+    },
+    {
+      "displayName": "AvatarRender",
+      "description": "Creates a 2D render of an avatar using the Render API.",
+      "path": "~Samples/AvatarRender"
+    },
+    {
+      "displayName": "MultipleAvatarLoading",
+      "description": "Loads multiple avatars.",
+      "path": "~Samples/MultipleAvatarLoading"
+    },
+    {
+      "displayName": "MultipleQualityAvatarLoading",
+      "description": "Loads the same avatar multiple times with different quality settings.",
+      "path": "~Samples/MultipleQualityAvatarLoading"
     }
   ]
 }
