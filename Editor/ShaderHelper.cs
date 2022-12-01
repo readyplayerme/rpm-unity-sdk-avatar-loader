@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -30,20 +31,45 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
+            if (SessionState.GetBool("SHADER_SESSION_CHECK", false)) return;
+            SessionState.SetBool("SHADER_SESSION_CHECK", true);
+            
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(100);
-            EditorApplication.update += CheckAndAddPreloadShaders;
+            EditorApplication.update += ShowMissingShaderPopup;
         }
 
-        private static void CheckAndAddPreloadShaders()
+        public static void ShowMissingShaderPopup()
         {
-            EditorApplication.update -= CheckAndAddPreloadShaders;
+            EditorApplication.update -= ShowMissingShaderPopup;
+            if (!Application.isBatchMode && IsMissingVariants())
+            {
+                var addShaderVariants = EditorUtility.DisplayDialog("Build Warning",
+                    "It looks like the glTFast Shader Variants are missing from the Graphics Settings/Preloaded Shader list. This can cause errors when loading Ready Player Me avatars at runtime. Would you like to add them now?",
+                    "Add Shader Variants",
+                    "No Thanks");
+
+                if (addShaderVariants)
+                {
+                    AddRemovePreloadShaders();
+                }
+                else
+                {
+                    Debug.LogWarning("Building without adding glTFast Shader Variants");
+                }
+            }
+        }
+
+        private static void CheckAndUpdatePreloadShaders()
+        {
             if (IsMissingVariants())
             {
                 AddRemovePreloadShaders();
             }
         }
+        
+        
         
         public static void AddRemovePreloadShaders()
         {
