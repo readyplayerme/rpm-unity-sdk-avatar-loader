@@ -37,30 +37,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(100);
-            EditorApplication.update += ShowMissingShaderPopup;
+            EditorApplication.update += CheckAndUpdatePreloadShaders;
         }
-
-        public static void ShowMissingShaderPopup()
-        {
-            EditorApplication.update -= ShowMissingShaderPopup;
-            if (!Application.isBatchMode && IsMissingVariants())
-            {
-                var addShaderVariants = EditorUtility.DisplayDialog("Build Warning",
-                    "It looks like the glTFast Shader Variants are missing from the Graphics Settings/Preloaded Shader list. This can cause errors when loading Ready Player Me avatars at runtime. Would you like to add them now?",
-                    "Add Shader Variants",
-                    "No Thanks");
-
-                if (addShaderVariants)
-                {
-                    AddRemovePreloadShaders();
-                }
-                else
-                {
-                    Debug.LogWarning("Building without adding glTFast Shader Variants");
-                }
-            }
-        }
-
+        
         private static void CheckAndUpdatePreloadShaders()
         {
             if (IsMissingVariants())
@@ -68,11 +47,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 AddRemovePreloadShaders();
             }
         }
-        
-        
-        
+
         public static void AddRemovePreloadShaders()
         {
+            EditorApplication.update -= AddRemovePreloadShaders;
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
             var shaderPreloadArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
