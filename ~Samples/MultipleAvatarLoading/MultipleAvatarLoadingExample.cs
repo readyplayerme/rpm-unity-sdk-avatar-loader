@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
-    public class RuntimeExampleMultiple : MonoBehaviour
+    public class MultipleAvatarLoadingExample : MonoBehaviour
     {
         private const int RADIUS = 1;
         [SerializeField]

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
-    public class RuntimeExample : MonoBehaviour
+    public class AvatarLoadingExample : MonoBehaviour
     {
         [SerializeField]
         private string avatarUrl = "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb";

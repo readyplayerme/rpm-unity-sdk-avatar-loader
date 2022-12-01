@@ -37,8 +37,7 @@ namespace ReadyPlayerMe.AvatarLoader
                     }
 
                     token.ThrowCustomExceptionIfCancellationRequested();
-
-                    if (request.isHttpError || request.isNetworkError)
+                    if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
@@ -77,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                     token.ThrowCustomExceptionIfCancellationRequested();
 
-                    if (request.downloadedBytes == 0 || request.isHttpError || request.isNetworkError)
+                    if (request.downloadedBytes == 0 || request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
@@ -120,7 +119,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                     token.ThrowCustomExceptionIfCancellationRequested();
 
-                    if (request.downloadedBytes == 0 || request.isHttpError || request.isNetworkError)
+                    if (request.downloadedBytes == 0 || request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
@@ -162,7 +161,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                     token.ThrowCustomExceptionIfCancellationRequested();
 
-                    if (request.isNetworkError || request.isHttpError)
+                    if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         throw new CustomException(FailureType.DownloadError, request.error);
                     }
