@@ -57,6 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             var newArrayIndex = shaderPreloadArray.arraySize;
 
+            RemovedUnusedShaderVariantCollections(shaderPreloadArray);
 
             if (CheckShaderVariantsMissing(shaderPreloadArray))
             {
@@ -95,18 +96,56 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
             return shadersMissing;
         }
+        
+        private static void RemovedUnusedShaderVariantCollections(SerializedProperty shaderPreloadArray)
+        {
+            var collectionsToRemove = GetShaderCollectionsToRemove();
+            
+            var index = 0;
+            var indexToRemoveList = new List<int>();
+            foreach (SerializedProperty shaderInclude in shaderPreloadArray)
+            {
+                if (collectionsToRemove.Contains(shaderInclude.objectReferenceValue.name))
+                {
+                    indexToRemoveList.Add(index);
+                }
+                index++;
+            }
+
+            foreach (var indexToRemove in indexToRemoveList)
+            {
+                shaderPreloadArray.DeleteArrayElementAtIndex(indexToRemove);
+            }
+        }
+
+        private static string[] GetShaderCollectionsToRemove()
+        {
+            var removeList = new List<string>();
+            var currentRenderPipeline = GetCurrentRenderPipeline();
+            string[] variantCollections = { SHADER_VARIANTS_STANDARD, SHADER_VARIANTS_URP, SHADER_VARIANTS_HDRP };
+            for (int i = 0; i < variantCollections.Length; i++)
+            {
+                if (i != (int) currentRenderPipeline)
+                {
+                    removeList.Add(variantCollections[i]);
+                }
+            }
+            return removeList.ToArray();
+        }
 
         private static string GetTargetShaderPath()
         {
+            const string shaderVariants = ".shadervariants";
             switch (GetCurrentRenderPipeline())
             {
                 case RenderPipeline.URP:
-                    return URP_SHADERS;
+                    
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_URP}{shaderVariants}";
                 case RenderPipeline.HDRP:
-                    return HDRP_SHADERS;
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_HDRP}{shaderVariants}";
                 case RenderPipeline.Standard:
                 default:
-                    return STANDARD_SHADERS;
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_STANDARD}{shaderVariants}";
             }
         }
 
