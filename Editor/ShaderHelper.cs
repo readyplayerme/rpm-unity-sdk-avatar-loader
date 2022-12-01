@@ -1,4 +1,7 @@
-﻿using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -11,23 +14,17 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
     {
         private const string INCLUDE_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
-#if DISABLE_AUTO_INSTALLER
-        private const string STANDARD_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/glTFastShaderVariants.shadervariants";
-#else
-    private const string STANDARD_SHADERS = "Packages/com.readyplayerme.avatarloader/Shaders/glTFastShaderVariants.shadervariants";
-#endif
 
 #if DISABLE_AUTO_INSTALLER
-        private const string URP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/glTFastShaderVariantsURP.shadervariants";
+        private const string SHADER_VARIANT_FOLDER = "Assets/Ready Player Me/Avatar Loader/Shaders";
 #else
-    private const string URP_SHADERS = "Packages/com.readyplayerme.avatarloader/Shaders/glTFastShaderVariantsURP.shadervariants";
+    private const string SHADER_VARIANT_FOLDER = "Packages/com.readyplayerme.avatarloader/Shaders";
 #endif
-        
-#if DISABLE_AUTO_INSTALLER
-        private const string HDRP_SHADERS = "Assets/Ready Player Me/Avatar Loader/Shaders/glTFastShaderVariantsHDRP.shadervariants";
-#else
-    private const string HDRP_SHADERS = "Packages/com.readyplayerme.avatarloader/Shaders/glTFastShaderVariantsHDRP.shadervariants";
-#endif
+
+        private const string SHADER_VARIANTS_STANDARD = "glTFastShaderVariants";
+        private const string SHADER_VARIANTS_URP = "glTFastShaderVariantsURP";
+        private const string SHADER_VARIANTS_HDRP = "glTFastShaderVariantsHDRP";
+
         private const string HDRP_TYPE_NAME = "HDRenderPipelineAsset";
         
         [InitializeOnLoadMethod]
@@ -42,7 +39,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void AddPreloadShaders()
         {
             EditorApplication.update -= AddPreloadShaders;
-            Debug.Log("Run add preload shaders");
 
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
@@ -55,7 +51,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             if (shaderVariants == null)
             {
-                Debug.Log($"Shader variants null Path: {shaderPath}");
+                Debug.Log($"Shader variants Path is null: {shaderPath}");
                 return;
             }
 
