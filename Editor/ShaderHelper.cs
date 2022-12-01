@@ -27,12 +27,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string SHADER_VARIANTS_HDRP = "glTFastShaderVariantsHDRP";
 
         private const string HDRP_TYPE_NAME = "HDRenderPipelineAsset";
-        
+        private const string SHADER_SESSION_CHECK = "SHADER_SESSION_CHECK";
+
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
-            if (SessionState.GetBool("SHADER_SESSION_CHECK", false)) return;
-            SessionState.SetBool("SHADER_SESSION_CHECK", true);
+            if (SessionState.GetBool(SHADER_SESSION_CHECK, false)) return;
+            SessionState.SetBool(SHADER_SESSION_CHECK, true);
             
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
