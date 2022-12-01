@@ -43,6 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         
         private static void CheckAndUpdatePreloadShaders()
         {
+            EditorApplication.update -= CheckAndUpdatePreloadShaders;
             if (IsMissingVariants())
             {
                 AddRemovePreloadShaders();
@@ -51,7 +52,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public static void AddRemovePreloadShaders()
         {
-            EditorApplication.update -= AddRemovePreloadShaders;
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
             var shaderPreloadArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
