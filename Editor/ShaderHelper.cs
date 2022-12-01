@@ -33,58 +33,52 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var listRequest = Client.List(true);
             while (!listRequest.IsCompleted)
                 Thread.Sleep(100);
-            EditorApplication.update += AddPreloadShaders;
+            EditorApplication.update += CheckAndAddPreloadShaders;
+        }
+
+        private static void CheckAndAddPreloadShaders()
+        {
+            EditorApplication.update -= CheckAndAddPreloadShaders;
+            if (IsMissingVariants())
+            {
+                AddRemovePreloadShaders();
+            }
         }
         
-        public static void AddPreloadShaders()
+        public static void AddRemovePreloadShaders()
         {
-            EditorApplication.update -= AddPreloadShaders;
-
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
             var shaderPreloadArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
 
-            string shaderPath = GetTargetShaderPath();
-            
             AssetDatabase.Refresh();
-            var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(shaderPath);
+            var newPreloadArray = CreateNewPreloadedArray(shaderPreloadArray);
+            shaderPreloadArray.ClearArray();
 
-            if (shaderVariants == null)
+            for (int i = 0; i < newPreloadArray.Length; i++)
             {
-                Debug.Log($"Shader variants Path is null: {shaderPath}");
-                return;
+                shaderPreloadArray.InsertArrayElementAtIndex(i);
+                SerializedProperty shaderInArray = shaderPreloadArray.GetArrayElementAtIndex(i);
+                shaderInArray.objectReferenceValue = newPreloadArray[i];
             }
-
-            var newArrayIndex = shaderPreloadArray.arraySize;
-
-            RemovedUnusedShaderVariantCollections(shaderPreloadArray);
-
-            if (CheckShaderVariantsMissing(shaderPreloadArray))
-            {
-                Debug.Log($"Added {shaderVariants.name} to Preloaded Shaders in Graphics Settings ");
-
-                shaderPreloadArray.InsertArrayElementAtIndex(newArrayIndex);
-                SerializedProperty shaderInArray = shaderPreloadArray.GetArrayElementAtIndex(newArrayIndex);
-                shaderInArray.objectReferenceValue = shaderVariants;
-                serializedGraphicsObject.ApplyModifiedProperties();
-            }
+      
+            serializedGraphicsObject.ApplyModifiedProperties();
             AssetDatabase.SaveAssets();
         }
         
-        public static bool IsVariantsMissing()
+        
+        public static bool IsMissingVariants()
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
-            return CheckShaderVariantsMissing(serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY));
-        }
 
-        private static bool CheckShaderVariantsMissing(SerializedProperty shaderPreloadArray)
-        {
+            var shaderPreloadArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
+            
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
             Debug.Log($"shader path = {GetTargetShaderPath()}");
             var shadersMissing = true;
             var serializedVariants = new SerializedObject(shaderVariants);
-
+            
             foreach (SerializedProperty shaderInclude in shaderPreloadArray)
             {
                 if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
@@ -96,26 +90,41 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
             return shadersMissing;
         }
-        
-        private static void RemovedUnusedShaderVariantCollections(SerializedProperty shaderPreloadArray)
+
+        private static Object[] CreateNewPreloadedArray(SerializedProperty shaderPreloadArray)
         {
             var collectionsToRemove = GetShaderCollectionsToRemove();
-            
             var index = 0;
-            var indexToRemoveList = new List<int>();
+            var newPreloadList = new List<Object>();
             foreach (SerializedProperty shaderInclude in shaderPreloadArray)
             {
-                if (collectionsToRemove.Contains(shaderInclude.objectReferenceValue.name))
+                if (shaderInclude.objectReferenceValue == null || collectionsToRemove.Contains(shaderInclude.objectReferenceValue.name))
                 {
-                    indexToRemoveList.Add(index);
+                    if (shaderInclude.objectReferenceValue == null)
+                    {
+                        Debug.Log($"Removing Empty Preloaded Shader Slot");
+                    }
+                    else
+                    {
+                        Debug.Log($"Removing Shader Variant: {shaderInclude.objectReferenceValue.name}");
+                    }
+                    continue;
                 }
+                newPreloadList.Add(shaderInclude.objectReferenceValue);
                 index++;
             }
+            
+            var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
 
-            foreach (var indexToRemove in indexToRemoveList)
+            if (shaderVariants == null)
             {
-                shaderPreloadArray.DeleteArrayElementAtIndex(indexToRemove);
+                Debug.Log($"Shader variants Path is null: {GetTargetShaderPath()}");
             }
+            if (!newPreloadList.Contains(shaderVariants))
+            {
+                newPreloadList.Add(shaderVariants);
+            }
+            return newPreloadList.ToArray();
         }
 
         private static string[] GetShaderCollectionsToRemove()

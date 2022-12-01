@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            if (!Application.isBatchMode && ShaderHelper.IsVariantsMissing())
+            if (!Application.isBatchMode && ShaderHelper.IsMissingVariants())
             {
                 var addShaderVariants = EditorUtility.DisplayDialog(BUILD_WARNING,
                     SUBDOMAIN_WARNING,
@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 if (addShaderVariants)
                 {
-                    ShaderHelper.AddPreloadShaders();
+                    ShaderHelper.AddRemovePreloadShaders();
                 }
                 else
                 {
