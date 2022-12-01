@@ -23,7 +23,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (!Application.isBatchMode && ShaderHelper.IsMissingVariants())
             {
-                ShaderHelper.ShowMissingShaderPopup();
                 var addShaderVariants = EditorUtility.DisplayDialog(BUILD_WARNING,
                     SUBDOMAIN_WARNING,
                     ADD_SHADER_VARIANTS,
