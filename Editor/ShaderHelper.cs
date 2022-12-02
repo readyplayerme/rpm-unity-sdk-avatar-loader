@@ -170,7 +170,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     return RenderPipeline.HDRP;
                 }
-                return RenderPipeline.URP;
+                if (renderPipelineType.Contains(URP_TYPE_NAME))
+                {
+                    return RenderPipeline.URP;
+                }
             }
             return RenderPipeline.Standard;
         }
