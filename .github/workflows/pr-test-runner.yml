@@ -55,3 +55,10 @@ jobs:
           checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
+
+      - name: Parse performance report
+        id: parser
+        run: python .\.github\workflows\PerformanceDataParser.py
+      
+      - name: Print output
+        run: echo "${{ steps.parser.outputs.report }}" 
