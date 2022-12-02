@@ -153,11 +153,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             switch (GetCurrentRenderPipeline())
             {
                 case RenderPipeline.URP:
-                    
                     return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_URP}{shaderVariants}";
                 case RenderPipeline.HDRP:
                     return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_HDRP}{shaderVariants}";
-                case RenderPipeline.Standard:
                 default:
                     return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_STANDARD}{shaderVariants}";
             }
