@@ -81,7 +81,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var shaderPreloadArray = serializedGraphicsObject.FindProperty(INCLUDE_SHADER_PROPERTY);
             
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
-            Debug.Log($"shader path = {GetTargetShaderPath()}");
             var shadersMissing = true;
             var serializedVariants = new SerializedObject(shaderVariants);
             
