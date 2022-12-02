@@ -36,9 +36,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             if (SessionState.GetBool(SHADER_SESSION_CHECK, false)) return;
             SessionState.SetBool(SHADER_SESSION_CHECK, true);
             
-            var listRequest = Client.List(true);
-            while (!listRequest.IsCompleted)
-                Thread.Sleep(100);
+            // var listRequest = Client.List(true);
+            // while (!listRequest.IsCompleted)
+            //     Thread.Sleep(100);
             EditorApplication.update += CheckAndUpdatePreloadShaders;
         }
         
