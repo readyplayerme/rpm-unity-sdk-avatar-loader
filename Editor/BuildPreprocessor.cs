@@ -30,7 +30,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 if (addShaderVariants)
                 {
-                    ShaderVariantHelper.AddPreloadShadeVariants();
+                    ShaderVariantHelper.AddPreloadShaderVariants();
                 }
                 else
                 {

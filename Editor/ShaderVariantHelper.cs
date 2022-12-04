@@ -42,13 +42,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private static void CheckAndUpdatePreloadShaders()
         {
             EditorApplication.update -= CheckAndUpdatePreloadShaders;
-            if (IsMissingVariants())
-            {
-                AddPreloadShadeVariants();
-            }
+            AddPreloadShaderVariants(true);
         }
-        
-        public static void AddPreloadShadeVariants()
+
+        public static void AddPreloadShaderVariants(bool checkForMissingVariants = false)
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
@@ -57,6 +54,24 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             
             var newArrayIndex = shaderPreloadArray.arraySize;
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
+            if (checkForMissingVariants)
+            {
+                var shadersMissing = true;
+                var serializedVariants = new SerializedObject(shaderVariants);
+            
+                foreach (SerializedProperty shaderInclude in shaderPreloadArray)
+                {
+                    if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
+                    {
+                        Debug.Log("glTFast shader variants found in Graphics Settings->Preloaded Shaders");
+                        shadersMissing = false;
+                        break;
+                    }
+                }
+                if (!shadersMissing) return;
+            }
+
+            
             shaderPreloadArray.InsertArrayElementAtIndex(newArrayIndex);
             SerializedProperty shaderInArray = shaderPreloadArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
@@ -66,7 +81,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         }
         
         
-        public static bool IsMissingVariants()
+        public static bool IsMissingVariants()// TODO find a way to remove code duplicated in AddPreloadShaderVariants
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
