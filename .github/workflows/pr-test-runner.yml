@@ -32,6 +32,8 @@ jobs:
           pwd
           echo ${{ secrets.AVATAR_LOADER_PATH }}
           cd ${{ secrets.AVATAR_LOADER_PATH }}
+          echo ${{ github.event.pull_request.head.ref }}
+          git status
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
