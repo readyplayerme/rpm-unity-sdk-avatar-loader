@@ -9,6 +9,8 @@ jobs:
   runAllTests:
     name: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -72,3 +74,7 @@ jobs:
       
       - name: Print output
         run: echo "${{ steps.parser.outputs.report }}" 
+        
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: "${{ steps.parser.outputs.report }}" 
