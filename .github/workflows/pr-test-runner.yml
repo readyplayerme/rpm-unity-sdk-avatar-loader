@@ -29,6 +29,8 @@ jobs:
           token: ${{ secrets.CICD_REPO_TOKEN }}
       - name: Checkout submodule branch
         run: |
+          pwd
+          echo ${{ secrets.AVATAR_LOADER_PATH }}
           cd ${{ secrets.AVATAR_LOADER_PATH }}
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
