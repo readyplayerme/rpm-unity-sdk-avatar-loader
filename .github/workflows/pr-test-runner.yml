@@ -26,7 +26,7 @@ jobs:
           submodules: true
           fetch-depth: 0
           ref: develop
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.DEV_SDK_TOKEN }}
       - name: Checkout submodule branch
         run: |
           cd ${{ secrets.AVATAR_LOADER_PATH }}
