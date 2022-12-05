@@ -29,10 +29,7 @@ jobs:
           token: ${{ secrets.DEV_SDK_TOKEN }}
       - name: Checkout submodule branch
         run: |
-          pwd
-          echo ${{ secrets.AVATAR_LOADER_PATH }}
           cd ${{ secrets.AVATAR_LOADER_PATH }}
-          echo ${{ github.event.pull_request.head.ref }}
           git status
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
@@ -62,7 +59,11 @@ jobs:
 
       - name: Parse performance report
         id: parser
-        run: python .\.github\workflows\PerformanceDataParser.py
+        run: |
+         pwd
+         ls
+         cd Scripts
+         python PerformanceDataParser.py
       
       - name: Print output
         run: echo "${{ steps.parser.outputs.report }}" 
