@@ -12,10 +12,10 @@ namespace ReadyPlayerMe
         [SerializeField]
         private string[] avatarUrls =
         {
-            "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb",
-            "https://api.readyplayer.me/v1/avatars/632d678974be0f698c0cf4cc.glb",
-            "https://api.readyplayer.me/v1/avatars/632d68079b4c6a4352a9bb29.glb",
-            "https://api.readyplayer.me/v1/avatars/632d68559b4c6a4352a9bb75.glb"
+            "https://api.readyplayer.me/v1/avatars/638df5fc5a7d322604bb3a58.glb",
+            "https://api.readyplayer.me/v1/avatars/638df70ed72bffc6fa179596.glb",
+            "https://api.readyplayer.me/v1/avatars/638df75e5a7d322604bb3dcd.glb",
+            "https://api.readyplayer.me/v1/avatars/638df7d1d72bffc6fa179763.glb"
         };
         private List<GameObject> avatarList;
 
