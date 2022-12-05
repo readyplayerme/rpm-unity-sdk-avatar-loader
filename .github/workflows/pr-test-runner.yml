@@ -59,6 +59,9 @@ jobs:
 
       - name: Setup python
         uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: |
+         pip install numpy
       - name: Parse performance report
         id: parser
         run: |
