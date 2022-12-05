@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
         #region Avatar Loader Avatar API Variables
 
-        public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb";
+        public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/6388cf93a3a085619eaf3a68.glb";
         public const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
         public const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
         public const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
