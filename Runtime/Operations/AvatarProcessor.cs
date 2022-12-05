@@ -145,11 +145,11 @@ namespace ReadyPlayerMe.AvatarLoader
         //Texture property IDs
         private static readonly string[] ShaderProperties =
         {
-            "_MainTex",
-            "_BumpMap",
-            "_EmissionMap",
-            "_OcclusionMap",
-            "_MetallicGlossMap"
+            "baseColorTexture",
+            "normalTexture",
+            "emissiveTexture",
+            "occlusionTexture",
+            "metallicRoughnessTexture"
         };
 
         /// <summary>
