@@ -9,8 +9,8 @@ jobs:
   runAllTests:
     name: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+#    permissions:
+#      pull-requests: write
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -36,7 +36,7 @@ jobs:
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
-    
+
       - name: Cache Project
         uses: actions/cache@v3
         with:
@@ -45,36 +45,49 @@ jobs:
           restore-keys: |
             Library-
 
-#      - name: Run Tests
-#        uses: game-ci/unity-test-runner@v2
-#        env:
-#          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-#          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-#          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
-#        with:
-#          unityVersion: ${{ matrix.unityVersion }}
-#          testMode: ${{ matrix.testMode }}
-#          projectPath: ${{ matrix.projectPath }}
-#          checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
-#          githubToken: ${{ secrets.GITHUB_TOKEN }}
-#          coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
+      - name: Run Tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          projectPath: ${{ matrix.projectPath }}
+          checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
 
       - name: Setup python
+        if: ${{ matrix.testMode == 'editmode' }}
         uses: actions/setup-python@v4
       - name: Install dependencies
+        if: ${{ matrix.testMode == 'editmode' }}
         run: |
-         pip install numpy
+          pip install numpy
       - name: Parse performance report
+        if: ${{ matrix.testMode == 'editmode' }}
         id: parser
         run: |
-         pwd
-         ls
-         cd Scripts
-         python PerformanceDataParser.py
-      
-      - name: Print output
-        run: echo "${{ steps.parser.outputs.report }}" 
-        
-      - uses: mshick/add-pr-comment@v2
-        with:
-          message: "${{ steps.parser.outputs.report }}" 
+          pwd
+          ls
+          cd Scripts
+          python PerformanceDataParser.py
+
+#      - name: Post comment with benchmark report
+#        uses: mshick/add-pr-comment@v2
+#        if: ${{ matrix.testMode == 'editmode' }}
+#        with:
+#          message: "${{ steps.parser.outputs.report }}"
+#
+#      - name: Push performance benchmark data to git
+#        if: ${{ matrix.testMode == 'editmode' }}
+#        run: |
+#          pwd
+#          git config --global user.name "dev-sdk"
+#          git config --global user.email "dev-sdk@wolf3d.io"
+#          git status
+#          git add PerformanceData.json
+#          git commit -m 'chore: update performance data'
+#          git push origin develop
