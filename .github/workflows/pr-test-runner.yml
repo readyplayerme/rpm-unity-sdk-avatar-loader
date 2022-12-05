@@ -57,6 +57,8 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
 
+      - name: Setup python
+        uses: actions/setup-python@v4
       - name: Parse performance report
         id: parser
         run: |
