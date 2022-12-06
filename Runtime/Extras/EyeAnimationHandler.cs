@@ -91,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private void OnDestroy()
         {
             CancelInvoke();
-            blinkCoroutine.Stop();
+            blinkCoroutine?.Stop();
         }
 
         private void AnimateEyes()
