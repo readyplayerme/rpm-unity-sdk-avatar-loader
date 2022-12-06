@@ -9,8 +9,6 @@ jobs:
   runAllTests:
     name: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -75,11 +73,23 @@ jobs:
           cd Scripts
           python PerformanceDataParser.py
 
+#      - name: Post comment with benchmark report
+#        uses: mshick/add-pr-comment@v2
+#        if: ${{ matrix.testMode == 'editmode' }}
+#        with:
+#          message: "${{ steps.parser.outputs.report }}"
+      
       - name: Post comment with benchmark report
-        uses: mshick/add-pr-comment@v2
+        uses: actions/github-script@v6
         if: ${{ matrix.testMode == 'editmode' }}
         with:
-          message: "${{ steps.parser.outputs.report }}"
+          script: |
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '${{ steps.parser.outputs.report }}'
+              })
 
       - name: Push performance benchmark data to git
         if: ${{ matrix.testMode == 'editmode' }}
