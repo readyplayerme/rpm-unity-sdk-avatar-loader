@@ -1,7 +1,6 @@
 name: PR test runner
 
 on:
-  workflow_dispatch:
   pull_request:
     types: [ opened, reopened ]
 
