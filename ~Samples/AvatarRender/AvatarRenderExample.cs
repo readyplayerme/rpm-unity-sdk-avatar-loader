@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         private const string TAG = nameof(AvatarRenderExample);
 
-        [SerializeField] private string url = "https://d1a370nemizbjq.cloudfront.net/9bcc6840-8b8b-420d-a9d8-bc9c275fce8f.glb";
+        [SerializeField] private string url = "https://api.readyplayer.me/v1/avatars/638df70ed72bffc6fa179596.glb";
         [SerializeField] private AvatarRenderScene scene = AvatarRenderScene.FullBodyPostureTransparent;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private GameObject loadingPanel;

@@ -7,7 +7,7 @@ namespace ReadyPlayerMe
     public class AvatarLoadingExample : MonoBehaviour
     {
         [SerializeField]
-        private string avatarUrl = "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb";
+        private string avatarUrl = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
 
         private GameObject avatar;
 

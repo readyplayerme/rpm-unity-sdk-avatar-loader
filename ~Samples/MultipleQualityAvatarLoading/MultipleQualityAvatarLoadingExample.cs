@@ -12,7 +12,7 @@ namespace ReadyPlayerMe
     {
 
         [SerializeField]
-        private string avatarUrl = "https://api.readyplayer.me/v1/avatars/632d65e99b4c6a4352a9b8db.glb";
+        private string avatarUrl = "https://api.readyplayer.me/v1/avatars/638df75e5a7d322604bb3dcd.glb";
         [SerializeField]
         private Transform qualityContainerPrefab;
         [SerializeField]
