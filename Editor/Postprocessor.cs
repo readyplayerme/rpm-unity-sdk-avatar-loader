@@ -1,44 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class Postprocessor : AssetPostprocessor
     {
-        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
-            string[] movedAssets,
-            string[] movedFromAssetPaths)
-        {
-            foreach (var item in importedAssets)
-            {
-                // TODO Find a better way
-                if (item.Contains("RPM_EditorImage_"))
-                {
-                    AddRpmDefineSymbol();
-                    return;
-                }
-            }
-        }
-
-        #region Environment Settings
-
-        private const string RPM_SYMBOL = "READY_PLAYER_ME";
-
-        private static void AddRpmDefineSymbol()
-        {
-            BuildTargetGroup target = EditorUserBuildSettings.selectedBuildTargetGroup;
-            var defineString = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-            var symbols = new HashSet<string>(defineString.Split(';')) { RPM_SYMBOL };
-            var newDefineString = string.Join(";", symbols.ToArray());
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
-        }
-
-        #endregion
-
         #region Animation Settings
 
-        private const string ANIMATION_ASSET_PATH = "Assets/Plugins/Ready Player Me/Resources/Animations";
+#if DISABLE_AUTO_INSTALLER
+        private const string ANIMATION_ASSET_PATH = "Assets/Avatar Loader/Resources/Animations";
+#else
+        private const string ANIMATION_ASSET_PATH = "Assets/Ready Player Me/Resources";
+#endif
 
         private void OnPreprocessModel()
         {
@@ -60,8 +32,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 SetModelImportData();
             }
         }
-
         #endregion
-        
     }
 }
