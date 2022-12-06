@@ -68,17 +68,9 @@ jobs:
         if: ${{ matrix.testMode == 'editmode' }}
         id: parser
         run: |
-          pwd
-          ls
           cd Scripts
           python PerformanceDataParser.py
 
-#      - name: Post comment with benchmark report
-#        uses: mshick/add-pr-comment@v2
-#        if: ${{ matrix.testMode == 'editmode' }}
-#        with:
-#          message: "${{ steps.parser.outputs.report }}"
-      
       - name: Post comment with benchmark report
         uses: actions/github-script@v6
         if: ${{ matrix.testMode == 'editmode' }}
@@ -97,10 +89,10 @@ jobs:
       - name: Push performance benchmark data to git
         if: ${{ matrix.testMode == 'editmode' }}
         run: |
-          pwd
           git config --global user.name "dev-sdk"
           git config --global user.email "dev-sdk@wolf3d.io"
-          git status
+          git fetch --all
+          git pull origin develop
           git add PerformanceData.json
           git commit -m 'chore: update performance data'
           git push origin develop
