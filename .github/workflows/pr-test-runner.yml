@@ -60,7 +60,7 @@ jobs:
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
 
       - name: Setup python
-        if: ${{ matrix.testMode == 'editmode' }}
+        if: ${{ matrix.testMode == 'editmode' && always() }}
         uses: actions/setup-python@v4
       - name: Install dependencies
         if: ${{ matrix.testMode == 'editmode' }}
