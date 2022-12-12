@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.Core.Editor
         {
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = CoreSettings.PartnerSubDomainSettings.Subdomain ?? "demo";
+            partnerSubdomain = CoreSettings.PartnerSubdomainSettings.Subdomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
@@ -303,7 +303,7 @@ namespace ReadyPlayerMe.Core.Editor
         private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
-            var subDomain = CoreSettings.PartnerSubDomainSettings.Subdomain ;
+            var subDomain = CoreSettings.PartnerSubdomainSettings.Subdomain ;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);

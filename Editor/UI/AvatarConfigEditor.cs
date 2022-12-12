@@ -9,6 +9,10 @@ namespace ReadyPlayerMe.AvatarLoader.Core
     public class AvatarConfigEditor : UnityEditor.Editor
     {
         private const string USE_DRACO_COMPRESSION = "UseDracoCompression";
+        private const string DIALOG_TITLE = "Read Player Me";
+        private const string DIALOG_MESSAGE = "Do you want to install Draco Compression Unity Package: com.atteneder.draco ?";
+        private const string DIALOG_OK = "Ok";
+        private const string DIALOG_CANCEL = "Cancel";
 
         private AvatarConfig avatarConfigTarget;
         private SerializedProperty userDracoCompressionField;
@@ -24,8 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader.Core
             if (previousValue != userDracoCompressionField.boolValue && userDracoCompressionField.boolValue)
             {
                 if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name)) return;
-                if (EditorUtility.DisplayDialog("Read Player Me", "Do you want to install Draco Compression Unity Package: com.atteneder.draco ?",
-                        "Ok", "Cancel"))
+                if (EditorUtility.DisplayDialog(DIALOG_TITLE, DIALOG_MESSAGE, DIALOG_OK, DIALOG_CANCEL))
                 {
                     ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
                 }
