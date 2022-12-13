@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -12,11 +11,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public static AvatarLoaderSettings LoadSettings()
         {
-#if DISABLE_AUTO_INSTALLER && UNITY_EDITOR
-            return AssetDatabase.LoadAssetAtPath<AvatarLoaderSettings>($"Assets/Ready Player Me/Core/Settings/AvatarLoaderSettings.asset");
-#else
             return Resources.Load<AvatarLoaderSettings>(SETTINGS_PATH);
-#endif
         }
     }
 }
