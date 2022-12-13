@@ -1,4 +1,6 @@
-﻿namespace ReadyPlayerMe.Core
+﻿using ReadyPlayerMe.Core;
+
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarContext : Context
     {

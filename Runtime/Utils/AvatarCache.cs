@@ -1,8 +1,9 @@
 ﻿using System.IO;
+using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class AvatarCache
     {

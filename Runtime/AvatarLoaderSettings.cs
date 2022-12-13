@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
     [CreateAssetMenu(fileName = "Avatar Loader Settings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject

@@ -1,4 +1,4 @@
-﻿namespace ReadyPlayerMe.Core
+﻿namespace ReadyPlayerMe.AvatarLoader
 {
     public struct AvatarUri
     {

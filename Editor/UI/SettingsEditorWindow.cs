@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
+using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Data;
+using ReadyPlayerMe.Core.Editor;
 
-namespace ReadyPlayerMe.Core.Editor
+namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class SettingsEditorWindow : EditorWindowBase
     {
