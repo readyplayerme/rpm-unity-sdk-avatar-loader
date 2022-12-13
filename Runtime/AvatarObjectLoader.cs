@@ -82,27 +82,20 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             catch (CustomException exception)
             {
-                Failed(exception.FailureType, exception.Message);
+                Failed(executor.IsCancelled ? FailureType.OperationCancelled : exception.FailureType, exception.Message);
                 return;
             }
 
-            if (executor.IsCancelled)
+            var avatar = (GameObject) context.Data;
+            avatar.SetActive(true);
+            OnCompleted?.Invoke(this, new AvatarEventArgs
             {
-                SDKLogger.Log(TAG, "Avatar loading cancelled");
-            }
-            else
-            {
-                var avatar = (GameObject) context.Data;
-                avatar.SetActive(true);
-                OnCompleted?.Invoke(this, new AvatarEventArgs
-                {
-                    Avatar = avatar,
-                    Url = context.Url,
-                    Metadata = context.Metadata
-                });
+                Avatar = avatar,
+                Url = context.Url,
+                Metadata = context.Metadata
+            });
 
-                SDKLogger.Log(TAG, $"Avatar loaded in {Time.timeSinceLevelLoad - startTime:F2} seconds.");
-            }
+            SDKLogger.Log(TAG, $"Avatar loaded in {Time.timeSinceLevelLoad - startTime:F2} seconds.");
         }
 
         private void ProgressChanged(float progress, string type)
