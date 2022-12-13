@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
     public struct AvatarMetadata
     {

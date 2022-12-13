@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;

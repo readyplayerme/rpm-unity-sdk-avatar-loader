@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
     public static class AvatarMorphTarget
     {

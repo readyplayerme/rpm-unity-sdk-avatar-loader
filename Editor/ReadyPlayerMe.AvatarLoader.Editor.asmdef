@@ -3,7 +3,8 @@
   "references": [
     "ReadyPlayerMe.AvatarLoader",
     "ReadyPlayerMe.Core.Editor",
-    "ReadyPlayerMe.Core"
+    "ReadyPlayerMe.Core",
+    "ReadyPlayerMe.AvatarLoader.Editor.Tests"
   ],
   "includePlatforms": [
     "Editor"

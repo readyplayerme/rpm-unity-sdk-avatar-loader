@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
-
     public enum BodyType
     {
         None,
@@ -33,8 +32,6 @@ namespace ReadyPlayerMe.Core
         [Description("Posed full body render with transparent background")] FullBodyPostureTransparent
     }
 
-#region Avatar API
-
     public enum Pose
     {
         APose,
@@ -61,8 +58,6 @@ namespace ReadyPlayerMe.Core
         [InspectorName("Low (256)")]
         Low
     }
-
-#endregion
 
     public enum FailureType : int
     {

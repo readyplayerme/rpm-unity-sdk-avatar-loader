@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ReadyPlayerMe.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
     public class FailureEventArgs : EventArgs
     {
