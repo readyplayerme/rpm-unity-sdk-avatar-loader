@@ -76,6 +76,13 @@ namespace ReadyPlayerMe.AvatarLoader
             isFullBody = transform.Find(ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME);
             leftEyeBone = transform.Find(isFullBody ? FULL_BODY_LEFT_EYE_BONE_NAME : HALF_BODY_LEFT_EYE_BONE_NAME);
             rightEyeBone = transform.Find(isFullBody ? FULL_BODY_RIGHT_EYE_BONE_NAME : HALF_BODY_RIGHT_EYE_BONE_NAME);
+            if (leftEyeBone == null || rightEyeBone == null)
+            {
+                Debug.Log("No eyebones found, disabling EyeAnimationHandler");
+                enabled = false;
+                CancelInvoke();
+                blinkCoroutine?.Stop();
+            }
         }
 
         private void OnEnable()
