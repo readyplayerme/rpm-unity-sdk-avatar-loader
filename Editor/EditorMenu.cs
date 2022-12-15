@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using ReadyPlayerMe.Core.Editor;
+using UnityEditor;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -8,6 +9,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void OpenAvatarLoaderWindow()
         {
             AvatarLoaderEditorWindow.ShowWindowMenu();
+        }
+        
+        [MenuItem("Ready Player Me/Settings", priority = 1)]
+        public static void OpenSettingsWindow()
+        {
+            SettingsEditorWindow.ShowWindowMenu();
         }
     }
 }

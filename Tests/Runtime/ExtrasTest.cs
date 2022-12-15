@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.IsTrue(source.isPlaying);
         }
 
-        // TODO Find better approach
+        // TODO Find better approach, it fails on GameCI test runner
         // [UnityTest]
         // public IEnumerator Check_Mouth_Open_Change()
         // {
