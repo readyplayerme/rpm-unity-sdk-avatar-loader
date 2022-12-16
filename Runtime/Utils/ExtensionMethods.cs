@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         #region Get Picker
 
-        private static readonly string[] HeadMeshNameFilter = { "Renderer_Head", "Renderer_Avatar" };
+        private static readonly string[] HeadMeshNameFilter = { "Renderer_Head", "Renderer_Avatar", "Renderer_Head_Custom" };
 
         private const string BEARD_MESH_NAME_FILTER = "Renderer_Beard";
         private const string TEETH_MESH_NAME_FILTER = "Renderer_Teeth";
