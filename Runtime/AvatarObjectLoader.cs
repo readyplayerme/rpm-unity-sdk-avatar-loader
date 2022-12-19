@@ -38,7 +38,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public event EventHandler<ProgressChangeEventArgs> OnProgressChanged;
 
         /// Called upon avatar loader success.
-        public event EventHandler<AvatarEventArgs> OnCompleted;
+        public event EventHandler<CompletionEventArgs> OnCompleted;
 
         /// Load avatar from given url
         public void LoadAvatar(string url)
@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
-            OnCompleted?.Invoke(this, new AvatarEventArgs
+            OnCompleted?.Invoke(this, new CompletionEventArgs()
             {
                 Avatar = avatar,
                 Url = context.Url,
