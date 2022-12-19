@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader
             int primitiveNumeration = 0
         )
         {
-            if ((settings.mask & ComponentType.Mesh) == 0)
+            if ((m_Settings.Mask & ComponentType.Mesh) == 0)
             {
                 return;
             }
@@ -37,15 +37,15 @@ namespace ReadyPlayerMe.AvatarLoader
             if (primitiveNumeration == 0)
             {
                 // Use Node GameObject for first Primitive
-                meshGo = nodes[nodeIndex];
+                meshGo = m_Nodes[nodeIndex];
                 // Ready Player Me - Parent mesh to Avatar root game object
-                meshGo.transform.SetParent(parent.transform);
+                meshGo.transform.SetParent(m_Parent.transform);
             }
             else
             {
                 meshGo = new GameObject(meshName);
-                meshGo.transform.SetParent(nodes[nodeIndex].transform, false);
-                meshGo.layer = settings.layer;
+                meshGo.transform.SetParent(m_Nodes[nodeIndex].transform, false);
+                meshGo.layer = m_Settings.Layer;
             }
 
             Renderer renderer;
@@ -61,19 +61,19 @@ namespace ReadyPlayerMe.AvatarLoader
             else
             {
                 var smr = meshGo.AddComponent<SkinnedMeshRenderer>();
-                smr.updateWhenOffscreen = settings.skinUpdateWhenOffscreen;
+                smr.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
                 if (joints != null)
                 {
                     var bones = new Transform[joints.Length];
                     for (var j = 0; j < bones.Length; j++)
                     {
                         var jointIndex = joints[j];
-                        bones[j] = nodes[jointIndex].transform;
+                        bones[j] = m_Nodes[jointIndex].transform;
                     }
                     smr.bones = bones;
                     if (rootJoint.HasValue)
                     {
-                        smr.rootBone = nodes[rootJoint.Value].transform;
+                        smr.rootBone = m_Nodes[rootJoint.Value].transform;
                     }
                 }
                 smr.sharedMesh = mesh;
@@ -91,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader
             var materials = new Material[materialIndices.Length];
             for (var index = 0; index < materials.Length; index++)
             {
-                Material material = gltf.GetMaterial(materialIndices[index]) ?? gltf.GetDefaultMaterial();
+                Material material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
                 materials[index] = material;
             }
 
