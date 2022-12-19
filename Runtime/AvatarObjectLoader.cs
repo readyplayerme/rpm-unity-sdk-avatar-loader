@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
-            OnCompleted?.Invoke(this, new CompletionEventArgs()
+            OnCompleted?.Invoke(this, new CompletionEventArgs
             {
                 Avatar = avatar,
                 Url = context.Url,
