@@ -22,5 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public string Url { get; set; }
 
         public GameObject Avatar { get; set; }
+        
+        public AvatarMetadata Metadata { get; set; }
     }
 }
