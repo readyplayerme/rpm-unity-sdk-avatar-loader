@@ -53,15 +53,15 @@ namespace ReadyPlayerMe.AvatarLoader
             var hasMorphTargets = mesh.blendShapeCount > 0;
             if (joints == null && !hasMorphTargets)
             {
-                var mf = meshGo.AddComponent<MeshFilter>();
-                mf.mesh = mesh;
-                var mr = meshGo.AddComponent<MeshRenderer>();
-                renderer = mr;
+                var meshFilter = meshGo.AddComponent<MeshFilter>();
+                meshFilter.mesh = mesh;
+                var meshRenderer = meshGo.AddComponent<MeshRenderer>();
+                renderer = meshRenderer;
             }
             else
             {
-                var smr = meshGo.AddComponent<SkinnedMeshRenderer>();
-                smr.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
+                var skinnedMeshRenderer = meshGo.AddComponent<SkinnedMeshRenderer>();
+                skinnedMeshRenderer.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
                 if (joints != null)
                 {
                     var bones = new Transform[joints.Length];
@@ -70,28 +70,28 @@ namespace ReadyPlayerMe.AvatarLoader
                         var jointIndex = joints[j];
                         bones[j] = m_Nodes[jointIndex].transform;
                     }
-                    smr.bones = bones;
+                    skinnedMeshRenderer.bones = bones;
                     if (rootJoint.HasValue)
                     {
-                        smr.rootBone = m_Nodes[rootJoint.Value].transform;
+                        skinnedMeshRenderer.rootBone = m_Nodes[rootJoint.Value].transform;
                     }
                 }
-                smr.sharedMesh = mesh;
+                skinnedMeshRenderer.sharedMesh = mesh;
                 if (morphTargetWeights != null)
                 {
                     for (var i = 0; i < morphTargetWeights.Length; i++)
                     {
                         var weight = morphTargetWeights[i];
-                        smr.SetBlendShapeWeight(i, weight);
+                        skinnedMeshRenderer.SetBlendShapeWeight(i, weight);
                     }
                 }
-                renderer = smr;
+                renderer = skinnedMeshRenderer;
             }
 
             var materials = new Material[materialIndices.Length];
             for (var index = 0; index < materials.Length; index++)
             {
-                Material material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
+                var material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
                 materials[index] = material;
             }
 
