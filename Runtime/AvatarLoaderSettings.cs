@@ -2,7 +2,7 @@
 
 namespace ReadyPlayerMe.AvatarLoader
 {
-    [CreateAssetMenu(fileName = "Avatar Loader Settings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
+    [CreateAssetMenu(fileName = "AvatarLoaderSettings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject
     {
         public bool AvatarCachingEnabled;

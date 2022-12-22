@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader
             int primitiveNumeration = 0
         )
         {
-            if ((settings.mask & ComponentType.Mesh) == 0)
+            if ((m_Settings.Mask & ComponentType.Mesh) == 0)
             {
                 return;
             }
@@ -37,15 +37,15 @@ namespace ReadyPlayerMe.AvatarLoader
             if (primitiveNumeration == 0)
             {
                 // Use Node GameObject for first Primitive
-                meshGo = nodes[nodeIndex];
+                meshGo = m_Nodes[nodeIndex];
                 // Ready Player Me - Parent mesh to Avatar root game object
-                meshGo.transform.SetParent(parent.transform);
+                meshGo.transform.SetParent(m_Parent.transform);
             }
             else
             {
                 meshGo = new GameObject(meshName);
-                meshGo.transform.SetParent(nodes[nodeIndex].transform, false);
-                meshGo.layer = settings.layer;
+                meshGo.transform.SetParent(m_Nodes[nodeIndex].transform, false);
+                meshGo.layer = m_Settings.Layer;
             }
 
             Renderer renderer;
@@ -53,45 +53,45 @@ namespace ReadyPlayerMe.AvatarLoader
             var hasMorphTargets = mesh.blendShapeCount > 0;
             if (joints == null && !hasMorphTargets)
             {
-                var mf = meshGo.AddComponent<MeshFilter>();
-                mf.mesh = mesh;
-                var mr = meshGo.AddComponent<MeshRenderer>();
-                renderer = mr;
+                var meshFilter = meshGo.AddComponent<MeshFilter>();
+                meshFilter.mesh = mesh;
+                var meshRenderer = meshGo.AddComponent<MeshRenderer>();
+                renderer = meshRenderer;
             }
             else
             {
-                var smr = meshGo.AddComponent<SkinnedMeshRenderer>();
-                smr.updateWhenOffscreen = settings.skinUpdateWhenOffscreen;
+                var skinnedMeshRenderer = meshGo.AddComponent<SkinnedMeshRenderer>();
+                skinnedMeshRenderer.updateWhenOffscreen = m_Settings.SkinUpdateWhenOffscreen;
                 if (joints != null)
                 {
                     var bones = new Transform[joints.Length];
                     for (var j = 0; j < bones.Length; j++)
                     {
                         var jointIndex = joints[j];
-                        bones[j] = nodes[jointIndex].transform;
+                        bones[j] = m_Nodes[jointIndex].transform;
                     }
-                    smr.bones = bones;
+                    skinnedMeshRenderer.bones = bones;
                     if (rootJoint.HasValue)
                     {
-                        smr.rootBone = nodes[rootJoint.Value].transform;
+                        skinnedMeshRenderer.rootBone = m_Nodes[rootJoint.Value].transform;
                     }
                 }
-                smr.sharedMesh = mesh;
+                skinnedMeshRenderer.sharedMesh = mesh;
                 if (morphTargetWeights != null)
                 {
                     for (var i = 0; i < morphTargetWeights.Length; i++)
                     {
                         var weight = morphTargetWeights[i];
-                        smr.SetBlendShapeWeight(i, weight);
+                        skinnedMeshRenderer.SetBlendShapeWeight(i, weight);
                     }
                 }
-                renderer = smr;
+                renderer = skinnedMeshRenderer;
             }
 
             var materials = new Material[materialIndices.Length];
             for (var index = 0; index < materials.Length; index++)
             {
-                Material material = gltf.GetMaterial(materialIndices[index]) ?? gltf.GetDefaultMaterial();
+                var material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
                 materials[index] = material;
             }
 
