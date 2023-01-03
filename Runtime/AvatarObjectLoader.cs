@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// The <c>AvatarObjectLoader</c> is responsible for loading the avatar from a url and spawning it as a GameObject in the scene.
+    /// </summary>
     public class AvatarObjectLoader
     {
         private const string TAG = nameof(AvatarObjectLoader);
@@ -17,7 +20,10 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private OperationExecutor<AvatarContext> executor;
         private float startTime;
-
+    
+        /// <summary>
+        /// This class constructor is used to any required fields.
+        /// </summary>
         public AvatarObjectLoader()
         {
             var loaderSettings = AvatarLoaderSettings.LoadSettings();
@@ -40,7 +46,10 @@ namespace ReadyPlayerMe.AvatarLoader
         /// Called upon avatar loader success.
         public event EventHandler<CompletionEventArgs> OnCompleted;
 
-        /// Load avatar from given url
+        /// <summary>
+        /// Load avatar from a url.
+        /// </summary>
+        /// <param name="url">The url to the avatars .glb file.</param>
         public void LoadAvatar(string url)
         {
             startTime = Time.timeSinceLevelLoad;
@@ -48,13 +57,19 @@ namespace ReadyPlayerMe.AvatarLoader
             avatarUrl = url;
             Load(url);
         }
-
+        
+        /// <summary>
         /// Cancel avatar loading
+        /// </summary>
         public void Cancel()
         {
             executor.Cancel();
         }
-
+        
+        /// <summary>
+        /// Runs through the process of loading the avatar and creating a game object via the <c>OperationExecutor</c>.
+        /// </summary>
+        /// <param name="url">The url to the avatars .glb file.</param>
         private async void Load(string url)
         {
             var context = new AvatarContext();
@@ -98,6 +113,11 @@ namespace ReadyPlayerMe.AvatarLoader
             SDKLogger.Log(TAG, $"Avatar loaded in {Time.timeSinceLevelLoad - startTime:F2} seconds.");
         }
 
+        /// <summary>
+        /// This function is called everytime the progress changes on a given IOperation.
+        /// </summary>
+        /// <param name="progress">The progress of the current operation.</param>
+        /// <param name="type">The type of operation that it has changed to.</param>
         private void ProgressChanged(float progress, string type)
         {
             OnProgressChanged?.Invoke(this, new ProgressChangeEventArgs
@@ -107,8 +127,12 @@ namespace ReadyPlayerMe.AvatarLoader
                 Progress = progress
             });
         }
-
-        // TODO: add the messages here
+        
+        /// <summary>
+        /// This function is called if the async <c>Load()</c> function fails either due to error or cancellation.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
         private void Failed(FailureType type, string message)
         {
             OnFailed?.Invoke(this, new FailureEventArgs
