@@ -6,7 +6,9 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
     /// This class is responsible for making a request and downloading an avatar from a URL.
+    /// </summary>
     public class AvatarDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarDownloader);
@@ -14,20 +16,31 @@ namespace ReadyPlayerMe.AvatarLoader
         /// If true the avatar will download into memory instead of a local file.
         private readonly bool downloadInMemory;
 
-
+        /// <summary>
         /// The <c>AvatarDownloader</c> constructor can be used to set <c>downloadInMemory</c>.
+        /// </summary>
+        /// <param name="downloadInMemory">If true <c>AvatarDownloader</c> will download the avatar into memory instead of into a file that is stored locally.</param>
         public AvatarDownloader(bool downloadInMemory = false)
         {
             this.downloadInMemory = downloadInMemory;
         }
-        
+
+        /// <summary>
         /// Can be used to set the Timeout used by the <see cref="WebRequestDispatcher"/> when making the web request.
+        /// </summary>
         public int Timeout { get; set; }
-        
+
+        /// <summary>
         /// An <see cref="Action"/> callback that can be used to subscribe to <see cref="WebRequestDispatcher"/> <c>ProgressChanged</c> events.
+        /// </summary>
         public Action<float> ProgressChanged { get; set; }
-        
+
+        /// <summary>
         /// Executes the operation to download the avatar from <c>AvatarContext.AvatarUri</c> and returns the updated context.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The <c>AvatarContext</c> with the downloaded bytes included.</returns>
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             if (context.AvatarUri.Equals(default(AvatarUri)))
@@ -57,7 +70,13 @@ namespace ReadyPlayerMe.AvatarLoader
             return context;
         }
 
+        /// <summary>
         /// An asynchronous task that downloads the avatar into memory and returns the data as a <c>byte[]</c>.
+        /// </summary>
+        /// <param name="url">The avatar .glb url.</param>
+        /// <param name="avatarConfig">The <see cref="AvatarConfig"/> can be used to adjust the configuration of the downloaded avatar using the Avatar API. By default is set to null.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>A <c>byte[]</c> that holds the data of the downloaded avatar .glb file.</returns>
         public async Task<byte[]> DownloadIntoMemory(string url, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
         {
             if (avatarConfig)
@@ -83,7 +102,14 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
         
+        /// <summary>
         /// An asynchronous task that downloads the avatar into a file stored locally and returns the data as a <c>byte[]</c>.
+        /// </summary>
+        /// <param name="url">The avatar .glb url</param>
+        /// <param name="path">Path to file to be written </param>
+        /// <param name="avatarConfig">The <see cref="AvatarConfig"/> can be used to adjust the configuration of the downloaded avatar using the Avatar API. By default is set to null.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>A <c>byte[]</c> that holds the data of the downloaded avatar .glb file.</returns>
         public async Task<byte[]> DownloadIntoFile(string url, string path, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
         {
             if (avatarConfig)
@@ -109,7 +135,11 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
+        /// <summary>
         /// A method used to throw <c>ModelDownloadError</c> exceptions.
+        /// </summary>
+        /// <param name="message">The error message.</param>
+        /// <returns>The <c>Exception</c>.</returns>
         private Exception Fail(string message)
         {
             SDKLogger.Log(TAG, message);

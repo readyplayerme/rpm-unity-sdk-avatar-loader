@@ -8,7 +8,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
     /// This class is responsible for requesting and downloading a 2D render of an avatar from a URL.
+    /// </summary>
     public class AvatarRenderDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarRenderDownloader);
@@ -19,10 +21,17 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public int Timeout { get; set; }
         
+        /// <summary>
         /// An <see cref="Action"/> callback that can be used to subscribe to <see cref="WebRequestDispatcher"/> <c>ProgressChanged</c> events.
+        /// </summary>
         public Action<float> ProgressChanged { get; set; }
-        
+
+        /// <summary>
         /// Executes the operation to request and download the 2D render and returns the updated context.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The updated <c>AvatarContext</c>.</returns>
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             try
