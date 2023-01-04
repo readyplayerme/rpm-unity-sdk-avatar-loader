@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    ///     This class is responsible instantiating Avatar model as a GameObject.
+    /// </summary>
     public class GltFastGameObjectInstantiator : GameObjectInstantiator
     {
         public GltFastGameObjectInstantiator(
@@ -91,7 +94,7 @@ namespace ReadyPlayerMe.AvatarLoader
             var materials = new Material[materialIndices.Length];
             for (var index = 0; index < materials.Length; index++)
             {
-                var material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
+                Material material = m_Gltf.GetMaterial(materialIndices[index]) ?? m_Gltf.GetDefaultMaterial();
                 materials[index] = material;
             }
 

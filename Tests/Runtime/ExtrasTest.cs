@@ -182,7 +182,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             var avatar = Object.Instantiate(singleMeshAvatarPrefab);
             var handler = avatar.GetComponent<EyeAnimationHandler>();
-            handler.BlinkSpeed = 0.1f;
+            handler.BlinkDuration = 0.1f;
             handler.BlinkInterval = 1;
 
             var headMesh = avatar.GetMeshRenderer(MeshType.HeadMesh);

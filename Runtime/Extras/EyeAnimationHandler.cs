@@ -4,7 +4,8 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// This class adds a blink animation at regular intervals to an avatar <c>SkeletonMeshRenderer</c> using blendshapes and bone rotation adjustments.
+    ///     This class adds a blink animation at regular intervals to an avatar <c>SkeletonMeshRenderer</c> using blendshapes
+    ///     and bone rotation adjustments.
     /// </summary>
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Eye Animation Handler", 0)]
     public class EyeAnimationHandler : MonoBehaviour
@@ -22,11 +23,11 @@ namespace ReadyPlayerMe.AvatarLoader
         private const float EYE_BLINK_MULTIPLIER = 100f;
         private const float HALFBODY_OFFSET_X = 90;
         private const float HALFBODY_OFFSET_Z = 180;
-        
-        [SerializeField, Range(0, 1)][Tooltip("Effects the duration of the avatar blink animation in seconds.")] 
+
+        [SerializeField, Range(0, 1), Tooltip("Effects the duration of the avatar blink animation in seconds.")]
         private float blinkDuration = 0.1f;
 
-        [SerializeField, Range(1, 10)][Tooltip("Effects the amount of time in between each blink.")]  
+        [SerializeField, Range(1, 10), Tooltip("Effects the amount of time in between each blink.")]
         private float blinkInterval = 3f;
 
         private WaitForSeconds blinkDelay;
@@ -64,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// This method is used to setup the coroutine and repeating functions. 
+        ///     This method is used to setup the coroutine and repeating functions.
         /// </summary>
         public void Initialize()
         {
@@ -75,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// This method is called when the scene is loaded and is used to setup properties and references.
+        ///     This method is called when the scene is loaded and is used to setup properties and references.
         /// </summary>
         private void Start()
         {
@@ -97,17 +98,17 @@ namespace ReadyPlayerMe.AvatarLoader
                 blinkCoroutine?.Stop();
             }
         }
-        
+
         private void OnEnable()
         {
             Initialize();
         }
-        
+
         private void OnDisable()
         {
             CancelInvoke();
         }
-        
+
         private void OnDestroy()
         {
             CancelInvoke();
@@ -115,7 +116,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Rotates the eyes and assigns the blink coroutine. Called in the Initialize method. 
+        ///     Rotates the eyes and assigns the blink coroutine. Called in the Initialize method.
         /// </summary>
         private void AnimateEyes()
         {
@@ -128,7 +129,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///  Rotates the eye bones in a random direction. 
+        ///     Rotates the eye bones in a random direction.
         /// </summary>
         private void RotateEyes()
         {
@@ -144,7 +145,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// A coroutine that manipulates BlendShapes to open and close the eyes. 
+        ///     A coroutine that manipulates BlendShapes to open and close the eyes.
         /// </summary>
         private IEnumerator BlinkEyes()
         {

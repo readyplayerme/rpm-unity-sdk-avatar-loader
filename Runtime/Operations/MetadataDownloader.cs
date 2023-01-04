@@ -8,13 +8,27 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.Loader
 {
+    /// <summary>
+    ///     This class is responsible for handling the avatar meta data .json file download, save, and parsing functionality.
+    /// </summary>
     public class MetadataDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(MetadataDownloader);
 
         public int Timeout { get; set; }
+
+        /// <summary>
+        ///     An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        ///     <c>ProgressChanged</c> events.
+        /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
+        /// <summary>
+        ///     Executes the operation to download the avatar and save to file if saving is enabled.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The updated <see cref="AvatarContext" />.</returns>
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             if (context.AvatarUri.Equals(default(AvatarUri)))
@@ -30,6 +44,12 @@ namespace ReadyPlayerMe.Loader
             return context;
         }
 
+        /// <summary>
+        ///     Downloads the avatar meta data and parses the response.
+        /// </summary>
+        /// <param name="url">The URL of the avatar metadata ending in <c>.json</c></param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The avatar metadata as a <see cref="AvatarMetadata" /> structure.</returns>
         public async Task<AvatarMetadata> Download(string url, CancellationToken token = new CancellationToken())
         {
             SDKLogger.Log(TAG, "Downloading metadata into memory.");
@@ -68,6 +88,13 @@ namespace ReadyPlayerMe.Loader
             }
         }
 
+        /// <summary>
+        ///     Saves the avatar metadata to a local file.
+        /// </summary>
+        /// <param name="metadata">The metadata to save.</param>
+        /// <param name="guid">The avatar guid (identifier).</param>
+        /// <param name="path">The path to save the file.</param>
+        /// <param name="saveInProject">If true it will save in the project folder instead of the persistant data path.</param>
         public void SaveToFile(AvatarMetadata metadata, string guid, string path, bool saveInProject)
         {
             DirectoryUtility.ValidateAvatarSaveDirectory(guid, saveInProject);
@@ -75,7 +102,12 @@ namespace ReadyPlayerMe.Loader
             File.WriteAllText(path, json);
         }
 
-        public AvatarMetadata LoadFromFile(string path, bool avatarCachingEnabled)
+        /// <summary>
+        ///     Loads the avatar metadata from the specified file path.
+        /// </summary>
+        /// <param name="path">The path to the meta data <c>.json</c> file.</param>
+        /// <returns>The loaded <see cref="AvatarMetadata" />.</returns>
+        public AvatarMetadata LoadFromFile(string path)
         {
             if (File.Exists(path))
             {
@@ -86,13 +118,31 @@ namespace ReadyPlayerMe.Loader
             return new AvatarMetadata();
         }
 
+        /// <summary>
+        ///     This method checks if the avatar model has been updated.
+        /// </summary>
+        /// <param name="metadata">The latest version of the avatar metadata.</param>
+        /// <param name="uri">The uri with all the model and url information.</param>
+        /// <param name="avatarCachingEnabled">This flag is used to enable or disable local avatar caching.</param>
+        /// <returns>A <c>bool</c> indicating if the avatar has been updated.</returns>
+        /// r=
+        /// <remarks>
+        ///     It is used to determine whether an avatar needs to be downloaded again or can instead be loaded from the
+        ///     locally stored file.
+        /// </remarks>
         private bool IsUpdated(AvatarMetadata metadata, AvatarUri uri, bool avatarCachingEnabled)
         {
-            AvatarMetadata previousMetadata = LoadFromFile(uri.LocalMetadataPath, avatarCachingEnabled);
+            AvatarMetadata previousMetadata = LoadFromFile(uri.LocalMetadataPath);
             if (avatarCachingEnabled && metadata.LastModified == previousMetadata.LastModified) return false;
             return true;
         }
 
+        /// <summary>
+        ///     This method deserializes the response and parses it as an <see cref="AvatarMetadata" /> structure.
+        /// </summary>
+        /// <param name="response">The response as a json string.</param>
+        /// <param name="lastModified">A string representing the date of the last time the metadata was modified.</param>
+        /// <returns>The avatar metadata as an <see cref="AvatarMetadata" /> structure.</returns>
         private AvatarMetadata ParseResponse(string response, string lastModified)
         {
             var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response);

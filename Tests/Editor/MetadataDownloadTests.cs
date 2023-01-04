@@ -115,7 +115,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var metadataDownloader = new MetadataDownloader();
             metadataDownloader.SaveToFile(avatarMetadata, TestUtils.TEST_AVATAR_GUID, TestUtils.TestJsonFilePath, false);
 
-            var metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath, true);
+            var metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
 
             Assert.AreNotSame(new AvatarMetadata(), metadata);
         }

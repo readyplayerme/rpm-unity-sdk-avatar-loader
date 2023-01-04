@@ -8,6 +8,9 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    ///     This class is responsible for handling the processing of the parameters of Render API requests.
+    /// </summary>
     public class RenderRequestParameterProcessor : IOperation<AvatarContext>
     {
         private const string FULL_BODY_POSTURE_WARNING = "Cannot use FullBodyPostureTransparent render scene type with HalfBody Avatars";
@@ -27,6 +30,12 @@ namespace ReadyPlayerMe.AvatarLoader
         public int Timeout { get; set; }
         public Action<float> ProgressChanged { get; set; }
 
+        /// <summary>
+        ///     Executes the operation to process the render request parameters.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The updated <see cref="AvatarContext" />.</returns>
         public Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             try
@@ -42,7 +51,12 @@ namespace ReadyPlayerMe.AvatarLoader
             return Task.FromResult(context);
         }
 
-
+        /// <summary>
+        ///     Creates the render request parameters from the <see cref="AvatarRenderSettings" /> and
+        ///     <see cref="AvatarMetadata" />.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <returns>The updated <see cref="AvatarContext" />.</returns>
         private AvatarContext CreateRenderRequestParameters(AvatarContext context)
         {
             AvatarMetadata metadata = context.Metadata;

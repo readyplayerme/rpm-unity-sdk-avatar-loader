@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var urlProcessor = new UrlProcessor();
             try
             {
-                avatarUri = await urlProcessor.Create(GUID_URL, RANDOM_PARAM_HASH);
+                avatarUri = await urlProcessor.ProcessUrl(GUID_URL, RANDOM_PARAM_HASH);
             }
             catch (CustomException exception)
             {
@@ -68,7 +68,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var urlProcessor = new UrlProcessor();
             try
             {
-                avatarUri = await urlProcessor.Create(SHORT_CODE, RANDOM_PARAM_HASH);
+                avatarUri = await urlProcessor.ProcessUrl(SHORT_CODE, RANDOM_PARAM_HASH);
             }
             catch (CustomException exception)
             {
@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var urlProcessor = new UrlProcessor();
             try
             {
-                avatarUri = await urlProcessor.Create(SHORT_CODE_URL, RANDOM_PARAM_HASH);
+                avatarUri = await urlProcessor.ProcessUrl(SHORT_CODE_URL, RANDOM_PARAM_HASH);
             }
             catch (CustomException exception)
             {
