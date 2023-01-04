@@ -9,14 +9,21 @@ using ReadyPlayerMe.Core;
 using UnityEngine.Android;
 #endif
 
+
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This enumeration describes the options for AudioProviderType. 
+    /// </summary>
     public enum AudioProviderType
     {
         Microphone = 0,
         AudioClip = 1
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Voice Handler", 0)]
     public class VoiceHandler : MonoBehaviour
     {

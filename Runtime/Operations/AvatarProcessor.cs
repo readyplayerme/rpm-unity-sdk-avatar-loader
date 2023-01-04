@@ -9,21 +9,22 @@ using Object = UnityEngine.Object;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// This class is responsible for making processing the avatar after it has been loaded into a GameObject.
+    ///     This class is responsible for making processing the avatar after it has been loaded into a GameObject.
     /// </summary>
     public class AvatarProcessor : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarProcessor);
-        
+
         public int Timeout { get; set; }
-        
+
         /// <summary>
-        /// An <see cref="Action"/> callback that can be used to subscribe to <see cref="WebRequestDispatcher"/> <c>ProgressChanged</c> events.
+        ///     An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        ///     <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        /// Executes the operation to process the avatar <see cref="GameObject"/>.
+        ///     Executes the operation to process the avatar <see cref="GameObject" />.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -42,10 +43,10 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Replaces the instance of the avatar GameObject if it already exists and sets the name of the GameObject.
+        ///     Replaces the instance of the avatar GameObject if it already exists and sets the name of the GameObject.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
-        /// <returns>The <see cref="AvatarContext"/>.</returns>
+        /// <returns>The <see cref="AvatarContext" />.</returns>
         private AvatarContext ProcessAvatarGameObject(AvatarContext context)
         {
 #if UNITY_EDITOR
@@ -70,7 +71,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// This method triggers GameObject changes and setup for the new avatar GameObject.
+        ///     This method triggers GameObject changes and setup for the new avatar GameObject.
         /// </summary>
         /// <param name="avatar"></param>
         /// <param name="avatarMetadata"></param>
@@ -118,9 +119,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string BONE_HALF_BODY_ROOT = "AvatarRoot";
 
         /// <summary>
-        /// Removes the roo bone to ensure the correct skeleton hierarchy.
+        ///     Removes the roo bone to ensure the correct skeleton hierarchy.
         /// </summary>
-        /// <param name="avatar">The <see cref="GameObject"/> to update.</param>
+        /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         private void RemoveHalfBodyRoot(GameObject avatar)
         {
             Transform root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
@@ -132,9 +133,9 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Adds the root armature bone to ensure the correct skeleton hierarchy.
+        ///     Adds the root armature bone to ensure the correct skeleton hierarchy.
         /// </summary>
-        /// <param name="avatar">The <see cref="GameObject"/> to update.</param>
+        /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         private void AddArmatureBone(GameObject avatar)
         {
             SDKLogger.Log(TAG, "Adding armature bone");
@@ -148,9 +149,9 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Adds an <see cref="Animator"/> component and sets the target <see cref="UnityEngine.Avatar"/>.
+        ///     Adds an <see cref="Animator" /> component and sets the target <see cref="UnityEngine.Avatar" />.
         /// </summary>
-        /// <param name="avatar">The <see cref="GameObject"/> to update.</param>
+        /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         /// <param name="gender">Get gender of the Avatar.</param>
         private void SetupAnimator(GameObject avatar, OutfitGender gender)
         {
@@ -192,9 +193,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         ///     Rename avatar assets.
         /// </summary>
-        /// <param name="avatar">The <see cref="GameObject"/> to update.</param>
+        /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         /// <remarks>Naming convention is 'Avatar_Type_Name'. This makes it easier to view them in profiler</remarks>
-
         private void RenameChildMeshes(GameObject avatar)
         {
             SkinnedMeshRenderer[] renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -211,7 +211,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Set the names of each <see cref="Texture"/>.
+        ///     Set the names of each <see cref="Texture" />.
         /// </summary>
         /// <param name="renderer">Search for textures in this renderer.</param>
         /// <param name="assetName">Name of the asset.</param>
@@ -231,12 +231,11 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Set the name of the <see cref="SkinnedMeshRenderer"/>.
+        ///     Set the name of the <see cref="SkinnedMeshRenderer" />.
         /// </summary>
         /// <param name="renderer">SkinMeshRenderer to update.</param>
         /// <param name="assetName">Name of the asset.</param>
         /// <remarks>Naming convention is 'SkinnedMesh_AssetName'. This makes it easier to view in profiler</remarks>
-
         private void SetMeshName(SkinnedMeshRenderer renderer, string assetName)
         {
             renderer.sharedMesh.name = $"{SKINNED_MESH_PREFIX}_{assetName}";
