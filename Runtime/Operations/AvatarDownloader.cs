@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 return context;
             }
 
-            context.Bytes = await DownloadIntoFile(context.AvatarUri.ModelUrl, context.AvatarUri.Guid, context.AvatarUri.LocalModelPath, context.AvatarConfig, token);
+            context.Bytes = await DownloadIntoFile(context.AvatarUri.ModelUrl, context.AvatarUri.LocalModelPath, context.AvatarConfig, token);
             return context;
         }
 
@@ -73,8 +73,8 @@ namespace ReadyPlayerMe.AvatarLoader
                 throw Fail($"Failed to download glb model into memory. {exception}");
             }
         }
-
-        public async Task<byte[]> DownloadIntoFile(string url, string guid, string path, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
+        
+        public async Task<byte[]> DownloadIntoFile(string url, string path, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
         {
             if (avatarConfig)
             {
