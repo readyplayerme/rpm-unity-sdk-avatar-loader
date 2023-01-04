@@ -6,20 +6,28 @@ using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// This class is responsible for making a request and downloading an avatar from a URL.
     public class AvatarDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarDownloader);
+        
+        /// If true the avatar will download into memory instead of a local file.
         private readonly bool downloadInMemory;
 
+
+        /// The <c>AvatarDownloader</c> constructor can be used to set <c>downloadInMemory</c>.
         public AvatarDownloader(bool downloadInMemory = false)
         {
             this.downloadInMemory = downloadInMemory;
         }
-
+        
+        /// Can be used to set the Timeout used by the <see cref="WebRequestDispatcher"/> when making the web request.
         public int Timeout { get; set; }
-
+        
+        /// An <see cref="Action"/> callback that can be used to subscribe to <see cref="WebRequestDispatcher"/> <c>ProgressChanged</c> events.
         public Action<float> ProgressChanged { get; set; }
-
+        
+        /// Executes the operation to download the avatar from <c>AvatarContext.AvatarUri</c> and returns the updated context.
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             if (context.AvatarUri.Equals(default(AvatarUri)))
@@ -49,6 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader
             return context;
         }
 
+        /// An asynchronous task that downloads the avatar into memory and returns the data as a <c>byte[]</c>.
         public async Task<byte[]> DownloadIntoMemory(string url, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
         {
             if (avatarConfig)
@@ -74,6 +83,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
         
+        /// An asynchronous task that downloads the avatar into a file stored locally and returns the data as a <c>byte[]</c>.
         public async Task<byte[]> DownloadIntoFile(string url, string path, AvatarConfig avatarConfig = null, CancellationToken token = new CancellationToken())
         {
             if (avatarConfig)
@@ -99,6 +109,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
+        /// A method used to throw <c>ModelDownloadError</c> exceptions.
         private Exception Fail(string message)
         {
             SDKLogger.Log(TAG, message);

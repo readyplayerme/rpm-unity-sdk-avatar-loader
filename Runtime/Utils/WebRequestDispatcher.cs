@@ -9,6 +9,9 @@ using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class WebRequestDispatcher
     {
         private const int TIMEOUT = 20;

@@ -8,13 +8,17 @@ using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// This class is responsible for making processing the avatar after it has been loaded into a GameObject.
     public class AvatarProcessor : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarProcessor);
-
+        
         public int Timeout { get; set; }
+        
+        /// An <see cref="Action"/> callback that can be used to subscribe to <see cref="WebRequestDispatcher"/> <c>ProgressChanged</c> events.
         public Action<float> ProgressChanged { get; set; }
 
+        /// Executes the operation to process the avatar <see cref="GameObject"/>.
         public Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             if (context.Data is GameObject)
@@ -28,6 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader
             throw new CustomException(FailureType.AvatarProcessError, $"Avatar postprocess failed. {context.Data} is either null or is not of type GameObject");
         }
 
+        /// Replaces the instance of the avatar GameObject if it already exists and sets the name of the GameObject.
         private AvatarContext ProcessAvatarGameObject(AvatarContext context)
         {
 #if UNITY_EDITOR
@@ -50,7 +55,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
             return context;
         }
-
+        
+        /// This method triggers GameObject changes and setup for the new avatar GameObject.
         public void ProcessAvatar(GameObject avatar, AvatarMetadata avatarMetadata)
         {
             SDKLogger.Log(TAG, "Processing avatar.");
@@ -85,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         #region Setup Armature and Animations
 
-        // Animation avatars
+        // Animation avatars resource paths
         private const string MASCULINE_ANIMATION_AVATAR_NAME = "AnimationAvatars/MasculineAnimationAvatar";
         private const string FEMININE_ANIMATION_AVATAR_NAME = "AnimationAvatars/FeminineAnimationAvatar";
 
@@ -93,7 +99,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string BONE_HIPS = "Hips";
         private const string BONE_ARMATURE = "Armature";
         private const string BONE_HALF_BODY_ROOT = "AvatarRoot";
-
+        
+        /// Removes the roo bone to ensure the correct skeleton hierarchy.
         private void RemoveHalfBodyRoot(GameObject avatar)
         {
             Transform root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
@@ -103,7 +110,8 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             Object.DestroyImmediate(root.gameObject);
         }
-
+        
+        /// Adds the root armature bone to ensure the correct skeleton hierarchy.
         private void AddArmatureBone(GameObject avatar)
         {
             SDKLogger.Log(TAG, "Adding armature bone");
@@ -115,7 +123,8 @@ namespace ReadyPlayerMe.AvatarLoader
             Transform hips = avatar.transform.Find(BONE_HIPS);
             if (hips) hips.parent = armature.transform;
         }
-
+        
+        /// Adds an <see cref="Animator"/> component and sets the target <see cref="UnityEngine.Avatar"/>.
         private void SetupAnimator(GameObject avatar, OutfitGender gender)
         {
             SDKLogger.Log(TAG, "Setting up animator");
@@ -136,13 +145,14 @@ namespace ReadyPlayerMe.AvatarLoader
         // Prefix to remove from names for correction
         private const string PREFIX = "Wolf3D_";
 
+        // Default prefixes
         private const string AVATAR_PREFIX = "Avatar";
         private const string RENDERER_PREFIX = "Renderer";
         private const string MATERIAL_PREFIX = "Material";
         private const string SKINNED_MESH_PREFIX = "SkinnedMesh";
 
 
-        //Texture property IDs
+        // Texture property IDs
         private static readonly string[] ShaderProperties =
         {
             "baseColorTexture",
@@ -151,11 +161,10 @@ namespace ReadyPlayerMe.AvatarLoader
             "occlusionTexture",
             "metallicRoughnessTexture"
         };
+        
+        ///     Rename avatar assets.
+        /// <remarks>Naming convention is 'Avatar_Type_Name'. This makes it easier to view them in profiler</remarks>
 
-        /// <summary>
-        ///     Name avatar assets for make them easier to view in profiler.
-        ///     Naming is 'Avatar_Type_Name'
-        /// </summary>
         private void RenameChildMeshes(GameObject avatar)
         {
             SkinnedMeshRenderer[] renderers = avatar.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -170,12 +179,9 @@ namespace ReadyPlayerMe.AvatarLoader
                 SetMeshName(renderer, assetName);
             }
         }
-
-        /// <summary>
-        ///     Set a name for the texture for finding it in the Profiler.
-        /// </summary>
-        /// <param name="renderer">Renderer to find the texture in.</param>
-        /// <param name="assetName">Name of the asset.</param>
+        
+        ///     Set the names of each <see cref="Texture"/>.
+        /// <remarks>Naming convention is 'Avatar_PropertyName_AssetName'. This makes it easier to view them in profiler</remarks>
         private void SetTextureNames(Renderer renderer, string assetName)
         {
             foreach (var propertyName in ShaderProperties)
@@ -190,11 +196,8 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
-        /// <summary>
-        ///     Set a name for the mesh for finding it in the Profiler.
-        /// </summary>
-        /// <param name="renderer">Renderer to find the mesh in.</param>
-        /// <param name="assetName">Name of the asset.</param>
+        ///     Set the name of the <see cref="SkinnedMeshRenderer"/>.
+        /// <remarks>Naming convention is 'SkinnedMesh_AssetName'. This makes it easier to view in profiler</remarks>
         private void SetMeshName(SkinnedMeshRenderer renderer, string assetName)
         {
             renderer.sharedMesh.name = $"{SKINNED_MESH_PREFIX}_{assetName}";

@@ -8,9 +8,12 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class contains a number of different extension methods. 
+    /// </summary>
     public static class ExtensionMethods
     {
-
+        
         public static void ThrowCustomExceptionIfCancellationRequested(this CancellationToken token)
         {
             if (token.IsCancellationRequested)
@@ -20,7 +23,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         #region Coroutine Runner
-
+        
         [ExecuteInEditMode]
         public class CoroutineRunner : MonoBehaviour
         {
@@ -35,7 +38,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const HideFlags HIDE_FLAGS = HideFlags.DontSaveInEditor | HideFlags.HideInHierarchy |
                                              HideFlags.HideInInspector | HideFlags.NotEditable |
                                              HideFlags.DontSaveInBuild;
-
+        
         public static Coroutine Run(this IEnumerator iEnumerator)
         {
             CoroutineRunner[] operations = Resources.FindObjectsOfTypeAll<CoroutineRunner>();
@@ -64,12 +67,14 @@ namespace ReadyPlayerMe.AvatarLoader
         #endregion
 
         #region Get Picker
-
+        
+        // All possible names of objects with head mesh
         private static readonly string[] HeadMeshNameFilter = { "Renderer_Head", "Renderer_Avatar", "Renderer_Head_Custom" };
-
+        
         private const string BEARD_MESH_NAME_FILTER = "Renderer_Beard";
         private const string TEETH_MESH_NAME_FILTER = "Renderer_Teeth";
-
+        
+        /// This method extends <c>GameObject</c> to simplify getting the Ready Player Me avatar's <c>SkinnedMeshRenderer</c>.
         public static SkinnedMeshRenderer GetMeshRenderer(this GameObject gameObject, MeshType meshType)
         {
             SkinnedMeshRenderer mesh;

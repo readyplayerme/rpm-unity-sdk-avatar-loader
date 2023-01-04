@@ -19,12 +19,12 @@ namespace ReadyPlayerMe.AvatarLoader
                    $"&useHands={(avatarConfig.UseHands ? "true" : "false")}" +
                    $"&useDracoMeshCompression={(avatarConfig.UseDracoCompression ? "true" : "false")}";
         }
-
+        
         private static int ProcessTextureSizeLimit(int textureSize)
         {
             return textureSize % 2 == 0 ? textureSize : textureSize + 1;
         }
-
+        
         private static string ProcessMorphTargets(List<string> targets)
         {
             if (targets.Count == 0)
