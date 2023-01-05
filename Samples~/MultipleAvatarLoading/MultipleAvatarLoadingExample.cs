@@ -6,10 +6,13 @@ using UnityEngine;
 
 namespace ReadyPlayerMe
 {
+    /// <summary>
+    ///     This class is a simple <see cref="Monobehaviour"/>  to serve as an example on how to load Ready Player Me avatars and spawn as a <see cref="GameObject"/> into the scene.
+    /// </summary>
     public class MultipleAvatarLoadingExample : MonoBehaviour
     {
         private const int RADIUS = 1;
-        [SerializeField]
+        [SerializeField][Tooltip("Set this to the URL or shortcodes of the Ready Player Me Avatar you want to load.")]
         private string[] avatarUrls =
         {
             "https://api.readyplayer.me/v1/avatars/638df5fc5a7d322604bb3a58.glb",
@@ -29,6 +32,8 @@ namespace ReadyPlayerMe
             StartCoroutine(LoadAvatars(urlSet));
         }
 
+
+        ///     This method is used to cleanup/destroy avatar <c>GameObject</c>'s when they are no longer needed.
         private void OnDestroy()
         {
             StopAllCoroutines();
@@ -43,6 +48,8 @@ namespace ReadyPlayerMe
             }
         }
 
+
+        ///     Loops through all the avatar urls in the <paramref name="urlSet"/> and loads them one after the other.
         private IEnumerator LoadAvatars(HashSet<string> urlSet)
         {
             var loading = false;
@@ -51,6 +58,7 @@ namespace ReadyPlayerMe
             {
                 loading = true;
                 var loader = new AvatarObjectLoader();
+                // use the OnCompleted event setup the animator and run the OnAvatarLoaded method
                 loader.OnCompleted += (sender, args) =>
                 {
                     loading = false;
@@ -62,7 +70,8 @@ namespace ReadyPlayerMe
                 yield return new WaitUntil(() => !loading);
             }
         }
-
+        
+        ///     This method is called after the avatar has been loadded and setup in the scene and is used to set the position of the <c>GameObject</c> in the scene.
         private void OnAvatarLoaded(GameObject avatar)
         {
             if (avatarList != null)
