@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This enumeration describes the body type of the avatar.
+    /// This enumeration describes the body type of the avatar.
     /// </summary>
     public enum BodyType
     {
@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
+    /// This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
     /// </summary>
     public enum OutfitGender
     {
@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the type of mesh.
+    /// This enumeration describes the type of mesh.
     /// </summary>
     public enum MeshType
     {
@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the different render scene options.
+    /// This enumeration describes the different render scene options.
     /// </summary>
     public enum AvatarRenderScene
     {
@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the pose options for the avatar skeleton.
+    /// This enumeration describes the pose options for the avatar skeleton.
     /// </summary>
     public enum Pose
     {
@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the avatar mesh LOD (Level of Detail) options.
+    /// This enumeration describes the avatar mesh LOD (Level of Detail) options.
     /// </summary>
     public enum MeshLod
     {
@@ -67,7 +67,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the TextureAtlas setting options.
+    /// This enumeration describes the TextureAtlas setting options.
     /// </summary>
     /// <remarks>If set to <c>None</c> the avatar meshes, materials and textures will NOT be combined.</remarks>
     public enum TextureAtlas
@@ -82,7 +82,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    ///     This enumeration describes the different types of failures.
+    /// This enumeration describes the different types of failures.
     /// </summary>
     public enum FailureType
     {

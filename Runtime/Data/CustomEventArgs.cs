@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// This class holds all the properties necessary for failure events. 
+    /// This class holds all the properties necessary for failure events.
     /// </summary>
     public class FailureEventArgs : EventArgs
     {
@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    /// This class holds all the properties necessary for progress change events. 
+    /// This class holds all the properties necessary for progress change events.
     /// </summary>
     public class ProgressChangeEventArgs : EventArgs
     {
@@ -24,14 +24,14 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
-    /// This class holds all the properties necessary for completion events. 
+    /// This class holds all the properties necessary for completion events.
     /// </summary>
     public class CompletionEventArgs : EventArgs
     {
         public string Url { get; set; }
 
         public GameObject Avatar { get; set; }
-        
+
         public AvatarMetadata Metadata { get; set; }
     }
 }

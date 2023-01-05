@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for requesting and downloading a 2D render of an avatar from a URL.
+    /// This class is responsible for requesting and downloading a 2D render of an avatar from a URL.
     /// </summary>
     public class AvatarRenderDownloader : IOperation<AvatarContext>
     {
@@ -22,13 +22,13 @@ namespace ReadyPlayerMe.AvatarLoader
         public int Timeout { get; set; }
 
         /// <summary>
-        ///     An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
-        ///     <c>ProgressChanged</c> events.
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     Executes the operation to request and download the 2D render and returns the updated context.
+        /// Executes the operation to request and download the 2D render and returns the updated context.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Requests an avatar render URL asynchronously
+        /// Requests an avatar render URL asynchronously
         /// </summary>
         /// <param name="payload">The binary data of the avatar model .glb file.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This method parses the json response <c>string<c> to get a URL and makes a request to download the texture.
+        /// This method parses the json response <c>string<c> to get a URL and makes a request to download the texture.
         /// </summary>
         /// <param name="json">The reponse data as a json string.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -98,7 +98,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Checks that the avatar render URL is valid.
+        /// Checks that the avatar render URL is valid.
         /// </summary>
         /// <param name="renderUrl"></param>
         /// <returns>A <c>bool</c> if the render URL is valid.</returns>

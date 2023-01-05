@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for the avatar model using the GltFast API.
+    /// This class is responsible for the avatar model using the GltFast API.
     /// </summary>
     public class GltFastAvatarImporter : IOperation<AvatarContext>
     {
@@ -17,13 +17,13 @@ namespace ReadyPlayerMe.AvatarLoader
         public int Timeout { get; set; }
 
         /// <summary>
-        ///     An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
-        ///     <c>ProgressChanged</c> events.
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     Executes the operation to import the module from the avatar model data.
+        /// Executes the operation to import the module from the avatar model data.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -41,7 +41,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Imports the model from <c>byte[]</c> asynchronously.
+        /// Imports the model from <c>byte[]</c> asynchronously.
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Imports the model from the URL <c>string</c> asynchronously.
+        /// Imports the model from the URL <c>string</c> asynchronously.
         /// </summary>
         /// <param name="path">The path to the file for importing.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     A method used to throw the <see cref="FailureType.ModelImportError" /> exception.
+        /// A method used to throw the <see cref="FailureType.ModelImportError" /> exception.
         /// </summary>
         /// <param name="error">The error message.</param>
         /// <returns>The <see cref="Exception" />.</returns>

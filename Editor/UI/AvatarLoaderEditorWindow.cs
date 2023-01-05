@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public static void ShowWindowMenu()
         {
-            
+
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
             window.titleContent = new GUIContent("Avatar Loader");
             window.ShowUtility();

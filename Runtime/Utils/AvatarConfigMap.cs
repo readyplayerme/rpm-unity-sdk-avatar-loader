@@ -3,7 +3,7 @@
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This static class contains maps that can be used for avatar configuration.
+    /// This static class contains maps that can be used for avatar configuration.
     /// </summary>
     public static class AvatarConfigMap
     {

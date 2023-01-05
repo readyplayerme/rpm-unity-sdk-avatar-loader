@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for handling asynchronous WebRequests of different types include POST and GET requests.
+    /// This class is responsible for handling asynchronous WebRequests of different types include POST and GET requests.
     /// </summary>
     public class WebRequestDispatcher
     {
@@ -24,8 +24,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private bool HasInternetConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
         /// <summary>
-        ///     This asynchronous method makes a <see cref="UnityWebRequest.Put()" /> request to the provided
-        ///     <paramref name="url" /> and returns the response as a json <c>string</c>.
+        /// This asynchronous method makes a <see cref="UnityWebRequest.Put()" /> request to the provided
+        /// <paramref name="url" /> and returns the response as a json <c>string</c>.
         /// </summary>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="bytes">The data to send as a <c>byte[]</c>.</param>
@@ -61,8 +61,8 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This asynchronous method makes GET request to the <paramref name="url" /> and returns the data in the
-        ///     <see cref="Response" />.
+        /// This asynchronous method makes GET request to the <paramref name="url" /> and returns the data in the
+        /// <see cref="Response" />.
         /// </summary>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -111,8 +111,8 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This asynchronous method makes a web request to the <paramref name="url" /> and stores the data into a file at
-        ///     <paramref name="path" />.
+        /// This asynchronous method makes a web request to the <paramref name="url" /> and stores the data into a file at
+        /// <paramref name="path" />.
         /// </summary>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="path">Where to create the file and store the response data.</param>
@@ -175,8 +175,8 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This asynchronous method makes a web request to the <paramref name="url" /> and returns the data as a
-        ///     <see cref="Texture2D" />.
+        /// This asynchronous method makes a web request to the <paramref name="url" /> and returns the data as a
+        /// <see cref="Texture2D" />.
         /// </summary>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="token">Can be used to cancel the operation.</param>

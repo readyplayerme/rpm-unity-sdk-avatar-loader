@@ -4,8 +4,8 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class adds a blink animation at regular intervals to an avatar <c>SkeletonMeshRenderer</c> using blendshapes
-    ///     and bone rotation adjustments.
+    /// This class adds a blink animation at regular intervals to an avatar <c>SkeletonMeshRenderer</c> using blendshapes
+    /// and bone rotation adjustments.
     /// </summary>
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Eye Animation Handler", 0)]
     public class EyeAnimationHandler : MonoBehaviour
@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This method is used to setup the coroutine and repeating functions.
+        /// This method is used to setup the coroutine and repeating functions.
         /// </summary>
         public void Initialize()
         {
@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This method is called when the scene is loaded and is used to setup properties and references.
+        /// This method is called when the scene is loaded and is used to setup properties and references.
         /// </summary>
         private void Start()
         {
@@ -116,7 +116,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Rotates the eyes and assigns the blink coroutine. Called in the Initialize method.
+        /// Rotates the eyes and assigns the blink coroutine. Called in the Initialize method.
         /// </summary>
         private void AnimateEyes()
         {
@@ -129,7 +129,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Rotates the eye bones in a random direction.
+        /// Rotates the eye bones in a random direction.
         /// </summary>
         private void RotateEyes()
         {
@@ -145,7 +145,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     A coroutine that manipulates BlendShapes to open and close the eyes.
+        /// A coroutine that manipulates BlendShapes to open and close the eyes.
         /// </summary>
         private IEnumerator BlinkEyes()
         {

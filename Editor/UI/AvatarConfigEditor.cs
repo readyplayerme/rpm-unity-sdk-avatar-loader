@@ -1,5 +1,4 @@
-﻿using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Editor;
+﻿using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,8 +56,8 @@ namespace ReadyPlayerMe.AvatarLoader.Core
             GUILayout.BeginHorizontal();
             {
                 EditorGUI.BeginChangeCheck();
-                int index = AvatarMorphTarget.MorphTargetAvatarAPI.IndexOf(avatarConfigTarget.MorphTargets[targetIndex]);
-                int selected = EditorGUILayout.Popup(index, AvatarMorphTarget.MorphTargetAvatarAPI.ToArray());
+                var index = AvatarMorphTarget.MorphTargetAvatarAPI.IndexOf(avatarConfigTarget.MorphTargets[targetIndex]);
+                var selected = EditorGUILayout.Popup(index, AvatarMorphTarget.MorphTargetAvatarAPI.ToArray());
 
                 if (EditorGUI.EndChangeCheck())
                 {

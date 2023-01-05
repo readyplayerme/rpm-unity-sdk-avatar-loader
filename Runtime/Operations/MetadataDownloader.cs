@@ -9,7 +9,7 @@ using ReadyPlayerMe.Core;
 namespace ReadyPlayerMe.Loader
 {
     /// <summary>
-    ///     This class is responsible for handling the avatar meta data .json file download, save, and parsing functionality.
+    /// This class is responsible for handling the avatar meta data .json file download, save, and parsing functionality.
     /// </summary>
     public class MetadataDownloader : IOperation<AvatarContext>
     {
@@ -18,13 +18,13 @@ namespace ReadyPlayerMe.Loader
         public int Timeout { get; set; }
 
         /// <summary>
-        ///     An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
-        ///     <c>ProgressChanged</c> events.
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     Executes the operation to download the avatar and save to file if saving is enabled.
+        /// Executes the operation to download the avatar and save to file if saving is enabled.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.Loader
         }
 
         /// <summary>
-        ///     Downloads the avatar meta data and parses the response.
+        /// Downloads the avatar meta data and parses the response.
         /// </summary>
         /// <param name="url">The URL of the avatar metadata ending in <c>.json</c></param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -89,7 +89,7 @@ namespace ReadyPlayerMe.Loader
         }
 
         /// <summary>
-        ///     Saves the avatar metadata to a local file.
+        /// Saves the avatar metadata to a local file.
         /// </summary>
         /// <param name="metadata">The metadata to save.</param>
         /// <param name="guid">The avatar guid (identifier).</param>
@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.Loader
         }
 
         /// <summary>
-        ///     Loads the avatar metadata from the specified file path.
+        /// Loads the avatar metadata from the specified file path.
         /// </summary>
         /// <param name="path">The path to the meta data <c>.json</c> file.</param>
         /// <returns>The loaded <see cref="AvatarMetadata" />.</returns>
@@ -119,7 +119,7 @@ namespace ReadyPlayerMe.Loader
         }
 
         /// <summary>
-        ///     This method checks if the avatar model has been updated.
+        /// This method checks if the avatar model has been updated.
         /// </summary>
         /// <param name="metadata">The latest version of the avatar metadata.</param>
         /// <param name="uri">The uri with all the model and url information.</param>
@@ -127,8 +127,8 @@ namespace ReadyPlayerMe.Loader
         /// <returns>A <c>bool</c> indicating if the avatar has been updated.</returns>
         /// r=
         /// <remarks>
-        ///     It is used to determine whether an avatar needs to be downloaded again or can instead be loaded from the
-        ///     locally stored file.
+        /// It is used to determine whether an avatar needs to be downloaded again or can instead be loaded from the
+        /// locally stored file.
         /// </remarks>
         private bool IsUpdated(AvatarMetadata metadata, AvatarUri uri, bool avatarCachingEnabled)
         {
@@ -138,7 +138,7 @@ namespace ReadyPlayerMe.Loader
         }
 
         /// <summary>
-        ///     This method deserializes the response and parses it as an <see cref="AvatarMetadata" /> structure.
+        /// This method deserializes the response and parses it as an <see cref="AvatarMetadata" /> structure.
         /// </summary>
         /// <param name="response">The response as a json string.</param>
         /// <param name="lastModified">A string representing the date of the last time the metadata was modified.</param>

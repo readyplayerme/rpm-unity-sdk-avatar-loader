@@ -3,8 +3,8 @@
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     The <c>AvatarLoaderSettings</c> class is a <c>ScriptableObject</c> that can be used to easily configure the
-    ///     settings that should be used when loading a Ready Player Me avatar.
+    /// The <c>AvatarLoaderSettings</c> class is a <c>ScriptableObject</c> that can be used to easily configure the
+    /// settings that should be used when loading a Ready Player Me avatar.
     /// </summary>
     [CreateAssetMenu(fileName = "AvatarLoaderSettings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject
@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public AvatarConfig AvatarConfig;
 
         /// <summary>
-        ///     Loads avatar settings from resource at <c>AvatarLoaderSettings.SETTINGS_PATH</c>.
+        /// Loads avatar settings from resource at <c>AvatarLoaderSettings.SETTINGS_PATH</c>.
         /// </summary>
         /// <returns>An <c>AvatarLoaderSettings</c> object after loading it from the Resources folder.</returns>
         public static AvatarLoaderSettings LoadSettings()

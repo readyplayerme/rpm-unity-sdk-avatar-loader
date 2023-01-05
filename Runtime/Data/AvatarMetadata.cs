@@ -3,7 +3,7 @@
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// This structure holds information about the avatar that is retrieved from the Url. 
+    /// This structure holds information about the avatar that is retrieved from the Url.
     /// </summary>
     public struct AvatarMetadata
     {

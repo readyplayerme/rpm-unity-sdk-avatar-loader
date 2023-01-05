@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using ReadyPlayerMe.Core;
-using UnityEditor;
-using UnityEngine;
 using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
+using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -56,7 +56,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private AvatarConfig avatarConfig;
 
-        private bool subdomainFocused = false;
+        private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
 
@@ -78,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
             avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
-            
+
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
             avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
@@ -90,7 +90,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             isCacheEmpty = AvatarCache.IsCacheEmpty();
         }
-        
+
         private void OnGUI()
         {
             if (!initialized) Initialize();
@@ -167,7 +167,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 DrawOtherSection();
             });
         }
-            
+
         private void DrawPartnerSettings()
         {
             Vertical(() =>
@@ -177,14 +177,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 Horizontal(() =>
                 {
                     GUILayout.Space(2);
-                    
+
                     EditorGUILayout.LabelField("Your subdomain:          https:// ", textLabelStyle, GUILayout.Width(176));
                     var oldValue = partnerSubdomain;
                     GUI.SetNextControlName(SUBDOMAIN_FIELD_CONTROL_NAME);
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
-                    
+
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    var button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 
@@ -304,7 +304,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
-            var subDomain = CoreSettings.PartnerSubdomainSettings.Subdomain ;
+            var subDomain = CoreSettings.PartnerSubdomainSettings.Subdomain;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
@@ -333,7 +333,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             return false;
         }
-        
+
         private bool ValidateSubdomain()
         {
             if (partnerSubdomain == null)
@@ -347,7 +347,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (AvatarCache.IsCacheEmpty())
             {
-                EditorUtility.DisplayDialog("Clear Cache", $"Cache is already empty", "Ok");
+                EditorUtility.DisplayDialog("Clear Cache", "Cache is already empty", "Ok");
                 return;
             }
             var size = (AvatarCache.GetCacheSize() / (1024f * 1024)).ToString("F2");

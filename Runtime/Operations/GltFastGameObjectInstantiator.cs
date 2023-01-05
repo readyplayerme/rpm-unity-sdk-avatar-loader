@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible instantiating Avatar model as a GameObject.
+    /// This class is responsible instantiating Avatar model as a GameObject.
     /// </summary>
     public class GltFastGameObjectInstantiator : GameObjectInstantiator
     {

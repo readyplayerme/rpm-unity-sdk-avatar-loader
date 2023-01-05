@@ -4,7 +4,7 @@ using ReadyPlayerMe.Core;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for the <see cref="AvatarConfig" />.
+    /// This class is responsible for the <see cref="AvatarConfig" />.
     /// </summary>
     public static class AvatarConfigProcessor
     {
@@ -14,8 +14,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string PARAM_FALSE = "false";
 
         /// <summary>
-        ///     This method converts the <see cref="AvatarConfig" /> data and combines it into a <c>string</c> that can be added to
-        ///     an avatar URL.
+        /// This method converts the <see cref="AvatarConfig" /> data and combines it into a <c>string</c> that can be added to
+        /// an avatar URL.
         /// </summary>
         /// <param name="avatarConfig">Stores the settings of the <see cref="AvatarConfig" /> to use when requesting the avatar.</param>
         /// <returns>The <see cref="AvatarConfig" /> parameters combined as a <c>string</c>.</returns>
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Processes the processes the <paramref name="textureSize" /> and ensures it is a valid value.
+        /// Processes the processes the <paramref name="textureSize" /> and ensures it is a valid value.
         /// </summary>
         /// <param name="textureSize">The value to process.</param>
         /// <returns>A validated <c>int</c>/returns>
@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Combines the list of strings in <paramref name="targets" /> into a single valid morph target parameter.
+        /// Combines the list of strings in <paramref name="targets" /> into a single valid morph target parameter.
         /// </summary>
         /// <param name="targets">A list of morph targets as strings.</param>
         /// <returns>A query string of combined morph targets.</returns>

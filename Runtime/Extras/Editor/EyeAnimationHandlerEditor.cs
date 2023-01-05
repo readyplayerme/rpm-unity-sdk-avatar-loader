@@ -16,16 +16,16 @@ namespace ReadyPlayerMe
         private SerializedProperty blinkSpeed;
         private SerializedProperty blinkRate;
 
-        private void OnEnable()
-        {
-            blinkSpeed = serializedObject.FindProperty("blinkSpeed");
-            blinkRate = serializedObject.FindProperty("blinkInterval");
-        }
-
         public override void OnInspectorGUI()
         {
             DrawPropertyField(blinkSpeed, blinkSpeedLabel);
             DrawPropertyField(blinkRate, blinkRateLabel);
+        }
+
+        private void OnEnable()
+        {
+            blinkSpeed = serializedObject.FindProperty("blinkSpeed");
+            blinkRate = serializedObject.FindProperty("blinkInterval");
         }
 
         private void DrawPropertyField(SerializedProperty property, GUIContent content)

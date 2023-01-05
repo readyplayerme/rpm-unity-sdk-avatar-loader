@@ -96,7 +96,7 @@ namespace ReadyPlayerMe.AvatarLoader
             "mouthLowerDownRight",
             "tongueOut"
         };
-        
+
         public static readonly List<string> MorphTargetAvatarAPI = MorphTargetGroupNames.Concat(MorphTargetNames).ToList();
     }
 }

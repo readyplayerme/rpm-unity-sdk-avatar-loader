@@ -6,7 +6,7 @@ using ReadyPlayerMe.Core;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for validating and processing the provided avatar model URL.
+    /// This class is responsible for validating and processing the provided avatar model URL.
     /// </summary>
     public class UrlProcessor : IOperation<AvatarContext>
     {
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     Executes the operation validate and create the avatar URL.
+        /// Executes the operation validate and create the avatar URL.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This method generates all the required avatar model URL information and returns it in a <see cref="AvatarUri" />.
+        /// This method generates all the required avatar model URL information and returns it in a <see cref="AvatarUri" />.
         /// </summary>
         /// <param name="url">The avatar model URL.</param>
         /// <param name="paramsHash">This parameter hash is used organize the locally stored files for avatar caching.</param>
@@ -70,8 +70,8 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Creates a URI from the <paramref name="url" />, <paramref name="paramHash" /> and
-        ///     <paramref name="avatarApiParameters" />.
+        /// Creates a URI from the <paramref name="url" />, <paramref name="paramHash" /> and
+        /// <paramref name="avatarApiParameters" />.
         /// </summary>
         /// <param name="url">The avatar model url.</param>
         /// <param name="paramsHash">This parameter hash is used organize the locally stored files for avatar caching.</param>
@@ -105,7 +105,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     This method builds a URL from the provided shortCode.
+        /// This method builds a URL from the provided shortCode.
         /// </summary>
         /// <param name="shortCode">The avatar shortcode.</param>
         /// <returns>A URL as a <c>string</c>.</returns>
@@ -116,11 +116,11 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     A method used to throw <see cref="CustomException" /> exceptions.
+        /// A method used to throw <see cref="CustomException" /> exceptions.
         /// </summary>
         /// <param name="message">The error message.</param>
         /// <returns>
-        ///     The <<see cref="Exception" />.
+        /// The <<see cref="Exception" />.
         /// </returns>
         private Exception Fail(FailureType failureType, string message)
         {

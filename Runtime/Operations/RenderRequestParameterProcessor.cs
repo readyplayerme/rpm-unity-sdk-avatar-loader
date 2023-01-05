@@ -9,7 +9,7 @@ using ReadyPlayerMe.Core;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class is responsible for handling the processing of the parameters of Render API requests.
+    /// This class is responsible for handling the processing of the parameters of Render API requests.
     /// </summary>
     public class RenderRequestParameterProcessor : IOperation<AvatarContext>
     {
@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public Action<float> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     Executes the operation to process the render request parameters.
+        /// Executes the operation to process the render request parameters.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
@@ -52,8 +52,8 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        ///     Creates the render request parameters from the <see cref="AvatarRenderSettings" /> and
-        ///     <see cref="AvatarMetadata" />.
+        /// Creates the render request parameters from the <see cref="AvatarRenderSettings" /> and
+        /// <see cref="AvatarMetadata" />.
         /// </summary>
         /// <param name="context">A container for all the data related to the Avatar model.</param>
         /// <returns>The updated <see cref="AvatarContext" />.</returns>

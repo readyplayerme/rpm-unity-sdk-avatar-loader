@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
 {
@@ -101,7 +100,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var cumulativeProgress = 0f;
 
             var avatarDownloader = new AvatarDownloader();
-            avatarDownloader.ProgressChanged = (progress) =>
+            avatarDownloader.ProgressChanged = progress =>
             {
                 currentProgress = progress;
                 cumulativeProgress += progress;

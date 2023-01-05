@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ReadyPlayerMe
 {
     /// <summary>
-    ///     This class is a simple <see cref="Monobehaviour"/>  to serve as an example on how to load Ready Player Me avatars and spawn as a <see cref="GameObject"/> into the scene.
+    /// This class is a simple <see cref="Monobehaviour"/>  to serve as an example on how to load Ready Player Me avatars and spawn as a <see cref="GameObject"/> into the scene.
     /// </summary>
     public class MultipleAvatarLoadingExample : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe
         }
 
 
-        ///     This method is used to cleanup/destroy avatar <c>GameObject</c>'s when they are no longer needed.
+        /// This method is used to cleanup/destroy avatar <c>GameObject</c>'s when they are no longer needed.
         private void OnDestroy()
         {
             StopAllCoroutines();
@@ -49,7 +49,7 @@ namespace ReadyPlayerMe
         }
 
 
-        ///     Loops through all the avatar urls in the <paramref name="urlSet"/> and loads them one after the other.
+        /// Loops through all the avatar urls in the <paramref name="urlSet"/> and loads them one after the other.
         private IEnumerator LoadAvatars(HashSet<string> urlSet)
         {
             var loading = false;
@@ -71,7 +71,7 @@ namespace ReadyPlayerMe
             }
         }
         
-        ///     This method is called after the avatar has been loadded and setup in the scene and is used to set the position of the <c>GameObject</c> in the scene.
+        /// This method is called after the avatar has been loadded and setup in the scene and is used to set the position of the <c>GameObject</c> in the scene.
         private void OnAvatarLoaded(GameObject avatar)
         {
             if (avatarList != null)

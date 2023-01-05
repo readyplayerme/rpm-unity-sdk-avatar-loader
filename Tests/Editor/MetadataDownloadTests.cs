@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
@@ -115,7 +114,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var metadataDownloader = new MetadataDownloader();
             metadataDownloader.SaveToFile(avatarMetadata, TestUtils.TEST_AVATAR_GUID, TestUtils.TestJsonFilePath, false);
 
-            var metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
+            AvatarMetadata metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
 
             Assert.AreNotSame(new AvatarMetadata(), metadata);
         }

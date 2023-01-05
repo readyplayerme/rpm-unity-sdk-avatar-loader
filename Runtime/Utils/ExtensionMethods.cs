@@ -8,12 +8,12 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    ///     This class contains a number of different extension methods.
+    /// This class contains a number of different extension methods.
     /// </summary>
     public static class ExtensionMethods
     {
         /// <summary>
-        ///     Implements a <see cref="CustomException" /> for the <paramref name="token" />.
+        /// Implements a <see cref="CustomException" /> for the <paramref name="token" />.
         /// </summary>
         /// <param name="token">The <see cref="CancellationToken" />.</param>
         public static void ThrowCustomExceptionIfCancellationRequested(this CancellationToken token)
@@ -77,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string TEETH_MESH_NAME_FILTER = "Renderer_Teeth";
 
         /// <summary>
-        ///     This method extends <c>GameObject</c> to simplify getting the Ready Player Me avatar's <c>SkinnedMeshRenderer</c>.
+        /// This method extends <c>GameObject</c> to simplify getting the Ready Player Me avatar's <c>SkinnedMeshRenderer</c>.
         /// </summary>
         /// <param name="gameObject">The <see cref="GameObject" /> to search for a <see cref="SkinnedMeshRenderer" />.</param>
         /// <param name="meshType">Determines the <see cref="MeshType" /> to search for.</param>

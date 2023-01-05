@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ReadyPlayerMe
 {
     /// <summary>
-    ///     This class is a simple <see cref="Monobehaviour"/>  to serve as an example on how to load Ready Player Me avatars and spawn as a <see cref="GameObject"/> into the scene.
+    /// This class is a simple <see cref="Monobehaviour"/>  to serve as an example on how to load Ready Player Me avatars and spawn as a <see cref="GameObject"/> into the scene.
     /// </summary>
     public class AvatarLoadingExample : MonoBehaviour
     {
