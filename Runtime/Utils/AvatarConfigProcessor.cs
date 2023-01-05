@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader
                    $"&textureAtlas={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
                    $"&textureSizeLimit={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
                    $"{ProcessMorphTargets(avatarConfig.MorphTargets)}" +
-                   $"&useHands={(avatarConfig.UseHands ? PARAM_TRUE: PARAM_FALSE)}" +
+                   $"&useHands={(avatarConfig.UseHands ? PARAM_TRUE : PARAM_FALSE)}" +
                    $"&useDracoMeshCompression={(avatarConfig.UseDracoCompression ? PARAM_TRUE : PARAM_FALSE)}";
         }
 

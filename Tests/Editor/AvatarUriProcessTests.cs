@@ -15,22 +15,22 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const string RANDOM_PARAM_HASH = "123456789";
         private const string BASE_URL = "https://api.readyplayer.me/v1/avatars";
 
-        private readonly AvatarUri expectedUri = new AvatarUri()
-        {
-            Guid = GUID,
-            ModelUrl = $"{BASE_URL}/{GUID}.glb",
-            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH)}/{GUID}.glb",
-            MetadataUrl = $"{BASE_URL}/{GUID}.json",
-            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}.json"
-        };
-
-        private readonly AvatarUri expectedShortcodeUri = new AvatarUri()
+        private readonly AvatarUri expectedShortcodeUri = new AvatarUri
         {
             Guid = SHORT_CODE,
             ModelUrl = $"{BASE_URL}/{SHORT_CODE}.glb",
             LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH)}/{SHORT_CODE}.glb",
             MetadataUrl = $"{BASE_URL}/{SHORT_CODE}.json",
             LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE)}{SHORT_CODE}.json"
+        };
+
+        private readonly AvatarUri expectedUri = new AvatarUri
+        {
+            Guid = GUID,
+            ModelUrl = $"{BASE_URL}/{GUID}.glb",
+            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH)}/{GUID}.glb",
+            MetadataUrl = $"{BASE_URL}/{GUID}.json",
+            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}.json"
         };
 
         [Test]

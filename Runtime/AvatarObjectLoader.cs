@@ -6,7 +6,8 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// The <c>AvatarObjectLoader</c> is responsible for loading the avatar from a url and spawning it as a GameObject in the scene.
+    ///     The <c>AvatarObjectLoader</c> is responsible for loading the avatar from a url and spawning it as a GameObject in
+    ///     the scene.
     /// </summary>
     public class AvatarObjectLoader
     {
@@ -20,13 +21,13 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private OperationExecutor<AvatarContext> executor;
         private float startTime;
-    
+
         /// <summary>
-        /// This class constructor is used to any required fields.
+        ///     This class constructor is used to any required fields.
         /// </summary>
         public AvatarObjectLoader()
         {
-            var loaderSettings = AvatarLoaderSettings.LoadSettings();
+            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
         }
@@ -47,7 +48,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public event EventHandler<CompletionEventArgs> OnCompleted;
 
         /// <summary>
-        /// Load avatar from a url.
+        ///     Load avatar from a url.
         /// </summary>
         /// <param name="url">The url to the avatars .glb file.</param>
         public void LoadAvatar(string url)
@@ -57,17 +58,17 @@ namespace ReadyPlayerMe.AvatarLoader
             avatarUrl = url;
             Load(url);
         }
-        
+
         /// <summary>
-        /// Cancel avatar loading
+        ///     Cancel avatar loading
         /// </summary>
         public void Cancel()
         {
             executor.Cancel();
         }
-        
+
         /// <summary>
-        /// Runs through the process of loading the avatar and creating a game object via the <c>OperationExecutor</c>.
+        ///     Runs through the process of loading the avatar and creating a game object via the <c>OperationExecutor</c>.
         /// </summary>
         /// <param name="url">The url to the avatars .glb file.</param>
         private async void Load(string url)
@@ -114,7 +115,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// This function is called everytime the progress changes on a given IOperation.
+        ///     This function is called everytime the progress changes on a given IOperation.
         /// </summary>
         /// <param name="progress">The progress of the current operation.</param>
         /// <param name="type">The type of operation that it has changed to.</param>
@@ -127,9 +128,9 @@ namespace ReadyPlayerMe.AvatarLoader
                 Progress = progress
             });
         }
-        
+
         /// <summary>
-        /// This function is called if the async <c>Load()</c> function fails either due to error or cancellation.
+        ///     This function is called if the async <c>Load()</c> function fails either due to error or cancellation.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="message"></param>

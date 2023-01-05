@@ -18,16 +18,20 @@ namespace ReadyPlayerMe.AvatarLoader
 
         /// Called upon success.
         public Action<Texture2D> OnCompleted { get; set; }
-        
+
         /// Called when the progress of the operation changes.
         public Action<float, string> ProgressChanged { get; set; }
 
         /// <summary>
-        ///     This method runs through the complete avatar render loading process and returns a <see cref="Texture2D"/> with via the <see cref="AvatarRenderLoader.OnCompleted"/> event. 
+        ///     This method runs through the complete avatar render loading process and returns a <see cref="Texture2D" /> with via
+        ///     the <see cref="AvatarRenderLoader.OnCompleted" /> event.
         /// </summary>
         /// <param name="url">The url to the avatars .glb file.</param>
-        /// <param name="renderScene">The <see cref="AvatarRenderScene"/> to use for the avatar render.</param>
-        /// <param name="renderBlendShapeMesh">The name of the <see cref="SkinnedMeshRenderer"/> that contains the blendshapes you want to set.</param>
+        /// <param name="renderScene">The <see cref="AvatarRenderScene" /> to use for the avatar render.</param>
+        /// <param name="renderBlendShapeMesh">
+        ///     The name of the <see cref="SkinnedMeshRenderer" /> that contains the blendshapes you
+        ///     want to set.
+        /// </param>
         /// <param name="renderBlendShapes">A map of blendshape names and values that you want to set.</param>
         public async void LoadRender(
             string url,
