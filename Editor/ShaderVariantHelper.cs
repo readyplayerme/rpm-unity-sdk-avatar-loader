@@ -75,7 +75,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         }
 
 
-        public static bool IsMissingVariants() // TODO find a way to remove code duplicated in AddPreloadShaderVariants
+        public static bool IsMissingVariants()
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);

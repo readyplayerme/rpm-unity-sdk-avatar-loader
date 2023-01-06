@@ -48,9 +48,9 @@ namespace ReadyPlayerMe.AvatarLoader
         public event EventHandler<CompletionEventArgs> OnCompleted;
 
         /// <summary>
-        /// Load avatar from a url.
+        /// Load avatar from a URL.
         /// </summary>
-        /// <param name="url">The url to the avatars .glb file.</param>
+        /// <param name="url">The URL to the avatars .glb file.</param>
         public void LoadAvatar(string url)
         {
             startTime = Time.timeSinceLevelLoad;
@@ -70,7 +70,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// Runs through the process of loading the avatar and creating a game object via the <c>OperationExecutor</c>.
         /// </summary>
-        /// <param name="url">The url to the avatars .glb file.</param>
+        /// <param name="url">The URL to the avatars .glb file.</param>
         private async void Load(string url)
         {
             var context = new AvatarContext();

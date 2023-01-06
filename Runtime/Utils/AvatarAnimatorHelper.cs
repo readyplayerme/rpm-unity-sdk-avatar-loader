@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <see cref="Animator" /> component.
         /// </summary>
         /// <param name="bodyType">
-        /// The avatar body type. EG <see cref="BodyType.FullBody" /> or <see cref="BodyType.HalfBody" />
+        /// The avatar body type. E.g. <see cref="BodyType.FullBody" /> or <see cref="BodyType.HalfBody" />
         /// </param>
         /// <param name="avatar"></param>
         public static void SetupAnimator(BodyType bodyType, GameObject avatar)

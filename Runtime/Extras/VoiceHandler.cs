@@ -22,6 +22,8 @@ namespace ReadyPlayerMe.AvatarLoader
     }
 
     /// <summary>
+    /// This class is responsible for adding basic facial animations at runtime using microphone input and facial blendshape
+    /// manipulation
     /// </summary>
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Voice Handler", 0)]
     public class VoiceHandler : MonoBehaviour

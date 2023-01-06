@@ -347,7 +347,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (AvatarCache.IsCacheEmpty())
             {
-                EditorUtility.DisplayDialog("Clear Cache", "Cache is already empty", "Ok");
+                EditorUtility.DisplayDialog("Clear Cache", "Cache is already empty", "OK");
                 return;
             }
             var size = (AvatarCache.GetCacheSize() / (1024f * 1024)).ToString("F2");

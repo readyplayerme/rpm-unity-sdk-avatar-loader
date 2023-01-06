@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            var configFolderPath = "Assets/Ready Player Me/Core/Configurations/";
+            const string configFolderPath = "Assets/Ready Player Me/Core/Configurations/";
             avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_LOW}.asset");
             avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_MED}.asset");
             avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_HIGH}.asset");

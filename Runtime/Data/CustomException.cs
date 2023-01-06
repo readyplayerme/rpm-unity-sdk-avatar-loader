@@ -10,6 +10,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public readonly FailureType FailureType;
 
         /// <summary>
+        /// This method is used to handle custom exceptions.
         /// </summary>
         /// <param name="failureType">Custom failure type.</param>
         /// <param name="message">Message that describes the exception.</param>
