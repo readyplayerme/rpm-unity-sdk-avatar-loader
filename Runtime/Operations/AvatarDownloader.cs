@@ -29,7 +29,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Can be used to set the Timeout used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
         /// </summary>
         public int Timeout { get; set; }
 

@@ -19,6 +19,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string RENDERS = "renders";
         private readonly string[] renderExtensions = { ".png", ".jpg" };
 
+        /// <summary>
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// </summary>
         public int Timeout { get; set; }
 
         /// <summary>
