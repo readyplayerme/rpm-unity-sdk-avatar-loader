@@ -2,6 +2,9 @@
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class is used as a container to store all information about the avatar.
+    /// </summary>
     public class AvatarContext : Context
     {
         public bool AvatarCachingEnabled;

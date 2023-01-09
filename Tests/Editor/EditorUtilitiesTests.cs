@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public IEnumerator Avatar_Prefab_Has_Mesh_And_Material()
         {
             var testGlb = AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH);
-            var testObject = Object.Instantiate(testGlb);
+            GameObject testObject = Object.Instantiate(testGlb);
             EditorUtilities.CreatePrefab(testObject, TestUtils.MOCK_PREFAB_RELATIVE_SAVE_PATH);
 
             yield return null;

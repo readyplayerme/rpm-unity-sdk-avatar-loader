@@ -1,5 +1,8 @@
 ﻿namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// A structure that holds all the data related to an avatars url and filepath.
+    /// </summary>
     public struct AvatarUri
     {
         public string Guid;

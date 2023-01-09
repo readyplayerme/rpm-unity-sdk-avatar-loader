@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
 {
@@ -23,7 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.Guid, TestUtils.Uri.LocalModelPath);
+                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
             }
             catch (Exception exception)
             {
@@ -64,7 +63,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             try
             {
                 await avatarDownloader
-                    .DownloadIntoFile(TestUtils.WrongUri.ModelUrl, TestUtils.WrongUri.Guid, TestUtils.WrongUri.LocalModelPath);
+                    .DownloadIntoFile(TestUtils.WrongUri.ModelUrl, TestUtils.WrongUri.LocalModelPath);
 
             }
             catch (CustomException exception)
@@ -101,7 +100,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var cumulativeProgress = 0f;
 
             var avatarDownloader = new AvatarDownloader();
-            avatarDownloader.ProgressChanged = (progress) =>
+            avatarDownloader.ProgressChanged = progress =>
             {
                 currentProgress = progress;
                 cumulativeProgress += progress;
@@ -109,7 +108,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.Guid, TestUtils.Uri.LocalModelPath);
+                await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
             }
             catch (Exception exception)
             {

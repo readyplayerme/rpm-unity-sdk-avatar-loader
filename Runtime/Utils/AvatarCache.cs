@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class is responsible for managing the avatar cache that is used for storing the avatar assets locally.
+    /// </summary>
     public static class AvatarCache
     {
 

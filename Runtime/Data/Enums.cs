@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This enumeration describes the body type of the avatar.
+    /// </summary>
     public enum BodyType
     {
         None,
@@ -10,6 +13,9 @@ namespace ReadyPlayerMe.AvatarLoader
         [Description("halfbody")] HalfBody
     }
 
+    /// <summary>
+    /// This enumeration describes the avatars OutfitGender which is used for setting the correct skeleton.
+    /// </summary>
     public enum OutfitGender
     {
         None,
@@ -18,6 +24,9 @@ namespace ReadyPlayerMe.AvatarLoader
         [Description("neutral")] Neutral
     }
 
+    /// <summary>
+    /// This enumeration describes the type of mesh.
+    /// </summary>
     public enum MeshType
     {
         HeadMesh,
@@ -25,6 +34,9 @@ namespace ReadyPlayerMe.AvatarLoader
         TeethMesh
     }
 
+    /// <summary>
+    /// This enumeration describes the different render scene options.
+    /// </summary>
     public enum AvatarRenderScene
     {
         [Description("Upper body render")] Portrait,
@@ -32,12 +44,18 @@ namespace ReadyPlayerMe.AvatarLoader
         [Description("Posed full body render with transparent background")] FullBodyPostureTransparent
     }
 
+    /// <summary>
+    /// This enumeration describes the pose options for the avatar skeleton.
+    /// </summary>
     public enum Pose
     {
         APose,
         TPose
     }
 
+    /// <summary>
+    /// This enumeration describes the avatar mesh LOD (Level of Detail) options.
+    /// </summary>
     public enum MeshLod
     {
         [InspectorName("High (LOD0)")]
@@ -48,6 +66,10 @@ namespace ReadyPlayerMe.AvatarLoader
         Low
     }
 
+    /// <summary>
+    /// This enumeration describes the TextureAtlas setting options.
+    /// </summary>
+    /// <remarks>If set to <c>None</c> the avatar meshes, materials and textures will NOT be combined.</remarks>
     public enum TextureAtlas
     {
         None,
@@ -59,7 +81,10 @@ namespace ReadyPlayerMe.AvatarLoader
         Low
     }
 
-    public enum FailureType : int
+    /// <summary>
+    /// This enumeration describes the different types of failures.
+    /// </summary>
+    public enum FailureType
     {
         None,
         NoInternetConnection,
@@ -75,5 +100,5 @@ namespace ReadyPlayerMe.AvatarLoader
         AvatarRenderError,
         OperationCancelled
     }
-    
+
 }

@@ -1,16 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
-using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
-    public enum RenderPipeline { Standard, URP, HDRP };
+    public enum RenderPipeline { Standard, URP, HDRP }
     public static class ShaderVariantHelper
     {
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
@@ -38,7 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             EditorApplication.update += CheckAndUpdatePreloadShaders;
         }
-        
+
         private static void CheckAndUpdatePreloadShaders()
         {
             EditorApplication.update -= CheckAndUpdatePreloadShaders;
@@ -49,16 +43,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
-            var shaderPreloadArray = serializedGraphicsObject.FindProperty(PRELOADED_SHADER_PROPERTY);
+            SerializedProperty shaderPreloadArray = serializedGraphicsObject.FindProperty(PRELOADED_SHADER_PROPERTY);
             AssetDatabase.Refresh();
-            
+
             var newArrayIndex = shaderPreloadArray.arraySize;
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
             if (checkForMissingVariants)
             {
                 var shadersMissing = true;
                 var serializedVariants = new SerializedObject(shaderVariants);
-            
+
                 foreach (SerializedProperty shaderInclude in shaderPreloadArray)
                 {
                     if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
@@ -71,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (!shadersMissing) return;
             }
 
-            
+
             shaderPreloadArray.InsertArrayElementAtIndex(newArrayIndex);
             SerializedProperty shaderInArray = shaderPreloadArray.GetArrayElementAtIndex(newArrayIndex);
             shaderInArray.objectReferenceValue = shaderVariants;
@@ -79,19 +73,19 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             serializedGraphicsObject.ApplyModifiedProperties();
             AssetDatabase.SaveAssets();
         }
-        
-        
-        public static bool IsMissingVariants()// TODO find a way to remove code duplicated in AddPreloadShaderVariants
+
+
+        public static bool IsMissingVariants()
         {
             var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>(GRAPHICS_SETTING_PATH);
             var serializedGraphicsObject = new SerializedObject(graphicsSettings);
 
-            var shaderPreloadArray = serializedGraphicsObject.FindProperty(PRELOADED_SHADER_PROPERTY);
-            
+            SerializedProperty shaderPreloadArray = serializedGraphicsObject.FindProperty(PRELOADED_SHADER_PROPERTY);
+
             var shaderVariants = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>(GetTargetShaderPath());
             var shadersMissing = true;
             var serializedVariants = new SerializedObject(shaderVariants);
-            
+
             foreach (SerializedProperty shaderInclude in shaderPreloadArray)
             {
                 if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)

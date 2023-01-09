@@ -3,8 +3,14 @@ using System.Linq;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class simply holds information about morph target (AKA blendshape) names and group names.
+    /// </summary>
     public static class AvatarMorphTarget
     {
+        /// <summary>
+        /// A static list of morph targets (AKA blendshapes) and group names.
+        /// </summary>
         private static readonly List<string> MorphTargetGroupNames = new List<string>
         {
             "none",
@@ -12,6 +18,9 @@ namespace ReadyPlayerMe.AvatarLoader
             "ARKit"
         };
 
+        /// <summary>
+        /// A static list of morph targets (AKA blendshapes).
+        /// </summary>
         private static readonly List<string> MorphTargetNames = new List<string>
         {
             "viseme_aa",

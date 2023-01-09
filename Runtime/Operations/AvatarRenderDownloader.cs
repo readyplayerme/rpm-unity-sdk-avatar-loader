@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class is responsible for requesting and downloading a 2D render of an avatar from a URL.
+    /// </summary>
     public class AvatarRenderDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarRenderDownloader);
@@ -16,9 +19,23 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string RENDERS = "renders";
         private readonly string[] renderExtensions = { ".png", ".jpg" };
 
+        /// <summary>
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// </summary>
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// <c>ProgressChanged</c> events.
+        /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
+        /// <summary>
+        /// Executes the operation to request and download the 2D render and returns the updated context.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The updated <c>AvatarContext</c>.</returns>
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             try
@@ -33,6 +50,11 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
+        /// <summary>
+        /// Requests an avatar render URL asynchronously
+        /// </summary>
+        /// <param name="payload">The binary data of the avatar model .glb file.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
         public async Task<Texture2D> RequestAvatarRenderUrl(byte[] payload, CancellationToken token = new CancellationToken())
         {
             string response;
@@ -52,6 +74,11 @@ namespace ReadyPlayerMe.AvatarLoader
             return await Parse(response, token);
         }
 
+        /// <summary>
+        /// This method parses the json response <c>string<c> to get a URL and makes a request to download the texture.
+        /// </summary>
+        /// <param name="json">The reponse data as a json string.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
         private async Task<Texture2D> Parse(string json, CancellationToken token)
         {
             try
@@ -73,6 +100,11 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
+        /// <summary>
+        /// Checks that the avatar render URL is valid.
+        /// </summary>
+        /// <param name="renderUrl"></param>
+        /// <returns>A <c>bool</c> if the render URL is valid.</returns>
         private bool ValidateRenderUrl(string renderUrl)
         {
             var url = renderUrl.ToLower();

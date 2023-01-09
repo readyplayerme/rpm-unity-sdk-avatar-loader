@@ -6,11 +6,19 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public static class TestUtils
     {
-        public static readonly string TestAvatarDirectory = $"{Application.persistentDataPath}/Avatars";
         public const string TEST_AVATAR_GUID = "7f7f0ab3-c639-4e0c-82b1-2134c03d2af4";
         public const string TEST_WRONG_GUID = "wrong-guid";
 
-        #region JSON Metadata Variables
+        public const string MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH =
+            "Assets/Tests/Common/Models/fullbody-male-multi-mesh-file.glb";
+
+        public const string MULTI_MESH_MALE_PROCESSED_AVATAR_PATH =
+            "Assets/Tests/Common/Models/fullbody-male-multi-mesh-avatar.prefab";
+
+        public const string SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH =
+            "Assets/Tests/Common/Models/fullbody-female-single-mesh-avatar.prefab";
+
+        public const string MOCK_PREFAB_RELATIVE_SAVE_PATH = "Assets/Tests/Common/test.prefab";
 
         public const string JSON_FEMININE_FULL_BODY =
             "https://d1a370nemizbjq.cloudfront.net/7f7f0ab3-c639-4e0c-82b1-2134c03d2af4.json";
@@ -26,14 +34,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
         public const string WRONG_JSON_URL =
             "https://gist.githubusercontent.com/srcnalt/2ca44ce804ac28ce8722a93dca3635c9/raw";
+        public static readonly string TestAvatarDirectory = $"{Application.persistentDataPath}/Avatars";
 
         public static readonly string TestJsonFilePath =
             $"{DirectoryUtility.GetAvatarSaveDirectory(TEST_AVATAR_GUID)}/test.json";
-
-        #endregion
-
-        #region Avatar Uri Variables
-
         public static readonly AvatarUri Uri = new AvatarUri
         {
             Guid = TEST_AVATAR_GUID,
@@ -42,7 +46,6 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             MetadataUrl = $"https://d1a370nemizbjq.cloudfront.net/{TEST_AVATAR_GUID}.json",
             LocalMetadataPath = $"{TestAvatarDirectory}/{TEST_AVATAR_GUID}/{TEST_AVATAR_GUID}.json"
         };
-
         public static readonly AvatarUri WrongUri = new AvatarUri
         {
             Guid = TEST_WRONG_GUID,
@@ -51,8 +54,33 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             MetadataUrl = $"https://{TEST_WRONG_GUID}.com/{TEST_WRONG_GUID}.json",
             LocalMetadataPath = $"{TestAvatarDirectory}/{TEST_WRONG_GUID}/{TEST_WRONG_GUID}.json"
         };
+        public static readonly string MockAvatarGlbWrongPath =
+            $"{DirectoryUtility.GetAvatarSaveDirectory(TEST_WRONG_GUID)}/Tests/Common/wrong.glb";
 
-        #endregion
+        public static readonly string MultiMeshMaleAvatarGlbPath =
+            $"{Application.dataPath}/Tests/Common/Models/fullbody-male-multi-mesh-file.glb";
+
+        public static readonly string SingleMeshFemaleAvatarGlbPath =
+            $"{Application.dataPath}/Tests/Common/Models/fullbody-female-single-mesh-file.glb";
+
+        public static readonly string SingleMeshHalfBodyAvatarGlbPath =
+            $"{Application.dataPath}/Tests/Common/Models/halfbody-single-mesh-file.glb";
+
+        public static readonly string MultiMeshHalfBodyAvatarGlbPath =
+            $"{Application.dataPath}/Tests/Common/Models/halfbody-multi-mesh-file.glb";
+
+        public static readonly string TestAudioClipPath = "Assets/Tests/Common/Voice Handler Test Audio.mp3";
+        public static readonly string MockPrefabSavePath =
+            $"{Application.dataPath}/Tests/Common/test.prefab";
+
+        public static void DeleteDirectoryIfExists(string path, bool recursive = false)
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, recursive);
+            }
+        }
+
 
         #region Avatar Render API Variables
 
@@ -76,43 +104,5 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
 
         #endregion
-
-        public static readonly string MockAvatarGlbWrongPath =
-            $"{DirectoryUtility.GetAvatarSaveDirectory(TEST_WRONG_GUID)}/Tests/Common/wrong.glb";
-
-        public static readonly string MultiMeshMaleAvatarGlbPath =
-            $"{Application.dataPath}/Tests/Common/Models/fullbody-male-multi-mesh-file.glb";
-
-        public const string MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH =
-            "Assets/Tests/Common/Models/fullbody-male-multi-mesh-file.glb";
-
-        public const string MULTI_MESH_MALE_PROCESSED_AVATAR_PATH =
-            "Assets/Tests/Common/Models/fullbody-male-multi-mesh-avatar.prefab";
-
-        public static readonly string SingleMeshFemaleAvatarGlbPath =
-            $"{Application.dataPath}/Tests/Common/Models/fullbody-female-single-mesh-file.glb";
-
-        public const string SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH =
-            "Assets/Tests/Common/Models/fullbody-female-single-mesh-avatar.prefab";
-
-        public static readonly string SingleMeshHalfBodyAvatarGlbPath =
-            $"{Application.dataPath}/Tests/Common/Models/halfbody-single-mesh-file.glb";
-
-        public static readonly string MultiMeshHalfBodyAvatarGlbPath =
-            $"{Application.dataPath}/Tests/Common/Models/halfbody-multi-mesh-file.glb";
-
-        public static readonly string TestAudioClipPath = "Assets/Tests/Common/Voice Handler Test Audio.mp3";
-
-        public const string MOCK_PREFAB_RELATIVE_SAVE_PATH = "Assets/Tests/Common/test.prefab";
-        public static readonly string MockPrefabSavePath =
-            $"{Application.dataPath}/Tests/Common/test.prefab";
-
-        public static void DeleteDirectoryIfExists(string path, bool recursive = false)
-        {
-            if (Directory.Exists(path))
-            {
-                Directory.Delete(path, recursive);
-            }
-        }
     }
 }
