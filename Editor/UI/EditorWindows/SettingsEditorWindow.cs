@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
-using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Editor;
+using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -59,7 +59,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
-
+        
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
@@ -100,61 +100,40 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void LoadStyles()
         {
-            if (saveButtonStyle == null)
-            {
-                saveButtonStyle = new GUIStyle(GUI.skin.button);
-                saveButtonStyle.fontSize = 14;
-                saveButtonStyle.fontStyle = FontStyle.Bold;
-                saveButtonStyle.fixedWidth = 449;
-                saveButtonStyle.fixedHeight = ButtonHeight;
-                saveButtonStyle.padding = new RectOffset(5, 5, 5, 5);
-            }
+            saveButtonStyle ??= new GUIStyle(GUI.skin.button);
+            saveButtonStyle.fontSize = 14;
+            saveButtonStyle.fontStyle = FontStyle.Bold;
+            saveButtonStyle.fixedWidth = 449;
+            saveButtonStyle.fixedHeight = ButtonHeight;
+            saveButtonStyle.padding = new RectOffset(5, 5, 5, 5);
+            
+            textFieldStyle ??= new GUIStyle(GUI.skin.textField);
+            textFieldStyle.fontSize = 12;
 
-            if (textFieldStyle == null)
-            {
-                textFieldStyle = new GUIStyle(GUI.skin.textField);
-                textFieldStyle.fontSize = 12;
-            }
-
-            if (textLabelStyle == null)
-            {
-                textLabelStyle = new GUIStyle(GUI.skin.label);
-                textLabelStyle.fontStyle = FontStyle.Bold;
-                textLabelStyle.fontSize = 12;
-            }
-
-            if (partnerButtonStyle == null)
-            {
-                partnerButtonStyle = new GUIStyle(GUI.skin.button);
-                partnerButtonStyle.fontSize = 12;
-                partnerButtonStyle.padding = new RectOffset(5, 5, 5, 5);
-            }
-
-            if (avatarCachingButtonStyle == null)
-            {
-                avatarCachingButtonStyle = new GUIStyle(GUI.skin.button);
-                avatarCachingButtonStyle.fontStyle = FontStyle.Bold;
-                avatarCachingButtonStyle.fontSize = 12;
-                avatarCachingButtonStyle.padding = new RectOffset(5, 5, 5, 5);
-                avatarCachingButtonStyle.fixedHeight = ButtonHeight;
-                avatarCachingButtonStyle.fixedWidth = 225;
-            }
-
-            if (privacyPolicyStyle == null)
-            {
-                privacyPolicyStyle = new GUIStyle(GUI.skin.label);
-                privacyPolicyStyle.fontStyle = FontStyle.Bold;
-                privacyPolicyStyle.fontSize = 12;
-                privacyPolicyStyle.fixedWidth = 100;
-            }
-
-            if (errorButtonStyle == null)
-            {
-                errorButtonStyle = new GUIStyle();
-                errorButtonStyle.fixedWidth = 20;
-                errorButtonStyle.fixedHeight = 20;
-                errorButtonStyle.margin = new RectOffset(2, 0, 2, 2);
-            }
+            textLabelStyle ??= new GUIStyle(GUI.skin.label);
+            textLabelStyle.fontStyle = FontStyle.Bold;
+            textLabelStyle.fontSize = 12;
+            
+            partnerButtonStyle ??= new GUIStyle(GUI.skin.button);
+            partnerButtonStyle.fontSize = 12;
+            partnerButtonStyle.padding = new RectOffset(5, 5, 5, 5);
+            
+            avatarCachingButtonStyle ??= new GUIStyle(GUI.skin.button);
+            avatarCachingButtonStyle.fontStyle = FontStyle.Bold;
+            avatarCachingButtonStyle.fontSize = 12;
+            avatarCachingButtonStyle.padding = new RectOffset(5, 5, 5, 5);
+            avatarCachingButtonStyle.fixedHeight = ButtonHeight;
+            avatarCachingButtonStyle.fixedWidth = 225;
+            
+            privacyPolicyStyle ??= new GUIStyle(GUI.skin.label);
+            privacyPolicyStyle.fontStyle = FontStyle.Bold;
+            privacyPolicyStyle.fontSize = 12;
+            privacyPolicyStyle.fixedWidth = 100;
+            
+            errorButtonStyle ??= new GUIStyle();
+            errorButtonStyle.fixedWidth = 20;
+            errorButtonStyle.fixedHeight = 20;
+            errorButtonStyle.margin = new RectOffset(2, 0, 2, 2);
         }
 
         private void DrawContent()
@@ -184,7 +163,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
 
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    var button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), DOMAIN_VALIDATION_ERROR);
+                    GUIContent button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 

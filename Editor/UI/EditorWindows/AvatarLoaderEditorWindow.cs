@@ -1,8 +1,8 @@
-using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Analytics;
-using ReadyPlayerMe.Core.Editor;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Editor;
+using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -34,7 +34,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         public static void ShowWindowMenu()
         {
-
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
             window.titleContent = new GUIContent("Avatar Loader");
             window.ShowUtility();
@@ -123,8 +122,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         url = tempText.Split('?')[0];
                         isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
                     }
-
-                    var button = new GUIContent((Texture) AssetDatabase.LoadAssetAtPath(ERROR_IMAGE_PATH, typeof(Texture)), URL_SHORTCODE_ERROR);
+                    
+                    GUIContent button = new GUIContent(errorIcon, URL_SHORTCODE_ERROR);
 
                     if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
                     {
