@@ -1,5 +1,8 @@
 ﻿namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This structure is used to store the response data from the WebRequestDispatcher.
+    /// </summary>
     public struct Response
     {
         public string Text;

@@ -1,3 +1,0 @@
-﻿namespace ReadyPlayerMe.AvatarLoader
-{
-}

@@ -9,5 +9,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             AvatarLoaderEditorWindow.ShowWindowMenu();
         }
+
+        [MenuItem("Ready Player Me/Settings", priority = 1)]
+        public static void OpenSettingsWindow()
+        {
+            SettingsEditorWindow.ShowWindowMenu();
+        }
     }
 }

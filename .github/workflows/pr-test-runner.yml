@@ -1,7 +1,6 @@
 name: PR test runner
 
 on:
-  workflow_dispatch:
   pull_request:
     types: [ opened, reopened ]
 
@@ -30,10 +29,11 @@ jobs:
       - name: Checkout submodule branch
         run: |
           cd ${{ secrets.AVATAR_LOADER_PATH }}
+          git status
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
-    
+
       - name: Cache Project
         uses: actions/cache@v3
         with:
@@ -55,3 +55,43 @@ jobs:
           checkName: ${{ matrix.unityVersion }} ${{ matrix.testMode }} tests result
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           coverageOptions: "generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*"
+
+      - name: Setup python
+        if: ${{ matrix.testMode == 'editmode' && always() }}
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        if: ${{ matrix.testMode == 'editmode' }}
+        run: |
+          pip install numpy
+      - name: Parse performance report
+        if: ${{ matrix.testMode == 'editmode' }}
+        id: parser
+        run: |
+          cd Scripts
+          python PerformanceDataParser.py
+
+      - name: Post comment with benchmark report
+        uses: actions/github-script@v6
+        if: ${{ matrix.testMode == 'editmode' }}
+        env:
+          MULTILINE_OUTPUT: ${{ steps.parser.outputs.report }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: process.env.MULTILINE_OUTPUT
+              })
+
+      - name: Push performance benchmark data to git
+        if: ${{ matrix.testMode == 'editmode' }}
+        run: |
+          git config --global user.name "dev-sdk"
+          git config --global user.email "dev-sdk@wolf3d.io"
+          git fetch --all
+          git pull origin develop
+          git add PerformanceData.json
+          git commit -m 'chore: update performance data'
+          git push origin develop

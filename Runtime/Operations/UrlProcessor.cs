@@ -2,10 +2,12 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
-using UnityEngine.Networking;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
+    /// <summary>
+    /// This class is responsible for validating and processing the provided avatar model URL.
+    /// </summary>
     public class UrlProcessor : IOperation<AvatarContext>
     {
         private const string TAG = nameof(UrlProcessor);
@@ -19,6 +21,12 @@ namespace ReadyPlayerMe.AvatarLoader
         public int Timeout { get; set; }
         public Action<float> ProgressChanged { get; set; }
 
+        /// <summary>
+        /// Executes the operation validate and create the avatar URL.
+        /// </summary>
+        /// <param name="context">A container for all the data related to the Avatar model.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The updated <see cref="AvatarContext" />.</returns>
         public async Task<AvatarContext> Execute(AvatarContext context, CancellationToken token)
         {
             if (string.IsNullOrEmpty(context.Url))
@@ -29,7 +37,7 @@ namespace ReadyPlayerMe.AvatarLoader
             SaveInProjectFolder = context.SaveInProjectFolder;
             try
             {
-                context.AvatarUri = await Create(context.Url, context.ParametersHash, token);
+                context.AvatarUri = await ProcessUrl(context.Url, context.ParametersHash, token);
             }
             catch (Exception e)
             {
@@ -40,21 +48,36 @@ namespace ReadyPlayerMe.AvatarLoader
             return context;
         }
 
-        public async Task<AvatarUri> Create(string url, string paramsHash, CancellationToken token = new CancellationToken())
+        /// <summary>
+        /// This method generates all the required avatar model URL information and returns it in a <see cref="AvatarUri" />.
+        /// </summary>
+        /// <param name="url">The avatar model URL.</param>
+        /// <param name="paramsHash">This parameter hash is used organize the locally stored files for avatar caching.</param>
+        /// <param name="token">Can be used to cancel the operation.</param>
+        /// <returns>The avatar model URL and path information as a <see cref="AvatarUri" />.</returns>
+        public async Task<AvatarUri> ProcessUrl(string url, string paramsHash, CancellationToken token = new CancellationToken())
         {
             var fractions = url.Split('?'); // separate parameters
             url = fractions[0];
             var avatarApiParameters = fractions.Length > 1 ? $"?{fractions[1]}" : "";
             if (url.ToLower().EndsWith(GLB_EXTENSION))
             {
-                return CreateFromUrl(url, paramsHash, avatarApiParameters).Result;
+                return CreateUri(url, paramsHash, avatarApiParameters).Result;
             }
 
             var urlFromShortCode = await GetUrlFromShortCode(url);
-            return CreateFromUrl(urlFromShortCode, paramsHash, avatarApiParameters).Result;
+            return CreateUri(urlFromShortCode, paramsHash, avatarApiParameters).Result;
         }
 
-        private Task<AvatarUri> CreateFromUrl(string url, string paramsHash, string avatarApiParameters)
+        /// <summary>
+        /// Creates a URI from the <paramref name="url" />, <paramref name="paramHash" /> and
+        /// <paramref name="avatarApiParameters" />.
+        /// </summary>
+        /// <param name="url">The avatar model url.</param>
+        /// <param name="paramsHash">This parameter hash is used organize the locally stored files for avatar caching.</param>
+        /// <param name="avatarApiParameters">The combined avatar api parameters as a <c>string</c>.</param>
+        /// <returns>The avatar model URL and path information as a <see cref="AvatarUri" />.</returns>
+        private Task<AvatarUri> CreateUri(string url, string paramsHash, string avatarApiParameters)
         {
             try
             {
@@ -81,12 +104,24 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
+        /// <summary>
+        /// This method builds a URL from the provided shortCode.
+        /// </summary>
+        /// <param name="shortCode">The avatar shortcode.</param>
+        /// <returns>A URL as a <c>string</c>.</returns>
         private Task<string> GetUrlFromShortCode(string shortCode)
         {
             var url = $"{SHORT_CODE_BASE_URL}/{shortCode}{GLB_EXTENSION}";
             return Task.FromResult(url);
         }
 
+        /// <summary>
+        /// A method used to throw <see cref="CustomException" /> exceptions.
+        /// </summary>
+        /// <param name="message">The error message.</param>
+        /// <returns>
+        /// The <<see cref="Exception" />.
+        /// </returns>
         private Exception Fail(FailureType failureType, string message)
         {
             SDKLogger.Log(TAG, message);

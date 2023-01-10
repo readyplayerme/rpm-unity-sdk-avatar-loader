@@ -12,11 +12,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class UtilsTests
     {
-        private GameObject multiMeshAvatar;
-        private GameObject singleMeshAvatar;
+        private const string PARAM_HASH = "12345";
 
         private string defaultAvatarFolder;
-        private const string PARAM_HASH = "12345";
+        private GameObject multiMeshAvatar;
+        private GameObject singleMeshAvatar;
 
         [OneTimeSetUp]
         public void Initialize()
@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Coroutine_Runner_Spawned_In_Scene()
         {
             TestCoroutine().Run();
-            var operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
+            ExtensionMethods.CoroutineRunner[] operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
             Assert.IsNotNull(operation);
         }
 
@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             TestCoroutine().Run();
             TestCoroutine().Run();
             yield return null;
-            var operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
+            ExtensionMethods.CoroutineRunner[] operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
             Assert.AreEqual(1, operation.Length);
         }
 
@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Coroutine_Runner_Has_Hide_Flags()
         {
             TestCoroutine().Run();
-            var operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
+            ExtensionMethods.CoroutineRunner[] operation = Resources.FindObjectsOfTypeAll<ExtensionMethods.CoroutineRunner>();
             Assert.AreEqual(31, (int) operation[0].hideFlags);
         }
 
@@ -72,7 +72,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Get_Head_Mesh()
         {
-            var mesh = multiMeshAvatar.GetMeshRenderer(MeshType.HeadMesh);
+            SkinnedMeshRenderer mesh = multiMeshAvatar.GetMeshRenderer(MeshType.HeadMesh);
 
             Assert.IsNotNull(mesh);
         }
@@ -80,7 +80,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Get_Beard_Mesh()
         {
-            var mesh = multiMeshAvatar.GetMeshRenderer(MeshType.BeardMesh);
+            SkinnedMeshRenderer mesh = multiMeshAvatar.GetMeshRenderer(MeshType.BeardMesh);
 
             Assert.IsNotNull(mesh);
         }
@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Get_Teeth_Mesh()
         {
-            var mesh = multiMeshAvatar.GetMeshRenderer(MeshType.TeethMesh);
+            SkinnedMeshRenderer mesh = multiMeshAvatar.GetMeshRenderer(MeshType.TeethMesh);
 
             Assert.IsNotNull(mesh);
         }
@@ -96,7 +96,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Get_Avatar_Mesh()
         {
-            var mesh = singleMeshAvatar.GetMeshRenderer(MeshType.HeadMesh);
+            SkinnedMeshRenderer mesh = singleMeshAvatar.GetMeshRenderer(MeshType.HeadMesh);
 
             Assert.IsNotNull(mesh);
         }
@@ -104,7 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Fail_Get_Beard_Mesh_On_Single_Mesh_Avatar()
         {
-            var mesh = singleMeshAvatar.GetMeshRenderer(MeshType.BeardMesh);
+            SkinnedMeshRenderer mesh = singleMeshAvatar.GetMeshRenderer(MeshType.BeardMesh);
 
             Assert.IsNull(mesh);
         }
@@ -112,7 +112,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Fail_Get_Teeth_Mesh_On_Single_Mesh_Avatar()
         {
-            var mesh = singleMeshAvatar.GetMeshRenderer(MeshType.TeethMesh);
+            SkinnedMeshRenderer mesh = singleMeshAvatar.GetMeshRenderer(MeshType.TeethMesh);
 
             Assert.IsNull(mesh);
         }
@@ -121,7 +121,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Fail_Get_Mesh_Game_Object_With_No_SkinnedMeshRenderer()
         {
             var gameObject = new GameObject();
-            var mesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
+            SkinnedMeshRenderer mesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
 
             Assert.IsNull(mesh);
         }
@@ -145,7 +145,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 sender = s;
                 args = a;
             };
-            OnFailed?.Invoke(this, new FailureEventArgs()
+            OnFailed?.Invoke(this, new FailureEventArgs
             {
                 Url = "url",
                 Message = "message",
@@ -171,7 +171,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             };
 
             // TODO Fix this 
-            OnProgressChanged?.Invoke(this, new ProgressChangeEventArgs()
+            OnProgressChanged?.Invoke(this, new ProgressChangeEventArgs
             {
                 Url = "url",
                 Progress = 0.5f,
@@ -195,7 +195,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 sender = s;
                 args = a;
             };
-            OnCompleted?.Invoke(this, new CompletionEventArgs()
+            OnCompleted?.Invoke(this, new CompletionEventArgs
             {
                 Url = "url",
                 Avatar = new GameObject { name = "avatar" }

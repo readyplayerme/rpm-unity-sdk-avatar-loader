@@ -32,6 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 SetModelImportData();
             }
         }
+
         #endregion
     }
 }

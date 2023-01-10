@@ -1,6 +1,5 @@
 using System.Collections;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -79,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             yield return new WaitUntil(() => avatarB != null || failureType != FailureType.None);
 
-            var objects = Object.FindObjectsOfType<Animator>();
+            Animator[] objects = Object.FindObjectsOfType<Animator>();
 
             Assert.AreEqual(1, objects.Length);
             Assert.AreEqual(FailureType.None, failureType);
@@ -88,7 +87,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest]
         public IEnumerator AvatarLoader_Clears_Persistent_Cache()
         {
-            var settings = AvatarLoaderSettings.LoadSettings();
+            AvatarLoaderSettings settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = true;
 
             GameObject avatarA = null;

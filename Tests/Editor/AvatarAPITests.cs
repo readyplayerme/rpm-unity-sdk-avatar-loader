@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -10,9 +9,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class AvatarAPITests
     {
+        private AvatarConfig avatarConfigHigh;
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
-        private AvatarConfig avatarConfigHigh;
         private AvatarLoaderSettings settings;
 
         [TearDown]
@@ -25,7 +24,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            var configFolderPath = $"Assets/Ready Player Me/Core/Configurations/";
+            const string configFolderPath = "Assets/Ready Player Me/Core/Configurations/";
             avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_LOW}.asset");
             avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_MED}.asset");
             avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_HIGH}.asset");
@@ -36,12 +35,12 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest]
         public IEnumerator AvatarLoader_Avatar_API_Mesh_LOD()
         {
-            Queue<AvatarConfig> avatarConfigs = new Queue<AvatarConfig>();
+            var avatarConfigs = new Queue<AvatarConfig>();
             avatarConfigs.Enqueue(avatarConfigLow);
             avatarConfigs.Enqueue(avatarConfigMed);
             avatarConfigs.Enqueue(avatarConfigHigh);
 
-            List<int> vertexCounts = new List<int>();
+            var vertexCounts = new List<int>();
 
             var failureType = FailureType.None;
             var loader = new AvatarObjectLoader();
@@ -69,12 +68,12 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest]
         public IEnumerator AvatarLoader_Avatar_API_TextureSize()
         {
-            Queue<AvatarConfig> avatarConfigs = new Queue<AvatarConfig>();
+            var avatarConfigs = new Queue<AvatarConfig>();
             avatarConfigs.Enqueue(avatarConfigLow);
             avatarConfigs.Enqueue(avatarConfigMed);
             avatarConfigs.Enqueue(avatarConfigHigh);
 
-            List<int> textureSizes = new List<int>();
+            var textureSizes = new List<int>();
 
             var failureType = FailureType.None;
             var loader = new AvatarObjectLoader();
