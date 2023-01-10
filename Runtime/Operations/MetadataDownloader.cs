@@ -39,7 +39,9 @@ namespace ReadyPlayerMe.Loader
                 throw new InvalidDataException($"Expected cast {typeof(string)}");
             }
             context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-            context.Metadata.IsUpdated = IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+            // context.SaveInProjectFolder is used to ensure that avatar is re-downloaded when using the Avatar Loader Window
+            context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+
             if (context.Metadata.IsUpdated)
             {
                 SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
