@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.Loader
                 throw new InvalidDataException($"Expected cast {typeof(string)}");
             }
             context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-            context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+            context.Metadata.IsUpdated = IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
             if (context.Metadata.IsUpdated)
             {
                 SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
