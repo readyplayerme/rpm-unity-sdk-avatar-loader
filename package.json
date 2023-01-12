@@ -1,0 +1,52 @@
+{
+  "name": "com.readyplayerme.avatarloader",
+  "version": "0.1.0",
+  "displayName": "Ready Player Me Avatar Loader",
+  "description": "For loading RPM Avatars",
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://bit.ly/UnitySDKDocs",
+  "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
+  "licensesUrl": "https://github.com/readyplayerme/Unity-Avatar-Loader/blob/main/LICENSE.md",
+  "dependencies": {
+    "com.unity.ugui": "1.0.0",
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
+  "keywords": [
+    "avatar",
+    "loader",
+    "rpm"
+  ],
+  "author": {
+    "name": "Ready Player Me",
+    "email": "info@readyplayer.me",
+    "url": "https://readyplayer.me"
+  },
+  "samples": [
+    {
+      "displayName": "AvatarLoading",
+      "description": "Loads an avatar.",
+      "path": "Samples~/AvatarLoading"
+    },
+    {
+      "displayName": "AvatarLod",
+      "description": "Demonstration of how to implement Avatar LOD's.",
+      "path": "Samples~/AvatarLod"
+    },
+    {
+      "displayName": "AvatarRender",
+      "description": "Creates a 2D render of an avatar using the Render API.",
+      "path": "Samples~/AvatarRender"
+    },
+    {
+      "displayName": "MultipleAvatarLoading",
+      "description": "Loads multiple avatars.",
+      "path": "Samples~/MultipleAvatarLoading"
+    },
+    {
+      "displayName": "MultipleQualityAvatarLoading",
+      "description": "Loads the same avatar multiple times with different quality settings.",
+      "path": "Samples~/MultipleQualityAvatarLoading"
+    }
+  ]
+}
