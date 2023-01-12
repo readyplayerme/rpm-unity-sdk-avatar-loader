@@ -2,7 +2,7 @@
   "name": "com.readyplayerme.avatarloader",
   "version": "0.1.0",
   "displayName": "Ready Player Me Avatar Loader",
-  "description": "For loading RPM Avatars",
+  "description": "Avatar Loader is responsible for downloading, importing and preparing RPM avatars for use in editor and runtime.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://bit.ly/UnitySDKDocs",
