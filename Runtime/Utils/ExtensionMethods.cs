@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ReadyPlayerMe.Core;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -12,6 +13,8 @@ namespace ReadyPlayerMe.AvatarLoader
     /// </summary>
     public static class ExtensionMethods
     {
+        private const string TAG = nameof(ExtensionMethods);
+
         /// <summary>
         /// Implements a <see cref="CustomException" /> for the <paramref name="token" />.
         /// </summary>
@@ -89,7 +92,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (children.Count == 0)
             {
-                Debug.Log("ExtensionMethods.GetMeshRenderer: No SkinnedMeshRenderer found on the Game Object.");
+                
+                SDKLogger.AvatarLoaderLogger.Log(TAG, "ExtensionMethods.GetMeshRenderer: No SkinnedMeshRenderer found on the Game Object.");
                 return null;
             }
 
@@ -110,7 +114,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (mesh != null) return mesh;
 
-            Debug.Log($"ExtensionMethods.GetMeshRenderer: Mesh type {meshType} not found on the Game Object.");
+            SDKLogger.AvatarLoaderLogger.Log(TAG, $"ExtensionMethods.GetMeshRenderer: Mesh type {meshType} not found on the Game Object.");
+
             return null;
         }
 
