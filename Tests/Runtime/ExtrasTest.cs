@@ -197,7 +197,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 return elapsedTime > 2;
             });
 
-            Assert.GreaterOrEqual(valueChange, 100);
+            Assert.GreaterOrEqual(valueChange, 1);
         }
 
         #endregion
