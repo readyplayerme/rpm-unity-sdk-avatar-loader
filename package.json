@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.avatarloader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Ready Player Me Avatar Loader",
   "description": "For loading RPM Avatars",
   "unity": "2020.3",
