@@ -3,9 +3,7 @@
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
-    "ReadyPlayerMe.Common.Tests",
     "ReadyPlayerMe.AvatarLoader",
-    "WebView",
     "ReadyPlayerMe.Core"
   ],
   "includePlatforms": [],
