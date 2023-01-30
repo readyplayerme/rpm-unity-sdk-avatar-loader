@@ -1,21 +1,23 @@
 {
-  "name": "ReadyPlayerMe.AvatarLoader.Editor.Tests",
-  "references": [
-    "ReadyPlayerMe.AvatarLoader",
-    "ReadyPlayerMe.Core",
-    "ReadyPlayerMe.Core.Editor"
-  ],
-  "includePlatforms": [
-    "Editor"
-  ],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": true,
-  "precompiledReferences": [],
-  "autoReferenced": false,
-  "defineConstraints": [
-    "UNITY_INCLUDE_TESTS"
-  ],
-  "versionDefines": [],
-  "noEngineReferences": false
+    "name": "ReadyPlayerMe.AvatarLoader.Editor.Tests",
+    "rootNamespace": "",
+    "references": [
+        "ReadyPlayerMe.AvatarLoader",
+        "ReadyPlayerMe.Core",
+        "ReadyPlayerMe.Core.Editor",
+        "glTFast"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

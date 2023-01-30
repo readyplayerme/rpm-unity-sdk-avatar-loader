@@ -36,6 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
             newSettings.AvatarConfig = null;
+            newSettings.gltFastDeferAgent = null;
             newSettings.AvatarCachingEnabled = DefaultSettings.AvatarCachingEnabled;
 
             AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");

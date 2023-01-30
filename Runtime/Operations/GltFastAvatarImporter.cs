@@ -14,6 +14,8 @@ namespace ReadyPlayerMe.AvatarLoader
     public class GltFastAvatarImporter : IOperation<AvatarContext>
     {
         private const string TAG = nameof(GltFastAvatarImporter);
+        private readonly IDeferAgent deferAgent;
+
         public int Timeout { get; set; }
 
         /// <summary>
@@ -21,6 +23,11 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
+
+        public GltFastAvatarImporter(IDeferAgent deferAgent = default)
+        {
+            this.deferAgent = deferAgent ?? new UninterruptedDeferAgent();
+        }
 
         /// <summary>
         /// Executes the operation to import the module from the avatar model data.
@@ -53,18 +60,16 @@ namespace ReadyPlayerMe.AvatarLoader
             try
             {
                 GameObject avatar = null;
-
-                var gltf = new GltfImport(deferAgent: new UninterruptedDeferAgent());
-                var success = await gltf.LoadGltfBinary(
-                    bytes
-                );
+              
+                var gltf = new GltfImport(deferAgent: deferAgent);
+                var success = await gltf.LoadGltfBinary(bytes, cancellationToken: token);
                 if (success)
                 {
                     avatar = new GameObject();
                     avatar.SetActive(false);
                     var customInstantiator = new GltFastGameObjectInstantiator(gltf, avatar.transform);
 
-                    await gltf.InstantiateMainSceneAsync(customInstantiator);
+                    await gltf.InstantiateMainSceneAsync(customInstantiator, token);
                 }
 
                 return avatar;

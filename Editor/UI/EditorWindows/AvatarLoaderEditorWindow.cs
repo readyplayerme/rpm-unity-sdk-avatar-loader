@@ -1,3 +1,4 @@
+using GLTFast;
 using UnityEngine;
 using UnityEditor;
 using ReadyPlayerMe.Core;
@@ -183,6 +184,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     if (avatarLoaderSettings != null)
                     {
                         avatarLoader.AvatarConfig = avatarLoaderSettings.AvatarConfig;
+                        if (avatarLoaderSettings.gltFastDeferAgent != null)
+                        {
+                            avatarLoader.DeferAgent = avatarLoaderSettings.gltFastDeferAgent.GetComponent<IDeferAgent>();
+                        }
                     }
                     avatarLoader.LoadAvatar(url);
                 }

@@ -19,6 +19,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// 
         public AvatarConfig AvatarConfig;
 
+        public GameObject gltFastDeferAgent;
+        
         /// <summary>
         /// Loads avatar settings from resource at <c>AvatarLoaderSettings.SETTINGS_PATH</c>.
         /// </summary>

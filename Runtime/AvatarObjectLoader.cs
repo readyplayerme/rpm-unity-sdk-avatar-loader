@@ -1,7 +1,9 @@
 using System;
+using GLTFast;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -17,8 +19,10 @@ namespace ReadyPlayerMe.AvatarLoader
 
         /// Scriptable Object Avatar API request parameters configuration
         public AvatarConfig AvatarConfig;
-        private string avatarUrl;
 
+        public IDeferAgent DeferAgent;
+        
+        private string avatarUrl;
         private OperationExecutor<AvatarContext> executor;
         private float startTime;
 
@@ -27,9 +31,13 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         public AvatarObjectLoader()
         {
-            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
+            var loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
-            AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
+            AvatarConfig = loaderSettings.AvatarConfig != null ? loaderSettings.AvatarConfig : null;
+            if (loaderSettings.gltFastDeferAgent != null)
+            {
+                DeferAgent = Object.Instantiate(loaderSettings.gltFastDeferAgent).GetComponent<IDeferAgent>();
+            }
         }
 
         /// If true, saves the avatar in the Asset folder.
@@ -85,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(),
-                new GltFastAvatarImporter(),
+                new GltFastAvatarImporter(DeferAgent),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;

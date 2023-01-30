@@ -57,6 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private GUIStyle errorButtonStyle;
 
         private AvatarConfig avatarConfig;
+        private GameObject gltfastDeferAgent;
 
         private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
@@ -85,7 +86,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
-            avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
+            if (avatarLoaderSettings != null)
+            {
+                avatarConfig = avatarLoaderSettings.AvatarConfig;
+            }
 
             initialized = true;
             sdkLoggingEnabled = SDKLogger.GetEnabledPref();
@@ -206,6 +210,17 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         avatarLoaderSettings.AvatarConfig = avatarConfig;
                         SaveAvatarLoaderSettings();
                     }
+                    
+                    GUILayout.Space(2);
+                    EditorGUILayout.LabelField(new GUIContent("GLTFast defer agent", AVATAR_CONFIG_TOOLTIP), inputFieldWidth);
+                    avatarConfig = EditorGUILayout.ObjectField(avatarConfig, typeof(AvatarConfig), false, objectFieldWidth) as AvatarConfig;
+                    if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
+                    {
+                        avatarLoaderSettings.AvatarConfig = avatarConfig;
+                        SaveAvatarLoaderSettings();
+                    }
+                    
+                    
                 });
             }, true);
         }
