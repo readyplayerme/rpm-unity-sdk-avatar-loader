@@ -1,3 +1,4 @@
+using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,6 +8,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
     public enum RenderPipeline { Standard, URP, HDRP }
     public static class ShaderVariantHelper
     {
+        private const string TAG = nameof(ShaderVariantHelper);
         private const string PRELOADED_SHADER_PROPERTY = "m_PreloadedShaders";
         private const string GRAPHICS_SETTING_PATH = "ProjectSettings/GraphicsSettings.asset";
 
@@ -23,6 +25,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string HDRP_TYPE_NAME = "HDRenderPipelineAsset";
         private const string URP_TYPE_NAME = "UniversalRenderPipelineAsset";
         private const string SHADER_SESSION_CHECK = "SHADER_SESSION_CHECK";
+        private const string VARIANTS_FOUND_LOG = "glTFast shader variants found in Graphics Settings->Preloaded Shaders";
+        private const string SHADER_VARIANTS_EXTENSION = ".shadervariants";
 
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
@@ -57,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
                     {
-                        Debug.Log("glTFast shader variants found in Graphics Settings->Preloaded Shaders");
+                        SDKLogger.Log(TAG,VARIANTS_FOUND_LOG);
                         shadersMissing = false;
                         break;
                     }
@@ -90,7 +94,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
                 {
-                    Debug.Log("glTFast shader variants found in Graphics Settings->Preloaded Shaders");
+                    SDKLogger.Log(TAG,VARIANTS_FOUND_LOG);
+
                     shadersMissing = false;
                     break;
                 }
@@ -100,15 +105,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private static string GetTargetShaderPath()
         {
-            const string shaderVariants = ".shadervariants";
             switch (GetCurrentRenderPipeline())
             {
                 case RenderPipeline.URP:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_URP}{shaderVariants}";
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_URP}{SHADER_VARIANTS_EXTENSION}";
                 case RenderPipeline.HDRP:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_HDRP}{shaderVariants}";
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_HDRP}{SHADER_VARIANTS_EXTENSION}";
                 default:
-                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_STANDARD}{shaderVariants}";
+                    return $"{SHADER_VARIANT_FOLDER}/{SHADER_VARIANTS_STANDARD}{SHADER_VARIANTS_EXTENSION}";
             }
         }
 
