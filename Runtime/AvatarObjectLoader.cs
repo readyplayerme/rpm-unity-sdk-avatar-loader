@@ -19,8 +19,12 @@ namespace ReadyPlayerMe.AvatarLoader
         /// Scriptable Object Avatar API request parameters configuration
         public AvatarConfig AvatarConfig;
 
+        /// Importer to use to import glTF
+        public IImporter Importer;
+
+        /// Custom defer agent which decides how glTF will be imported 
         public GLTFDeferAgent GLTFDeferAgent;
-        
+
         private string avatarUrl;
         private OperationExecutor<AvatarContext> executor;
         private float startTime;
@@ -28,6 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// This class constructor is used to any required fields.
         /// </summary>
+        /// <param name="useDefaultGLTFDeferAgent">Use default defer agent</param>
         public AvatarObjectLoader(bool useDefaultGLTFDeferAgent = true)
         {
             var loaderSettings = AvatarLoaderSettings.LoadSettings();
@@ -93,7 +98,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(),
-                new GltFastAvatarImporter(GLTFDeferAgent),
+                Importer ?? new GltFastAvatarImporter(GLTFDeferAgent),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;

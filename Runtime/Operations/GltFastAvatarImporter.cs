@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GLTFast;
 using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Loader;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -11,7 +12,7 @@ namespace ReadyPlayerMe.AvatarLoader
     /// <summary>
     /// This class is responsible for the avatar model using the GltFast API.
     /// </summary>
-    public class GltFastAvatarImporter : IOperation<AvatarContext>
+    public class GltFastAvatarImporter : IImporter
     {
         private const string TAG = nameof(GltFastAvatarImporter);
         private readonly GLTFDeferAgent gltfDeferAgent;
@@ -60,12 +61,6 @@ namespace ReadyPlayerMe.AvatarLoader
             try
             {
                 GameObject avatar = null;
-
-                if (gltfDeferAgent != null)
-                {
-                    Debug.Log(gltfDeferAgent.name);
-                }
-
                 var agent = gltfDeferAgent == null ? new UninterruptedDeferAgent() : gltfDeferAgent.GetGLTFastDeferAgent();
 
                 var gltf = new GltfImport(deferAgent: agent);
