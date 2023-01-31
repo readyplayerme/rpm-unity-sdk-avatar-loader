@@ -1,4 +1,3 @@
-using GLTFast;
 using UnityEngine;
 using UnityEditor;
 using ReadyPlayerMe.Core;
@@ -115,7 +114,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     GUILayout.Space(2);
 
-                    EditorGUILayout.LabelField(new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."), inputFieldWidth);
+                    EditorGUILayout.LabelField(
+                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),
+                        inputFieldWidth);
 
                     var tempText = EditorUtilities.TextFieldWithPlaceholder(url, " Paste Avatar URL or shortcode here", fieldHeight);
 
@@ -124,7 +125,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         url = tempText.Split('?')[0];
                         isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
                     }
-                    
+
                     GUIContent button = new GUIContent(errorIcon, URL_SHORTCODE_ERROR);
 
                     if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
@@ -154,7 +155,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     Vertical(() =>
                     {
                         useEyeAnimations = EditorGUILayout.ToggleLeft(new GUIContent("Use Eye Animations",
-                            "Optional helper component for random eye rotation and blinking, for a less static look."), useEyeAnimations, fieldHeight);
+                                "Optional helper component for random eye rotation and blinking, for a less static look."), useEyeAnimations,
+                            fieldHeight);
                         EditorPrefs.SetBool(EYE_ANIMATION_SAVE_KEY, useEyeAnimations);
 
                         useVoiceToAnim = EditorGUILayout.ToggleLeft(new GUIContent("Use Voice To Animation",
@@ -184,9 +186,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     if (avatarLoaderSettings != null)
                     {
                         avatarLoader.AvatarConfig = avatarLoaderSettings.AvatarConfig;
-                        if (avatarLoaderSettings.gltFastDeferAgent != null)
+                        if (avatarLoaderSettings.GLTFDeferAgent != null)
                         {
-                            avatarLoader.DeferAgent = avatarLoaderSettings.gltFastDeferAgent.GetComponent<IDeferAgent>();
+                            avatarLoader.GLTFDeferAgent = avatarLoaderSettings.GLTFDeferAgent;
                         }
                     }
                     avatarLoader.LoadAvatar(url);

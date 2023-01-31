@@ -1,5 +1,4 @@
 using System;
-using GLTFast;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
@@ -20,7 +19,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// Scriptable Object Avatar API request parameters configuration
         public AvatarConfig AvatarConfig;
 
-        public IDeferAgent DeferAgent;
+        public GLTFDeferAgent GLTFDeferAgent;
         
         private string avatarUrl;
         private OperationExecutor<AvatarContext> executor;
@@ -29,14 +28,15 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// This class constructor is used to any required fields.
         /// </summary>
-        public AvatarObjectLoader()
+        public AvatarObjectLoader(bool useDefaultGLTFDeferAgent = true)
         {
             var loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings.AvatarConfig != null ? loaderSettings.AvatarConfig : null;
-            if (loaderSettings.gltFastDeferAgent != null)
+
+            if (!useDefaultGLTFDeferAgent && loaderSettings.GLTFDeferAgent != null)
             {
-                DeferAgent = Object.Instantiate(loaderSettings.gltFastDeferAgent).GetComponent<IDeferAgent>();
+                GLTFDeferAgent = Object.Instantiate(loaderSettings.GLTFDeferAgent).GetComponent<GLTFDeferAgent>();
             }
         }
 
@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(),
-                new GltFastAvatarImporter(DeferAgent),
+                new GltFastAvatarImporter(GLTFDeferAgent),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;

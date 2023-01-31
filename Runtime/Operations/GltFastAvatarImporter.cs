@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     public class GltFastAvatarImporter : IOperation<AvatarContext>
     {
         private const string TAG = nameof(GltFastAvatarImporter);
-        private readonly IDeferAgent deferAgent;
+        private readonly GLTFDeferAgent gltfDeferAgent;
 
         public int Timeout { get; set; }
 
@@ -24,9 +24,9 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
-        public GltFastAvatarImporter(IDeferAgent deferAgent = default)
+        public GltFastAvatarImporter(GLTFDeferAgent gltfDeferAgent = default)
         {
-            this.deferAgent = deferAgent ?? new UninterruptedDeferAgent();
+            this.gltfDeferAgent = gltfDeferAgent;
         }
 
         /// <summary>
@@ -60,8 +60,15 @@ namespace ReadyPlayerMe.AvatarLoader
             try
             {
                 GameObject avatar = null;
-              
-                var gltf = new GltfImport(deferAgent: deferAgent);
+
+                if (gltfDeferAgent != null)
+                {
+                    Debug.Log(gltfDeferAgent.name);
+                }
+
+                var agent = gltfDeferAgent == null ? new UninterruptedDeferAgent() : gltfDeferAgent.GetGLTFastDeferAgent();
+
+                var gltf = new GltfImport(deferAgent: agent);
                 var success = await gltf.LoadGltfBinary(bytes, cancellationToken: token);
                 if (success)
                 {

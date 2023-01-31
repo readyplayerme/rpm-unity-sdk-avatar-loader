@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -19,8 +20,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// 
         public AvatarConfig AvatarConfig;
 
-        public GameObject gltFastDeferAgent;
-        
+        public GLTFDeferAgent GLTFDeferAgent;
+
         /// <summary>
         /// Loads avatar settings from resource at <c>AvatarLoaderSettings.SETTINGS_PATH</c>.
         /// </summary>
