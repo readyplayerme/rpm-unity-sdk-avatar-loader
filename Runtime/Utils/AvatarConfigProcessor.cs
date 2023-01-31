@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -27,13 +28,14 @@ namespace ReadyPlayerMe.AvatarLoader
                    $"&meshLod={(int) avatarConfig.MeshLod}" +
                    $"&textureAtlas={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
                    $"&textureSizeLimit={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
+                   $"&textureChannels={ProcessTextureChannels(avatarConfig.TextureChannel)}" +
                    $"{ProcessMorphTargets(avatarConfig.MorphTargets)}" +
                    $"&useHands={(avatarConfig.UseHands ? PARAM_TRUE : PARAM_FALSE)}" +
                    $"&useDracoMeshCompression={(avatarConfig.UseDracoCompression ? PARAM_TRUE : PARAM_FALSE)}";
         }
 
         /// <summary>
-        /// Processes the processes the <paramref name="textureSize" /> and ensures it is a valid value.
+        /// Processes the <paramref name="textureSize" /> and ensures it is a valid value.
         /// </summary>
         /// <param name="textureSize">The value to process.</param>
         /// <returns>A validated <c>int</c>/returns>
@@ -43,17 +45,34 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
+        /// Combines the <paramref name="channels"/> in into a single valid textureChannel parameter.
+        /// </summary>
+        /// <param name="channels">A list of texture channel</param>
+        /// <returns>A query string of combined texture channels</returns>
+        private static string ProcessTextureChannels(IReadOnlyCollection<TextureChannel> channels)
+        {
+            if (!channels.Any())
+            {
+                return "none";
+            }
+
+            var parameter = string.Join(",", channels.Select(channel =>
+            {
+                var channelString = channel.ToString();
+                return char.ToLowerInvariant(channelString[0]) + channelString.Substring(1);
+            }));
+
+            return parameter;
+        }
+
+        /// <summary>
         /// Combines the list of strings in <paramref name="targets" /> into a single valid morph target parameter.
         /// </summary>
         /// <param name="targets">A list of morph targets as strings.</param>
         /// <returns>A query string of combined morph targets.</returns>
-        private static string ProcessMorphTargets(List<string> targets)
+        private static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
         {
-            if (targets.Count == 0)
-            {
-                return string.Empty;
-            }
-            return $"&morphTargets={string.Join(",", targets)}";
+            return targets.Count == 0 ? string.Empty : $"&morphTargets={string.Join(",", targets)}";
         }
     }
 }
