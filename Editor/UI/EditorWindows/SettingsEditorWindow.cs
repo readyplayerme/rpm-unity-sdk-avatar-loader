@@ -20,6 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string ANALYTICS_PRIVACY_TOOLTIP = "Click to read our Privacy Policy.";
         private const string LOGGING_ENABLED_TOOLTIP = "Enable for detailed console logging of RPM Unity SDK at Runtime and in Editor.";
         private const string AVATAR_CONFIG_TOOLTIP = "Assign an avatar configuration to include Avatar API request parameters.";
+        private const string DEFER_AGENT_TOOLTIP = "Assign a defer agent which decides how the glTF will be loaded.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string CACHING_TOOLTIP =
@@ -57,6 +58,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private GUIStyle errorButtonStyle;
 
         private AvatarConfig avatarConfig;
+        private GLTFDeferAgent gltfDeferAgent;
 
         private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
@@ -85,7 +87,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
-            avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
+            if (avatarLoaderSettings != null)
+            {
+                avatarConfig = avatarLoaderSettings.AvatarConfig;
+                gltfDeferAgent = avatarLoaderSettings.GLTFDeferAgent;
+            }
 
             initialized = true;
             sdkLoggingEnabled = SDKLogger.GetEnabledPref();
@@ -204,6 +210,18 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
                     {
                         avatarLoaderSettings.AvatarConfig = avatarConfig;
+                        SaveAvatarLoaderSettings();
+                    }
+                });
+
+                Horizontal(() =>
+                {
+                    GUILayout.Space(2);
+                    EditorGUILayout.LabelField(new GUIContent("GLTF defer agent", DEFER_AGENT_TOOLTIP), inputFieldWidth);
+                    gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
+                    if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
+                    {
+                        avatarLoaderSettings.GLTFDeferAgent = gltfDeferAgent;
                         SaveAvatarLoaderSettings();
                     }
                 });
