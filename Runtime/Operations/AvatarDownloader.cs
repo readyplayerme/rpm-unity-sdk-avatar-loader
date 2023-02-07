@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -52,7 +53,8 @@ namespace ReadyPlayerMe.AvatarLoader
                 throw new InvalidDataException($"Expected cast {typeof(string)} instead got ");
             }
 
-            if (!context.Metadata.IsUpdated && File.Exists(context.AvatarUri.LocalModelPath))
+            if ((!context.Metadata.IsUpdated || Application.internetReachability == NetworkReachability.NotReachable)
+                    && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, "Loading model from cache.");
                 context.Bytes = File.ReadAllBytes(context.AvatarUri.LocalModelPath);
