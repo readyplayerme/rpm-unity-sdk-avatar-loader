@@ -18,7 +18,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string ANALYTICS_LOGGING_DESCRIPTION =
             "We are constantly adding new features and improvements to our SDK. Enable analytics and help us in building even better free tools for more developers. This data is used for internal purposes only and is not shared with third parties.";
         private const string ANALYTICS_PRIVACY_TOOLTIP = "Click to read our Privacy Policy.";
+        private const string LOGGING_ENABLED_TOOLTIP = "Enable for detailed console logging of RPM Unity SDK at Runtime and in Editor.";
         private const string AVATAR_CONFIG_TOOLTIP = "Assign an avatar configuration to include Avatar API request parameters.";
+        private const string DEFER_AGENT_TOOLTIP = "Assign a defer agent which decides how the glTF will be loaded.";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string CACHING_TOOLTIP =
@@ -39,6 +41,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private bool initialized;
         private bool analyticsEnabled;
         private bool avatarCachingEnabled;
+        private bool sdkLoggingEnabled;
 
         private bool isCacheEmpty;
         private AvatarLoaderSettings avatarLoaderSettings;
@@ -55,11 +58,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private GUIStyle errorButtonStyle;
 
         private AvatarConfig avatarConfig;
+        private GLTFDeferAgent gltfDeferAgent;
 
         private bool subdomainFocused;
         private string subdomainAfterFocus = string.Empty;
         private const string SUBDOMAIN_FIELD_CONTROL_NAME = "subdomain";
-        
+        private const string SUBDOMAIN_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains";
+
         [MenuItem("Ready Player Me/Settings", priority = 1)]
         public static void ShowWindowMenu()
         {
@@ -82,9 +87,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             avatarCachingEnabled = avatarLoaderSettings != null && avatarLoaderSettings.AvatarCachingEnabled;
             isCacheEmpty = AvatarCache.IsCacheEmpty();
-            avatarConfig = avatarLoaderSettings != null ? avatarLoaderSettings.AvatarConfig : null;
+            if (avatarLoaderSettings != null)
+            {
+                avatarConfig = avatarLoaderSettings.AvatarConfig;
+                gltfDeferAgent = avatarLoaderSettings.GLTFDeferAgent;
+            }
 
             initialized = true;
+            sdkLoggingEnabled = SDKLogger.GetEnabledPref();
         }
 
         private void OnFocus()
@@ -172,7 +182,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     {
                         if (GUILayout.Button(button, errorButtonStyle))
                         {
-                            Application.OpenURL("https://docs.readyplayer.me/ready-player-me/for-partners/partner-subdomains");
+                            Application.OpenURL(SUBDOMAIN_DOCS_LINK);
                         }
 
                         EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
@@ -200,6 +210,18 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
                     {
                         avatarLoaderSettings.AvatarConfig = avatarConfig;
+                        SaveAvatarLoaderSettings();
+                    }
+                });
+
+                Horizontal(() =>
+                {
+                    GUILayout.Space(2);
+                    EditorGUILayout.LabelField(new GUIContent("GLTF defer agent", DEFER_AGENT_TOOLTIP), inputFieldWidth);
+                    gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
+                    if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
+                    {
+                        avatarLoaderSettings.GLTFDeferAgent = gltfDeferAgent;
                         SaveAvatarLoaderSettings();
                     }
                 });
@@ -276,6 +298,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         {
                             AnalyticsEditorLogger.Disable();
                         }
+                    }
+                });
+                Horizontal(() =>
+                {
+                    GUILayout.Space(2);
+                    sdkLoggingEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Logging enabled", LOGGING_ENABLED_TOOLTIP), sdkLoggingEnabled, GUILayout.Width(125));
+                    if (sdkLoggingEnabled != SDKLogger.GetEnabledPref())
+                    {
+                        SDKLogger.SetEnabledPref(sdkLoggingEnabled);
                     }
                 });
             }, true);

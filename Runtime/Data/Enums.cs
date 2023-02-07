@@ -81,6 +81,15 @@ namespace ReadyPlayerMe.AvatarLoader
         Low
     }
 
+    public enum TextureChannel
+    {
+        BaseColor,
+        Normal,
+        MetallicRoughness,
+        Emissive,
+        Occlusion,
+    }
+
     /// <summary>
     /// This enumeration describes the different types of failures.
     /// </summary>

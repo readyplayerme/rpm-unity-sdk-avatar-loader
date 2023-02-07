@@ -2,6 +2,7 @@ using System;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -17,19 +18,31 @@ namespace ReadyPlayerMe.AvatarLoader
 
         /// Scriptable Object Avatar API request parameters configuration
         public AvatarConfig AvatarConfig;
-        private string avatarUrl;
 
+        /// Importer to use to import glTF
+        public IImporter Importer;
+
+        /// Custom defer agent which decides how glTF will be imported 
+        public GLTFDeferAgent GLTFDeferAgent;
+
+        private string avatarUrl;
         private OperationExecutor<AvatarContext> executor;
         private float startTime;
 
         /// <summary>
         /// This class constructor is used to any required fields.
         /// </summary>
-        public AvatarObjectLoader()
+        /// <param name="useDefaultGLTFDeferAgent">Use default defer agent</param>
+        public AvatarObjectLoader(bool useDefaultGLTFDeferAgent = true)
         {
-            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
+            var loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
-            AvatarConfig = loaderSettings ? loaderSettings.AvatarConfig : null;
+            AvatarConfig = loaderSettings.AvatarConfig != null ? loaderSettings.AvatarConfig : null;
+
+            if (!useDefaultGLTFDeferAgent && loaderSettings.GLTFDeferAgent != null)
+            {
+                GLTFDeferAgent = Object.Instantiate(loaderSettings.GLTFDeferAgent).GetComponent<GLTFDeferAgent>();
+            }
         }
 
         /// If true, saves the avatar in the Asset folder.
@@ -85,7 +98,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 new UrlProcessor(),
                 new MetadataDownloader(),
                 new AvatarDownloader(),
-                new GltFastAvatarImporter(),
+                Importer ?? new GltFastAvatarImporter(GLTFDeferAgent),
                 new AvatarProcessor()
             });
             executor.ProgressChanged += ProgressChanged;

@@ -24,12 +24,19 @@ namespace ReadyPlayerMe.AvatarLoader.Core
             DrawDefaultInspector();
             DrawMorphTargets();
 
-            if (previousValue != userDracoCompressionField.boolValue && userDracoCompressionField.boolValue)
+            if (!previousValue && userDracoCompressionField.boolValue)
             {
-                if (ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name)) return;
-                if (EditorUtility.DisplayDialog(DIALOG_TITLE, DIALOG_MESSAGE, DIALOG_OK, DIALOG_CANCEL))
+                if (!ModuleInstaller.IsModuleInstalled(ModuleList.DracoCompression.name))
                 {
-                    ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
+                    if (EditorUtility.DisplayDialog(DIALOG_TITLE, DIALOG_MESSAGE, DIALOG_OK, DIALOG_CANCEL))
+                    {
+                        ModuleInstaller.AddModuleRequest(ModuleList.DracoCompression.Identifier);
+                    }
+                    else
+                    {
+                        userDracoCompressionField.boolValue = false;
+                        serializedObject.ApplyModifiedProperties();
+                    }
                 }
             }
         }
