@@ -5,6 +5,7 @@ using UnityEditor;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Data;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -79,7 +80,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             SetEditorWindowName(EDITOR_WINDOW_NAME);
 
-            partnerSubdomain = CoreSettings.PartnerSubdomainSettings.Subdomain ?? "demo";
+            partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain ?? "demo";
             SaveSubdomain();
 
             analyticsEnabled = AnalyticsEditorLogger.IsEnabled;
@@ -94,7 +95,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
 
             initialized = true;
-            sdkLoggingEnabled = SDKLogger.GetEnabledPref();
+            sdkLoggingEnabled = SDKLogger.IsLoggingEnabled();
         }
 
         private void OnFocus()
@@ -304,9 +305,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     GUILayout.Space(2);
                     sdkLoggingEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Logging enabled", LOGGING_ENABLED_TOOLTIP), sdkLoggingEnabled, GUILayout.Width(125));
-                    if (sdkLoggingEnabled != SDKLogger.GetEnabledPref())
+                    if (sdkLoggingEnabled != SDKLogger.IsLoggingEnabled())
                     {
-                        SDKLogger.SetEnabledPref(sdkLoggingEnabled);
+                        SDKLogger.EnableLogging(sdkLoggingEnabled);
                     }
                 });
             }, true);
@@ -315,13 +316,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
-            var subDomain = CoreSettings.PartnerSubdomainSettings.Subdomain;
+            var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;
             if (subDomain != partnerSubdomain)
             {
                 AnalyticsEditorLogger.EventLogger.LogUpdatePartnerURL(subDomain, partnerSubdomain);
             }
 
-            CoreSettings.SaveSubDomain(partnerSubdomain);
+            CoreSettingsHandler.SaveSubDomain(partnerSubdomain);
         }
 
         private bool IsSubdomainFocusLost()
