@@ -10,14 +10,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
         private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-        private static readonly string UniqueProjectPref = $"rpm-sdk-avatar-loader-settings{Application.dataPath.GetHashCode()}";
-
         static EditorAssetGenerator()
         {
             if (!Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.SETTINGS_PATH))
             {
                 CreateSettingsAssets();
-                EditorPrefs.SetBool(UniqueProjectPref, true);
             }
         }
 
