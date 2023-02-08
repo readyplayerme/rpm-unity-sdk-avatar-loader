@@ -116,33 +116,33 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         }
 
         // TODO Find better approach to test this, fails on GameCI test runner
-        // [UnityTest]
-        // public IEnumerator Check_Mouth_Open_Change()
-        // {
-        //     var avatar = Object.Instantiate(singleMeshAvatarPrefab);
-        //     var handler = avatar.GetComponent<VoiceHandler>();
-        //     handler.AudioProvider = AudioProviderType.AudioClip;
-        //     handler.AudioClip = audioClip;
-        //
-        //     yield return new WaitForSeconds(0.5f);
-        //
-        //     handler.PlayCurrentAudioClip();
-        //
-        //     var headMesh = avatar.GetMeshRenderer(MeshType.HeadMesh);
-        //     var index = headMesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);
-        //
-        //     float elapsedTime = 0;
-        //     float valueChange = 0;
-        //
-        //     yield return new WaitUntil(() =>
-        //     {
-        //         elapsedTime += Time.deltaTime;
-        //         valueChange += headMesh.GetBlendShapeWeight(index);
-        //         return elapsedTime > 1;
-        //     });
-        //
-        //     Assert.GreaterOrEqual(valueChange, 100);
-        // }
+        [UnityTest]
+        public IEnumerator Check_Mouth_Open_Change()
+        {
+            var avatar = Object.Instantiate(singleMeshAvatarPrefab);
+            var handler = avatar.GetComponent<VoiceHandler>();
+            handler.AudioProvider = AudioProviderType.AudioClip;
+            handler.AudioClip = audioClip;
+        
+            yield return new WaitForSeconds(0.5f);
+        
+            handler.PlayCurrentAudioClip();
+        
+            var headMesh = avatar.GetMeshRenderer(MeshType.HeadMesh);
+            var index = headMesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);
+        
+            float elapsedTime = 0;
+            float valueChange = 0;
+        
+            yield return new WaitUntil(() =>
+            {
+                elapsedTime += Time.deltaTime;
+                valueChange += headMesh.GetBlendShapeWeight(index);
+                return elapsedTime > 1;
+            });
+        
+            Assert.GreaterOrEqual(valueChange, 1);
+        }
 
         #endregion
 
@@ -176,30 +176,30 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.IsTrue(rotationCaptured);
         }
 
-        // TODO Find better approach to test this, fails on GameCI test runner
-        // [UnityTest]
-        // public IEnumerator Check_Eye_Blink_Change()
-        // {
-        //     GameObject avatar = Object.Instantiate(singleMeshAvatarPrefab);
-        //     var handler = avatar.GetComponent<EyeAnimationHandler>();
-        //     handler.BlinkDuration = 0.1f;
-        //     handler.BlinkInterval = 1;
-        //
-        //     SkinnedMeshRenderer headMesh = avatar.GetMeshRenderer(MeshType.HeadMesh);
-        //     var index = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_LEFT_BLEND_SHAPE_NAME);
-        //
-        //     float elapsedTime = 0;
-        //     float valueChange = 0;
-        //
-        //     yield return new WaitUntil(() =>
-        //     {
-        //         elapsedTime += Time.deltaTime;
-        //         valueChange += headMesh.GetBlendShapeWeight(index);
-        //         return elapsedTime > 2;
-        //     });
-        //
-        //     Assert.GreaterOrEqual(valueChange, 100);
-        // }
+
+        [UnityTest]
+        public IEnumerator Check_Eye_Blink_Change()
+        {
+            GameObject avatar = Object.Instantiate(singleMeshAvatarPrefab);
+            var handler = avatar.GetComponent<EyeAnimationHandler>();
+            handler.BlinkDuration = 0.1f;
+            handler.BlinkInterval = 1;
+        
+            SkinnedMeshRenderer headMesh = avatar.GetMeshRenderer(MeshType.HeadMesh);
+            var index = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_LEFT_BLEND_SHAPE_NAME);
+
+            float elapsedTime = 0;
+            float valueChange = 0;
+
+            yield return new WaitUntil(() =>
+            {
+                elapsedTime += Time.deltaTime;
+                valueChange += headMesh.GetBlendShapeWeight(index);
+                return elapsedTime > 2;
+            });
+
+            Assert.GreaterOrEqual(valueChange, 1);
+        }
 
         #endregion
     }
