@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         static EditorAssetGenerator()
         {
-            if (!EditorPrefs.GetBool(UniqueProjectPref, false))
+            if (!Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.SETTINGS_PATH))
             {
                 CreateSettingsAssets();
                 EditorPrefs.SetBool(UniqueProjectPref, true);
