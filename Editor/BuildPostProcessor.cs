@@ -11,6 +11,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [PostProcessBuild(1)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
+            // create asset if it has been deleted
+            if (CoreSettingsHandler.CoreSettings == null)
+            {
+                ReadyPlayerMe.Core.Editor.EditorAssetGenerator.CreateSettingsAssets();
+            }
             AppData appData = ApplicationData.GetData();
             AnalyticsEditorLogger.EventLogger.LogBuildApplication(appData.BuildTarget, PlayerSettings.productName, !Debug.isDebugBuild);
         }
