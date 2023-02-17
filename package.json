@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.avatarloader",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "displayName": "Ready Player Me Avatar Loader",
   "description": "Avatar Loader is responsible for downloading, importing and preparing Ready Player Me avatars for use in editor and runtime.",
   "unity": "2020.3",
