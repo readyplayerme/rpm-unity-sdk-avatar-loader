@@ -13,4 +13,5 @@ This update includes a number of fixes and some new features like support for gl
 
 ### Fixed
 - Added missing URP shader variant
+- core settings asset now automatically created if it is missing.
 - Various other bug fixes and improvements
