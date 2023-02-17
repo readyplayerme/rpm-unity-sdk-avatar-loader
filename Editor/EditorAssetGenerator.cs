@@ -10,14 +10,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string SETTINGS_SAVE_FOLDER = "Ready Player Me/Resources/Settings";
         private const string AVATAR_LOADER_ASSET_NAME = "AvatarLoaderSettings.asset";
 
-        private static readonly string UniqueProjectPref = $"rpm-sdk-avatar-loader-settings{Application.dataPath.GetHashCode()}";
-
         static EditorAssetGenerator()
         {
-            if (!EditorPrefs.GetBool(UniqueProjectPref, false))
+            if (!Resources.Load<AvatarLoaderSettings>(AvatarLoaderSettings.SETTINGS_PATH))
             {
                 CreateSettingsAssets();
-                EditorPrefs.SetBool(UniqueProjectPref, true);
             }
         }
 
@@ -36,6 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             var newSettings = ScriptableObject.CreateInstance<AvatarLoaderSettings>();
             newSettings.AvatarConfig = null;
+            newSettings.GLTFDeferAgent = null;
             newSettings.AvatarCachingEnabled = DefaultSettings.AvatarCachingEnabled;
 
             AssetDatabase.CreateAsset(newSettings, $"Assets/{SETTINGS_SAVE_FOLDER}/{AVATAR_LOADER_ASSET_NAME}");

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReadyPlayerMe.AvatarLoader;
 using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.Loader
 {
@@ -38,9 +39,16 @@ namespace ReadyPlayerMe.Loader
             {
                 throw new InvalidDataException($"Expected cast {typeof(string)}");
             }
-            context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-            // context.SaveInProjectFolder is used to ensure that avatar is re-downloaded when using the Avatar Loader Window
-            context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                context.Metadata = LoadFromFile(context.AvatarUri.LocalMetadataPath);
+            }
+            else
+            {
+                context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
+                // context.SaveInProjectFolder is used to ensure that avatar is re-downloaded when using the Avatar Loader Window
+                context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+            }
 
             if (context.Metadata.IsUpdated)
             {
