@@ -117,6 +117,11 @@ namespace ReadyPlayerMe.AvatarLoader
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
+            
+            var avatarComponent = avatar.AddComponent<AvatarComponent>();
+            avatarComponent.AvatarId = avatar.name;
+            avatarComponent.AvatarMetadata = context.Metadata;
+
             OnCompleted?.Invoke(this, new CompletionEventArgs
             {
                 Avatar = avatar,
