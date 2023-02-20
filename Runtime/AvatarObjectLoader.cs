@@ -99,7 +99,8 @@ namespace ReadyPlayerMe.AvatarLoader
                 new MetadataDownloader(),
                 new AvatarDownloader(),
                 Importer ?? new GltFastAvatarImporter(GLTFDeferAgent),
-                new AvatarProcessor()
+                new AvatarProcessor(),
+                new AvatarSkeletonCreator()
             });
             executor.ProgressChanged += ProgressChanged;
             executor.Timeout = Timeout;

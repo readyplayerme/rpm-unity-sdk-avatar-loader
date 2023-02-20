@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
                 if (avatarMetadata.BodyType == BodyType.FullBody)
                 {
-                    SetupAnimator(avatar, avatarMetadata.OutfitGender);
+                    // SetupAnimator(avatar, avatarMetadata.OutfitGender);
                 }
 
                 RenameChildMeshes(avatar);
@@ -124,7 +124,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         private void RemoveHalfBodyRoot(GameObject avatar)
         {
-            Transform root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
+            var root = avatar.transform.Find(BONE_HALF_BODY_ROOT);
             for (var i = root.childCount - 1; i >= 0; --i)
             {
                 root.GetChild(i).transform.SetParent(avatar.transform);
