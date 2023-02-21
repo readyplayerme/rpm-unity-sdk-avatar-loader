@@ -6,6 +6,5 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         public string AvatarId;
         public AvatarMetadata AvatarMetadata;
-        public AvatarConfig AvatarConfig;
     }
 }
