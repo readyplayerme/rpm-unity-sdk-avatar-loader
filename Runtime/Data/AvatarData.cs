@@ -2,7 +2,7 @@
 
 namespace ReadyPlayerMe.AvatarLoader
 {
-    public class AvatarComponent: MonoBehaviour
+    public class AvatarData: MonoBehaviour
     {
         public string AvatarId;
         public AvatarMetadata AvatarMetadata;

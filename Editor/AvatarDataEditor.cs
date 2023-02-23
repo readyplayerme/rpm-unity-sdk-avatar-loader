@@ -2,18 +2,18 @@
 
 namespace ReadyPlayerMe.AvatarLoader
 {
-    [CustomEditor(typeof(AvatarComponent))]
-    public class AvatarComponentEditor : UnityEditor.Editor
+    [CustomEditor(typeof(AvatarData))]
+    public class AvatarDataEditor : UnityEditor.Editor
     {
         private SerializedProperty avatarIdProperty;
         private SerializedProperty avatarMetadataProperty;
 
         private void OnEnable()
         {
-            var avatarComponent = (AvatarComponent) target;
+            var avatarData = (AvatarData) target;
 
-            avatarIdProperty = serializedObject.FindProperty(nameof(avatarComponent.AvatarId));
-            avatarMetadataProperty = serializedObject.FindProperty(nameof(avatarComponent.AvatarMetadata));
+            avatarIdProperty = serializedObject.FindProperty(nameof(avatarData.AvatarId));
+            avatarMetadataProperty = serializedObject.FindProperty(nameof(avatarData.AvatarMetadata));
         }
 
         public override void OnInspectorGUI()

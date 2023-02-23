@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(TestUtils.Uri.ModelUrl, avatarUrl);
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(avatar);
-            Assert.IsNotNull(avatar.GetComponent<AvatarComponent>());
+            Assert.IsNotNull(avatar.GetComponent<AvatarData>());
         }
 
         [UnityTest]
