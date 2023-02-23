@@ -48,14 +48,13 @@ namespace ReadyPlayerMe.Loader
             else
             {
                 context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-                // context.SaveInProjectFolder is used to ensure that avatar is re-downloaded when using the Avatar Loader Window
-                context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+                context.IsUpdated = IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+                if (context.SaveInProjectFolder || context.IsUpdated)
+                {
+                    SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
+                }
             }
 
-            if (context.Metadata.IsUpdated)
-            {
-                SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
-            }
             return context;
         }
 

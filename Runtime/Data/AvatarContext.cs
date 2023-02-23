@@ -17,5 +17,6 @@ namespace ReadyPlayerMe.AvatarLoader
         public AvatarRenderSettings RenderSettings;
         public bool SaveInProjectFolder;
         public string Url;
+        public bool IsUpdated;
     }
 }
