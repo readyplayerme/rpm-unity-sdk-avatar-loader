@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -5,10 +6,10 @@ namespace ReadyPlayerMe.QuickStart
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private Camera camera;
+        [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform target;
-        [SerializeField] private Vector3 cameraOffset = new Vector3(0, 1.7f, -2.4f);
-        [SerializeField] private Vector3 lookOffset = new Vector3(0, 0.8f);
+        [SerializeField] private float cameraDistance = -2.4f;
+        [SerializeField] private Vector3 lookOffset = new Vector3(0, 0.8f, 0);
         [SerializeField] private bool lookAtTarget = true;
         private Transform cameraContainer;
 
@@ -23,12 +24,18 @@ namespace ReadyPlayerMe.QuickStart
         
         void LateUpdate()
         {
-            camera.transform.localPosition = cameraOffset;
+            playerCamera.transform.localPosition = Vector3.forward * cameraDistance;
             transform.position = target.position + lookOffset;
             if (lookAtTarget)
             {
-                camera.transform.LookAt(transform);
+                playerCamera.transform.LookAt(transform);
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(target.position + lookOffset, 0.2f);
         }
     }
 }

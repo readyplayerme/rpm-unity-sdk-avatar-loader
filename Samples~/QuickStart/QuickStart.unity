@@ -247,7 +247,7 @@ Transform:
   m_Children:
   - {fileID: 1123105911}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &545647995
 MonoBehaviour:
@@ -277,10 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe759d8a0e88b174a8b7cd5f3d0da425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1123105910}
+  playerCamera: {fileID: 1123105910}
   target: {fileID: 2042020166}
-  cameraOffset: {x: 0, y: 1.7, z: -2.4}
-  lookOffset: {x: 0, y: 0.8, z: 0}
+  cameraDistance: -2.4
+  lookOffset: {x: 0, y: 1.46, z: 0}
   lookAtTarget: 1
 --- !u!1 &663367571
 GameObject:
@@ -376,7 +376,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &741694301
 GameObject:
@@ -471,7 +471,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1105422127
 PrefabInstance:
@@ -729,7 +729,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915640534
 GameObject:
@@ -824,7 +824,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2042020166 stripped
 Transform:
@@ -857,7 +857,7 @@ PrefabInstance:
     - target: {fileID: 5079932738637831228, guid: b5e780cfda18ab9469c25deff06532aa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5079932738637831228, guid: b5e780cfda18ab9469c25deff06532aa,
         type: 3}
