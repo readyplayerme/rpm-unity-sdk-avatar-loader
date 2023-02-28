@@ -6,18 +6,20 @@ namespace ReadyPlayerMe.QuickStart
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonMovement : MonoBehaviour
     {
-        
+        private const float TURN_SMOOTH_TIME = 0.05f;
+
         [SerializeField] private Transform playerCamera;
         [SerializeField] private float walkSpeed = 3f;
         [SerializeField] private float runSpeed = 8f;
         [SerializeField] private float gravity = -18f;
         [SerializeField] private float jumpHeight = 3f;
+
         private CharacterController controller;
         private GameObject avatar;
         
         private Vector3 velocity;
         private float turnSmoothVelocity;
-        private const float TURN_SMOOTH_TIME = 0.05f;
+
         private bool jumpTrigger;
         public float CurrentMoveSpeed { get; private set; }
         private bool isRunning;

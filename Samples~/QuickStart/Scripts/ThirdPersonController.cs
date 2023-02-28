@@ -36,7 +36,7 @@ namespace ReadyPlayerMe.QuickStart
             
         }
         
-        void Update()
+        private void Update()
         {
             if (avatar == null)
             {

@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.QuickStart
         private readonly Vector3 avatarPositionOffset = new Vector3(0, -0.08f, 0);
         [SerializeField] private GameObject previewAvatar;
 
-        void Start()
+        private void Start()
         {
             avatarObjectLoader = new AvatarObjectLoader();
             avatarObjectLoader.OnCompleted += OnLoadCompleted;

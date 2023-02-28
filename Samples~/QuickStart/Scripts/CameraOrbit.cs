@@ -5,6 +5,8 @@ namespace ReadyPlayerMe.QuickStart
 {
     public class CameraOrbit : MonoBehaviour
     {
+        private const float SMOOTH_TIME = 0.1f;
+        
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private float minRotationX = -60f;
         [SerializeField] private float maxRotationX = 50f;
@@ -12,18 +14,17 @@ namespace ReadyPlayerMe.QuickStart
         [SerializeField] private bool smoothDamp = false;
         
         private Vector3 rotation;
-        private Vector3 currentVelocity;    
-        private const float SMOOTH_TIME = 0.1f;
+        private Vector3 currentVelocity;
 
         private float pitch;
         private float yaw;
 
-        void Start()
+        private void Start()
         {
             rotation = transform.transform.eulerAngles;
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             if (playerInput == null) return;
             yaw += playerInput.MouseAxisX ;
