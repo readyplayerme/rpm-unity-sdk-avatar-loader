@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ReadyPlayerMe.QuickStart
@@ -5,19 +6,26 @@ namespace ReadyPlayerMe.QuickStart
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonMovement : MonoBehaviour
     {
-        [SerializeField] private CharacterController controller;
-        [SerializeField] private float speed = 6f;
-        [SerializeField] private float gravity = -18f;
-        [SerializeField] private Vector3 velocity;
-        [SerializeField] private float jumpHeight = 3f;
-        private GameObject avatar;
-        [SerializeField] private Transform playerCamera;
-        private static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
         
-        private static readonly int JumpTriggerHash = Animator.StringToHash("JumpTrigger");
+        [SerializeField] private Transform playerCamera;
+        [SerializeField] private float walkSpeed = 3f;
+        [SerializeField] private float runSpeed = 8f;
+        [SerializeField] private float gravity = -18f;
+        [SerializeField] private float jumpHeight = 3f;
+        private CharacterController controller;
+        private GameObject avatar;
+        
+        private Vector3 velocity;
         private float turnSmoothVelocity;
         private const float TURN_SMOOTH_TIME = 0.05f;
         private bool jumpTrigger;
+        public float CurrentMoveSpeed { get; private set; }
+        private bool isRunning;
+
+        private void Awake()
+        {
+            controller = GetComponent<CharacterController>();
+        }
 
         public void Setup(GameObject target)
         {
@@ -28,7 +36,7 @@ namespace ReadyPlayerMe.QuickStart
             }
         }
 
-        public void Move(float inputX, float inputY, Animator animator)
+        public void Move(float inputX, float inputY)
         {
             if (controller.isGrounded && velocity.y < 0)
             {
@@ -38,12 +46,13 @@ namespace ReadyPlayerMe.QuickStart
             if (jumpTrigger && controller.isGrounded)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                animator.SetTrigger(JumpTriggerHash);
                 jumpTrigger = false;
             }
-
+            
             var move = playerCamera.right * inputX + playerCamera.forward * inputY;
-            controller.Move(move * speed * Time.deltaTime);
+            var moveSpeed = isRunning ? runSpeed: walkSpeed;
+
+            controller.Move(move * moveSpeed * Time.deltaTime);
 
             // Apply gravity
             velocity.y += gravity * Time.deltaTime;
@@ -51,6 +60,8 @@ namespace ReadyPlayerMe.QuickStart
             
             
             var moveMagnitude = move.magnitude;
+            CurrentMoveSpeed = isRunning ? moveMagnitude * 2 : moveMagnitude;
+            
             // Apply rotation if moving
             if (moveMagnitude > 0)
             {
@@ -58,10 +69,13 @@ namespace ReadyPlayerMe.QuickStart
                 float angle = Mathf.SmoothDampAngle(avatar.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURN_SMOOTH_TIME);
                 avatar.transform.rotation = Quaternion.Euler(0, angle, 0);
             }
-            // set animation move speed property
-            animator.SetFloat(MoveSpeedHash, moveMagnitude);
         }
 
+        public void SetIsRunning(bool running)
+        {
+            isRunning = running;
+        }
+        
         public void Jump()
         {
             if (controller.isGrounded)
@@ -70,6 +84,11 @@ namespace ReadyPlayerMe.QuickStart
                 return;
             }
             jumpTrigger = false;
+        }
+
+        public bool IsGrounded()
+        {
+            return controller.isGrounded;
         }
     }
 }

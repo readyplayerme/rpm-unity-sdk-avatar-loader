@@ -1,4 +1,3 @@
-using System;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -6,18 +5,19 @@ namespace ReadyPlayerMe.QuickStart
 {
     public class CameraFollow : MonoBehaviour
     {
+        private readonly string TAG = typeof(CameraFollow).ToString();
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform target;
         [SerializeField] private float cameraDistance = -2.4f;
         [SerializeField] private Vector3 lookOffset = new Vector3(0, 0.8f, 0);
         [SerializeField] private bool lookAtTarget = true;
         private Transform cameraContainer;
-
+        private const string TARGET_NOT_SET = "target not set, disabling component";
         private void Start()
         {
             if (target == null)
             {
-                SDKLogger.LogWarning("CameraFollow", "lookTarget not set, disabling component");
+                SDKLogger.LogWarning(TAG, TARGET_NOT_SET);
                 enabled = false;
             }
         }

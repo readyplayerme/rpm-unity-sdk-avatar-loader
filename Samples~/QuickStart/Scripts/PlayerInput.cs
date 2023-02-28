@@ -13,19 +13,16 @@ namespace ReadyPlayerMe.QuickStart
         
         [SerializeField] private float mouseSensitivityX = 1;
         [SerializeField] private float mouseSensitivityY = 2;
-        [SerializeField] private bool inputEnabled = true;
-        
+
         private const string HORIZONTAL_AXIS = "Horizontal";
         private const string VERTICAL_AXIS = "Vertical";
         private const string MOUSE_AXIS_X = "Mouse X";
         private const string MOUSE_AXIS_Y = "Mouse Y";
         private const string JUMP_BUTTON = "Jump";
+        public bool IsHoldingLeftShift => Input.GetKey(KeyCode.LeftShift);
 
-        
-        void Update()
+        public void CheckInput()
         {
-            if (!inputEnabled) return;
-            
             AxisHorizontal = Input.GetAxis(HORIZONTAL_AXIS);
             AxisVertical = Input.GetAxis(VERTICAL_AXIS);
             MouseAxisX = Input.GetAxis(MOUSE_AXIS_X) * mouseSensitivityX;
@@ -34,11 +31,6 @@ namespace ReadyPlayerMe.QuickStart
             {
                 OnJumpPress?.Invoke();
             }
-        }
-
-        public void SetInputEnabled(bool enable)
-        {
-            inputEnabled = enable;
         }
     }
 }

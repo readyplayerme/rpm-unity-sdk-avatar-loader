@@ -12,12 +12,18 @@ namespace ReadyPlayerMe.QuickStart
         private GameObject avatar;
         private ThirdPersonMovement thirdPersonMovement;
         private PlayerInput playerInput;
+        
+        private static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+        private static readonly int JumpTriggerHash = Animator.StringToHash("JumpTrigger");
+        private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+        
+        [SerializeField] private bool inputEnabled = true;
 
         private void Start()
         {
             thirdPersonMovement = GetComponent<ThirdPersonMovement>();
             playerInput = GetComponent<PlayerInput>();
-            playerInput.OnJumpPress += () => thirdPersonMovement.Jump();
+            playerInput.OnJumpPress += OnJump;
         }
 
         public void Setup(GameObject target, RuntimeAnimatorController runtimeAnimatorController)
@@ -36,10 +42,26 @@ namespace ReadyPlayerMe.QuickStart
             {
                 return;
             }
+            if (inputEnabled)
+            {
+                playerInput.CheckInput();
+                var xAxisInput = playerInput.AxisHorizontal;
+                var yAxisInput = playerInput.AxisVertical;
+                thirdPersonMovement.Move(xAxisInput, yAxisInput);
+                thirdPersonMovement.SetIsRunning(playerInput.IsHoldingLeftShift);
+            }
             
-            var xAxisInput = playerInput.AxisHorizontal;
-            var yAxisInput = playerInput.AxisVertical;
-            thirdPersonMovement.Move(xAxisInput, yAxisInput, animator);
+            animator.SetFloat(MoveSpeedHash, thirdPersonMovement.CurrentMoveSpeed);
+            animator.SetBool(IsGroundedHash, thirdPersonMovement.IsGrounded());
+        }
+
+        private void OnJump()
+        {
+            thirdPersonMovement.Jump();
+            if (thirdPersonMovement.IsGrounded())
+            {
+                animator.SetTrigger(JumpTriggerHash);
+            }
         }
     }
 }
