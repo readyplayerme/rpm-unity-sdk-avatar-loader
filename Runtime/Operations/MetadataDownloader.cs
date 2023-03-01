@@ -48,8 +48,8 @@ namespace ReadyPlayerMe.Loader
             else
             {
                 context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-                context.IsUpdated = IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
-                if (context.SaveInProjectFolder || context.IsUpdated)
+                context.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+                if (context.IsUpdated)
                 {
                     SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
                 }
