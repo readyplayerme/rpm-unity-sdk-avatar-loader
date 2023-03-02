@@ -10,8 +10,8 @@ namespace ReadyPlayerMe.QuickStart
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform target;
         [SerializeField] private float cameraDistance = -2.4f;
-        [SerializeField] private Vector3 lookOffset = new Vector3(0, 0.8f, 0);
         [SerializeField] private bool lookAtTarget = true;
+        [SerializeField] private bool previewLookTarget = true;
         private Transform cameraContainer;
         
         private void Start()
@@ -26,17 +26,11 @@ namespace ReadyPlayerMe.QuickStart
         private void LateUpdate()
         {
             playerCamera.transform.localPosition = Vector3.forward * cameraDistance;
-            transform.position = target.position + lookOffset;
+            transform.position = target.position;
             if (lookAtTarget)
             {
                 playerCamera.transform.LookAt(transform);
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(target.position + lookOffset, 0.2f);
         }
     }
 }
