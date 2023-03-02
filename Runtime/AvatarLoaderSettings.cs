@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.AvatarLoader
     /// The <c>AvatarLoaderSettings</c> class is a <c>ScriptableObject</c> that can be used to easily configure the
     /// settings that should be used when loading a Ready Player Me avatar.
     /// </summary>
-    [CreateAssetMenu(fileName = "AvatarLoaderSettings", menuName = "Scriptable Objects/Ready Player Me/Avatar Loader Settings", order = 1)]
+    [CreateAssetMenu(fileName = "AvatarLoaderSettings", menuName = "Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject
     {
 
