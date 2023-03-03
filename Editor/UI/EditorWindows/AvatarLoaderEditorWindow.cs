@@ -3,6 +3,7 @@ using UnityEditor;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Loader;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -183,6 +184,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;
                     avatarLoader.OnCompleted += Completed;
+                    avatarLoader.OperationCompleted += OnOperationCompleted;
                     if (avatarLoaderSettings != null)
                     {
                         avatarLoader.AvatarConfig = avatarLoaderSettings.AvatarConfig;
@@ -200,6 +202,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }, true);
         }
 
+        private void OnOperationCompleted(object sender, IOperation<AvatarContext> e)
+        {
+            if (e.GetType() == typeof(MetadataDownloader))
+            {
+                Debug.Log(e.GetType());
+                AnalyticsEditorLogger.EventLogger.LogMetadataDownloaded();
+            }
+        }
+
         private void Failed(object sender, FailureEventArgs args)
         {
             Debug.LogError($"{args.Type} - {args.Message}");
@@ -215,6 +226,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name)}/{avatar.name}.prefab");
 
             Selection.activeObject = args.Avatar;
+            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded();
         }
     }
 }
