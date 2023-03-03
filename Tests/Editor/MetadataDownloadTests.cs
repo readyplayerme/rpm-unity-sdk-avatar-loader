@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 return;
             }
 
-            Assert.AreNotEqual(default(DateTime), metadata.LastModified);
+            Assert.AreNotEqual(default(DateTime), metadata.UpdatedAt);
         }
 
         [Test]
