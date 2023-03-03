@@ -1,9 +1,9 @@
-using UnityEngine;
-using UnityEditor;
 using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Loader;
+using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -168,6 +168,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }, true);
         }
 
+        private double startTime;
+
         private void DrawLoadAvatarButton()
         {
             Horizontal(() =>
@@ -175,6 +177,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 GUI.enabled = isValidUrlShortcode && !string.IsNullOrEmpty(url);
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
+                    startTime = EditorApplication.timeSinceStartup;
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
                     if (avatarLoaderSettings == null)
                     {
@@ -206,8 +209,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (e.GetType() == typeof(MetadataDownloader))
             {
-                Debug.Log(e.GetType());
-                AnalyticsEditorLogger.EventLogger.LogMetadataDownloaded();
+                AnalyticsEditorLogger.EventLogger.LogMetadataDownloaded(EditorApplication.timeSinceStartup - startTime);
             }
         }
 
@@ -226,7 +228,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name)}/{avatar.name}.prefab");
 
             Selection.activeObject = args.Avatar;
-            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded();
+            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }
     }
 }
