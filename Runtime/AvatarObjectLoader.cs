@@ -60,6 +60,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// Called upon avatar loader success.
         public event EventHandler<CompletionEventArgs> OnCompleted;
 
+        public event EventHandler<IOperation<AvatarContext>> OperationCompleted;
+
         /// <summary>
         /// Load avatar from a URL.
         /// </summary>
@@ -103,6 +105,7 @@ namespace ReadyPlayerMe.AvatarLoader
             });
             executor.ProgressChanged += ProgressChanged;
             executor.Timeout = Timeout;
+            executor.OperationCompleted += op => OperationCompleted?.Invoke(this, op);
 
             ProgressChanged(0, nameof(AvatarObjectLoader));
             try
