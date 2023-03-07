@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,57 +8,64 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class AnimationExtractor : UnityEditor.Editor
     {
-
+        private static string FBX_FILE = ".fbx";
         private const string PREVIEW_ANIM_PREFIX = "__preview__";
-        public struct AnimClipData
-        {
-            public string AssetPath;
-            public string AssetName;
-            public string ClipDirectory;
-        }
 
         [MenuItem("Assets/Extract Animations", false, 9999)]
-        private static AnimClipData ExtractAnimations()
+        private static string[] ExtractAnimations()
         {
-            var data = new AnimClipData();
-            data.AssetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            data.AssetName = Path.GetFileName(data.AssetPath);
-            data.ClipDirectory = Path.GetDirectoryName(data.AssetPath);
+            var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            var directoryName = Path.GetDirectoryName(assetPath);
 
-            // Get all animations and create animation clip array to store them
-            Object[] assetObjects = AssetDatabase.LoadAllAssetsAtPath(data.AssetPath);
-            var animationClips = new List<AnimationClip>();
-
-            foreach (Object assetObject in assetObjects)
+            var assetGUIDs = Selection.assetGUIDs;
+            var paths = new string[assetGUIDs.Length];
+            for (int i = 0; i < assetGUIDs.Length; i++)
             {
-                // Only add valid animation clips
-                if (assetObject is AnimationClip clip && !clip.name.StartsWith(PREVIEW_ANIM_PREFIX))
+                paths[i] = AssetDatabase.GUIDToAssetPath(assetGUIDs[i]);
+                LoadAssetsAndExtractClips(paths[i], directoryName);
+            }
+            if (paths.Length < 1)
+            {
+                return null;
+            }
+            return paths.Where(path => path.Contains(FBX_FILE)).ToArray();;
+        }
+
+        private static void LoadAssetsAndExtractClips(string path, string directoryName)
+        {
+            var clips = AssetDatabase.LoadAllAssetsAtPath(path);
+            foreach (var clip in clips)
+            {
+                if (clip != null &&  clip is AnimationClip && !clip.name.StartsWith(PREVIEW_ANIM_PREFIX))
                 {
-                    animationClips.Add(clip);
+                    var temp = new AnimationClip();
+                    EditorUtility.CopySerialized(clip, temp);
+                    var validatedName = string.Join("_", clip.name.Split(Path.GetInvalidFileNameChars()));
+                    AssetDatabase.CreateAsset(temp, $"{directoryName}/{validatedName}.anim");
                 }
             }
-
-            foreach (AnimationClip animationClip in animationClips)
-            {
-                var temp = new AnimationClip();
-                // Copy, create and save assets
-                EditorUtility.CopySerialized(animationClip, temp);
-                var validatedName = string.Join("_", animationClip.name.Split(Path.GetInvalidFileNameChars()));
-                AssetDatabase.CreateAsset(temp, $"{data.ClipDirectory}/{validatedName}.anim");
-            }
-
-            return data;
         }
 
         [MenuItem("Assets/Extract Animations and Delete File", false, 9999)]
         private static void ExtractAnimationsAndDeleteFile()
         {
-            AnimClipData data = ExtractAnimations();
-
-            if (EditorUtility.DisplayDialog("File Deletion Warning", $"Are you sure you want to delete {data.AssetName}?",
+            string[] animationFilePaths = ExtractAnimations();
+            if (animationFilePaths == null || animationFilePaths.Length < 1)
+            {
+                return;
+            }
+            if (EditorUtility.DisplayDialog("File Deletion Warning", $"Are you sure you want to delete {animationFilePaths.Length} .fbx files?",
                     "Okay", "Cancel"))
             {
-                AssetDatabase.DeleteAsset(data.AssetPath);
+                DeleteFbxFiles(animationFilePaths);
+            }
+        }
+
+        private static void DeleteFbxFiles(string[] animationFilePaths )
+        {
+            foreach (var animationFilePath in animationFilePaths)
+            {
+                AssetDatabase.DeleteAsset(animationFilePath);
             }
         }
 
@@ -68,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             if (!activeObject) return false;
 
             var assetPath = AssetDatabase.GetAssetPath(activeObject);
-            var isFbx = Path.GetExtension(assetPath).ToLower() == ".fbx";
+            var isFbx = Path.GetExtension(assetPath).ToLower() == FBX_FILE;
             var isGameObject = activeObject is GameObject;
 
             return isGameObject && isFbx;
