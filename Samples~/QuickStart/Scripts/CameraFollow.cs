@@ -11,7 +11,6 @@ namespace ReadyPlayerMe.QuickStart
         [SerializeField] private Transform target;
         [SerializeField] private float cameraDistance = -2.4f;
         [SerializeField] private bool lookAtTarget = true;
-        [SerializeField] private bool previewLookTarget = true;
         private Transform cameraContainer;
         
         private void Start()
