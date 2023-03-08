@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.QuickStart
 {
-    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(CharacterController), typeof(GroundCheck))]
     public class ThirdPersonMovement : MonoBehaviour
     {
         private const float TURN_SMOOTH_TIME = 0.05f;
@@ -24,9 +24,11 @@ namespace ReadyPlayerMe.QuickStart
         public float CurrentMoveSpeed { get; private set; }
         private bool isRunning;
 
+        private GroundCheck groundCheck;
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
+            groundCheck = GetComponent<GroundCheck>();
         }
 
         public void Setup(GameObject target)
@@ -62,7 +64,7 @@ namespace ReadyPlayerMe.QuickStart
             
             
             var moveMagnitude = move.magnitude;
-            CurrentMoveSpeed = isRunning ? moveMagnitude * 2 : moveMagnitude;
+            CurrentMoveSpeed = isRunning ? runSpeed * moveMagnitude : walkSpeed * moveMagnitude;
             
             // Apply rotation if moving
             if (moveMagnitude > 0)
@@ -78,19 +80,23 @@ namespace ReadyPlayerMe.QuickStart
             isRunning = running;
         }
         
-        public void Jump()
+        public bool TryJump()
         {
+            jumpTrigger = false;
             if (controller.isGrounded)
             {
                 jumpTrigger = true;
-                return;
             }
-            jumpTrigger = false;
+            return jumpTrigger;
         }
 
         public bool IsGrounded()
         {
-            return controller.isGrounded;
+            if (velocity.y > 0)
+            {
+                return false;
+            }
+            return groundCheck.IsGrounded();
         }
     }
 }

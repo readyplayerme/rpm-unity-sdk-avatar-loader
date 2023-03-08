@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.QuickStart
         [SerializeField] private bool loadOnStart = true;
         private readonly Vector3 avatarPositionOffset = new Vector3(0, -0.08f, 0);
         [SerializeField] private GameObject previewAvatar;
-
+        
         private void Start()
         {
             avatarObjectLoader = new AvatarObjectLoader();
@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.QuickStart
 
             if (loadOnStart)
             {
-                LoadAvatar();
+                LoadAvatar(avatarUrl);
             }
         }
 
@@ -55,8 +55,10 @@ namespace ReadyPlayerMe.QuickStart
             }
         }
 
-        public void LoadAvatar()
+        public void LoadAvatar(string url)
         {
+            //remove any leading or trailing spaces
+            avatarUrl = url.Trim(' ');
             avatarObjectLoader.LoadAvatar(avatarUrl);
         }
 

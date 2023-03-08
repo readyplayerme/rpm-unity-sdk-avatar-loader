@@ -14,8 +14,10 @@ namespace ReadyPlayerMe.QuickStart
         private PlayerInput playerInput;
         
         private static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
-        private static readonly int JumpTriggerHash = Animator.StringToHash("JumpTrigger");
+        private static readonly int JumpHash = Animator.StringToHash("Jump");
+        private static readonly int FreeFallHash = Animator.StringToHash("FreeFall");
         private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+        
         
         [SerializeField] private bool inputEnabled = true;
 
@@ -50,17 +52,17 @@ namespace ReadyPlayerMe.QuickStart
                 thirdPersonMovement.Move(xAxisInput, yAxisInput);
                 thirdPersonMovement.SetIsRunning(playerInput.IsHoldingLeftShift);
             }
-            
+            var isGrounded = thirdPersonMovement.IsGrounded();
             animator.SetFloat(MoveSpeedHash, thirdPersonMovement.CurrentMoveSpeed);
-            animator.SetBool(IsGroundedHash, thirdPersonMovement.IsGrounded());
+            animator.SetBool(IsGroundedHash, isGrounded);
+            animator.SetBool(JumpHash, !isGrounded);
         }
 
         private void OnJump()
         {
-            thirdPersonMovement.Jump();
-            if (thirdPersonMovement.IsGrounded())
+            if (thirdPersonMovement.TryJump())
             {
-                animator.SetTrigger(JumpTriggerHash);
+                animator.SetBool(JumpHash, true);
             }
         }
     }
