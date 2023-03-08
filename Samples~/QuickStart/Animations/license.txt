@@ -1,0 +1,2 @@
+These animation assets are from the free Unity Package https://assetstore.unity.com/packages/essentials/starter-assets-third-person-character-controller-196526 and are licensed under the Unity Companion License. 
+For full license terms, please see: https://unity3d.com/legal/licenses/Unity_Companion_License
