@@ -5,13 +5,16 @@ namespace ReadyPlayerMe.QuickStart
 {
     public class CameraFollow : MonoBehaviour
     {
-        private const string TARGET_NOT_SET = "target not set, disabling component";
+        private const string TARGET_NOT_SET = "Target not set, disabling component";
         private readonly string TAG = typeof(CameraFollow).ToString();
-        [SerializeField] private Camera playerCamera;
-        [SerializeField] private Transform target;
-        [SerializeField] private float cameraDistance = -2.4f;
-        [SerializeField] private bool lookAtTarget = true;
-        private Transform cameraContainer;
+        [SerializeField][Tooltip("The camera that will follow the target")]
+        private Camera playerCamera;
+        [SerializeField][Tooltip("The target Transform (GameObject) to follow")]
+        private Transform target;
+        [SerializeField][Tooltip("Defines the camera distance from the player along Z (forward) axis. Value should be negative to position behind the player")]
+        private float cameraDistance = -2.4f;
+        [SerializeField] private bool followOnStart = true;
+        private bool isFollowing;
         
         private void Start()
         {
@@ -19,17 +22,33 @@ namespace ReadyPlayerMe.QuickStart
             {
                 SDKLogger.LogWarning(TAG, TARGET_NOT_SET);
                 enabled = false;
+                return;
+            }
+
+            if (followOnStart)
+            {
+                StartFollow();
             }
         }
         
         private void LateUpdate()
         {
-            playerCamera.transform.localPosition = Vector3.forward * cameraDistance;
-            transform.position = target.position;
-            if (lookAtTarget)
+            if (isFollowing)
             {
-                playerCamera.transform.LookAt(transform);
+                playerCamera.transform.localPosition = Vector3.forward * cameraDistance;
+                playerCamera.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                transform.position = target.position;
             }
+        }
+
+        public void StopFollow()
+        {
+            isFollowing = false;
+        }
+
+        public void StartFollow()
+        {
+            isFollowing = true;
         }
     }
 }

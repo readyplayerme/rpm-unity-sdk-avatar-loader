@@ -7,11 +7,15 @@ namespace ReadyPlayerMe.QuickStart
     {
         private const float SMOOTH_TIME = 0.1f;
         
-        [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private float minRotationX = -60f;
-        [SerializeField] private float maxRotationX = 50f;
+        [SerializeField][Tooltip("PlayerInput component is required to listen for input")]
+        private PlayerInput playerInput;
+        [SerializeField][Tooltip("Used to set lower limit of camera rotation clamping")]
+        private float minRotationX = -60f;
+        [SerializeField][Tooltip("Used to set upper limit of camera rotation clamping")]
+        private float maxRotationX = 50f;
 
-        [SerializeField] private bool smoothDamp = false;
+        [SerializeField][Tooltip("Useful to apply smoothing to mouse input")]
+        private bool smoothDamp = false;
         
         private Vector3 rotation;
         private Vector3 currentVelocity;

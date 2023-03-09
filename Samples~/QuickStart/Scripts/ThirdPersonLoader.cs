@@ -5,13 +5,18 @@ namespace ReadyPlayerMe.QuickStart
 {
     public class ThirdPersonLoader : MonoBehaviour
     {
-        [SerializeField] private string avatarUrl;
+        private readonly Vector3 avatarPositionOffset = new Vector3(0, -0.08f, 0);
+        
+        [SerializeField][Tooltip("RPM avatar URL or shortcode to load")] 
+        private string avatarUrl;
         private GameObject avatar;
         private AvatarObjectLoader avatarObjectLoader;
-        [SerializeField] private RuntimeAnimatorController animatorController;
-        [SerializeField] private bool loadOnStart = true;
-        private readonly Vector3 avatarPositionOffset = new Vector3(0, -0.08f, 0);
-        [SerializeField] private GameObject previewAvatar;
+        [SerializeField][Tooltip("Animator to use on loaded avatar")] 
+        private RuntimeAnimatorController animatorController;
+        [SerializeField][Tooltip("If true it will try to load avatar from avatarUrl on start")] 
+        private bool loadOnStart = true;
+        [SerializeField][Tooltip("Preview avatar to display until avatar loads. Will but destroyed after avatar is loaded")]
+        private GameObject previewAvatar;
         
         private void Start()
         {

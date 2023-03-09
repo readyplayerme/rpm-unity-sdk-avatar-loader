@@ -8,16 +8,21 @@ namespace ReadyPlayerMe.QuickStart
     {
         private const float TURN_SMOOTH_TIME = 0.05f;
 
-        [SerializeField] private Transform playerCamera;
-        [SerializeField] private float walkSpeed = 3f;
-        [SerializeField] private float runSpeed = 8f;
-        [SerializeField] private float gravity = -18f;
-        [SerializeField] private float jumpHeight = 3f;
+        [SerializeField][Tooltip("Used to determine movement direction based on input and camera forward axis")] 
+        private Transform playerCamera;
+        [SerializeField][Tooltip("Move speed of the character in")]
+        private float walkSpeed = 3f;
+        [SerializeField][Tooltip("Run speed of the character")] 
+        private float runSpeed = 8f;
+        [SerializeField][Tooltip("The character uses its own gravity value. The engine default is -9.81f")] 
+        private float gravity = -18f;
+        [SerializeField][Tooltip("The height the player can jump ")] 
+        private float jumpHeight = 3f;
 
         private CharacterController controller;
         private GameObject avatar;
         
-        private Vector3 velocity;
+        private float verticalVelocity;
         private float turnSmoothVelocity;
 
         private bool jumpTrigger;
@@ -25,6 +30,7 @@ namespace ReadyPlayerMe.QuickStart
         private bool isRunning;
 
         private GroundCheck groundCheck;
+        
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -42,37 +48,42 @@ namespace ReadyPlayerMe.QuickStart
 
         public void Move(float inputX, float inputY)
         {
-            if (controller.isGrounded && velocity.y < 0)
+            var moveDirection = playerCamera.right * inputX + playerCamera.forward * inputY;
+            var moveSpeed = isRunning ? runSpeed: walkSpeed;
+
+            JumpAndGravity();
+            controller.Move(moveDirection.normalized * (moveSpeed * Time.deltaTime) +  new Vector3(0.0f, verticalVelocity * Time.deltaTime, 0.0f));
+
+            var moveMagnitude = moveDirection.magnitude;
+            CurrentMoveSpeed = isRunning ? runSpeed * moveMagnitude : walkSpeed * moveMagnitude;
+            
+            if (moveMagnitude > 0)
             {
-                velocity.y = -2f;
+                RotateAvatarTowardsMoveDirection(moveDirection);
+            }
+        }
+
+        private void RotateAvatarTowardsMoveDirection(Vector3 moveDirection)
+        {
+            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + transform.rotation.y;
+            float angle = Mathf.SmoothDampAngle(avatar.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURN_SMOOTH_TIME);
+            avatar.transform.rotation = Quaternion.Euler(0, angle, 0);
+        }
+
+        private void JumpAndGravity()
+        {
+            if (controller.isGrounded && verticalVelocity< 0)
+            {
+                verticalVelocity = -2f;
             }
             
             if (jumpTrigger && controller.isGrounded)
             {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 jumpTrigger = false;
             }
             
-            var move = playerCamera.right * inputX + playerCamera.forward * inputY;
-            var moveSpeed = isRunning ? runSpeed: walkSpeed;
-
-            controller.Move(move * moveSpeed * Time.deltaTime);
-
-            // Apply gravity
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-            
-            
-            var moveMagnitude = move.magnitude;
-            CurrentMoveSpeed = isRunning ? runSpeed * moveMagnitude : walkSpeed * moveMagnitude;
-            
-            // Apply rotation if moving
-            if (moveMagnitude > 0)
-            {
-                float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + transform.rotation.y;
-                float angle = Mathf.SmoothDampAngle(avatar.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURN_SMOOTH_TIME);
-                avatar.transform.rotation = Quaternion.Euler(0, angle, 0);
-            }
+            verticalVelocity += gravity * Time.deltaTime;
         }
 
         public void SetIsRunning(bool running)
@@ -92,7 +103,7 @@ namespace ReadyPlayerMe.QuickStart
 
         public bool IsGrounded()
         {
-            if (velocity.y > 0)
+            if (verticalVelocity > 0)
             {
                 return false;
             }

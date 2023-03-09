@@ -17,8 +17,10 @@ namespace ReadyPlayerMe.QuickStart
         public float MouseAxisX { get; private set; }
         public float MouseAxisY { get; private set; }
         
-        [SerializeField] private float mouseSensitivityX = 1;
-        [SerializeField] private float mouseSensitivityY = 2;
+        [SerializeField][Tooltip("Defines the mouse sensitivity on the X axis (left and right)")]
+        private float mouseSensitivityX = 1;
+        [SerializeField][Tooltip("Defines the mouse sensitivity on the Y axis (up and down)")]
+        private float mouseSensitivityY = 2;
         
         public bool IsHoldingLeftShift => Input.GetKey(KeyCode.LeftShift);
 

@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-    [SerializeField] private Transform groundCheckObject;
-    [SerializeField] private float groundDistance = 0.4f;
-    [SerializeField] private LayerMask groundMask;
+    [SerializeField][Tooltip("Useful for rough ground")]
+    private float groundedOffset = -0.22f;
+    [SerializeField][Tooltip("The radius of the grounded check")] 
+    private float groundRadius = 0.28f;
+    [SerializeField][Tooltip("Defines which layers to check for collisions (Should be different from player layer)")] 
+    private LayerMask groundMask;
     
     public bool IsGrounded()
     {
-        if (groundCheckObject == null)
-        {
-            groundCheckObject = transform;
-        }
-        return Physics.CheckSphere(groundCheckObject.position, groundDistance, groundMask);
+        var position = transform.position;
+        Vector3 spherePosition = new Vector3(position.x, position.y + groundedOffset,
+            position.z);
+        return Physics.CheckSphere(spherePosition, groundRadius, groundMask);
     }
 }
