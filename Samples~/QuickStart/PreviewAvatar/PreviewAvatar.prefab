@@ -3264,7 +3264,7 @@ GameObject:
   - component: {fileID: 1682971599488559293}
   - component: {fileID: 4743778292632845048}
   m_Layer: 0
-  m_Name: MalePreview
+  m_Name: PreviewAvatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
