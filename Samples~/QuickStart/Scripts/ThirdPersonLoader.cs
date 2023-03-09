@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.QuickStart
         private RuntimeAnimatorController animatorController;
         [SerializeField][Tooltip("If true it will try to load avatar from avatarUrl on start")] 
         private bool loadOnStart = true;
-        [SerializeField][Tooltip("Preview avatar to display until avatar loads. Will but destroyed after avatar is loaded")]
+        [SerializeField][Tooltip("Preview avatar to display until avatar loads. Will be destroyed after new avatar is loaded")]
         private GameObject previewAvatar;
         
         private void Start()
@@ -23,7 +23,11 @@ namespace ReadyPlayerMe.QuickStart
             avatarObjectLoader = new AvatarObjectLoader();
             avatarObjectLoader.OnCompleted += OnLoadCompleted;
             avatarObjectLoader.OnFailed += OnLoadFailed;
-
+            
+            if (previewAvatar != null)
+            {
+                SetupAvatar(previewAvatar);
+            }
             if (loadOnStart)
             {
                 LoadAvatar(avatarUrl);
@@ -47,6 +51,11 @@ namespace ReadyPlayerMe.QuickStart
 
         private void SetupAvatar(GameObject  targetAvatar)
         {
+            if (avatar != null)
+            {
+                Destroy(avatar);
+            }
+            
             avatar = targetAvatar;
             // Re-parent and reset transforms
             avatar.transform.parent = transform;

@@ -24,16 +24,23 @@ namespace ReadyPlayerMe.QuickStart
         
         [SerializeField][Tooltip("Useful to toggle input detection in editor")]
         private bool inputEnabled = true;
+        private bool isInitialized;
 
-        private void Start()
+        private void Init()
         {
             thirdPersonMovement = GetComponent<ThirdPersonMovement>();
             playerInput = GetComponent<PlayerInput>();
             playerInput.OnJumpPress += OnJump;
+            isInitialized = true;
         }
 
         public void Setup(GameObject target, RuntimeAnimatorController runtimeAnimatorController)
         {
+            if (!isInitialized)
+            {
+                Init();
+            }
+            
             avatar = target;
             thirdPersonMovement.Setup(avatar);
             animator = avatar.GetComponent<Animator>();
