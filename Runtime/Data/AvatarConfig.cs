@@ -7,7 +7,7 @@ namespace ReadyPlayerMe.AvatarLoader
     /// This is a scriptable object used to configure and store the settings to apply to the avatar during the avatar loading
     /// process.
     /// </summary>
-    [CreateAssetMenu(fileName = "Avatar Configuration", menuName = "Scriptable Objects/Ready Player Me/Avatar Configuration", order = 2),
+    [CreateAssetMenu(fileName = "Avatar Config", menuName = "Ready Player Me/Avatar Configuration", order = 2),
      HelpURL("https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/how-to-use#load-avatars-at-runtime")]
     public class AvatarConfig : ScriptableObject
     {
