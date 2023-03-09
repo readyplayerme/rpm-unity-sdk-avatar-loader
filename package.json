@@ -24,6 +24,11 @@
   },
   "samples": [
     {
+      "displayName": "QuickStart",
+      "description": "This quick start sample demonstrates how to load an avatar with a third person controller setup.",
+      "path": "Samples~/QuickStart"
+    },
+    {
       "displayName": "AvatarLoading",
       "description": "Loads an avatar.",
       "path": "Samples~/AvatarLoading"

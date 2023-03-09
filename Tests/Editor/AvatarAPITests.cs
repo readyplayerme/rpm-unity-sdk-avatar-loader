@@ -24,10 +24,14 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            const string configFolderPath = "Assets/Ready Player Me/Core/Configurations/";
-            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_LOW}.asset");
-            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_MED}.asset");
-            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}{TestUtils.AVATAR_CONFIG_PATH_HIGH}.asset");
+#if DISABLE_AUTO_INSTALLER
+            const string configFolderPath = "Assets/Ready Player Me/Avatar Loader/Configurations";
+#else
+            const string configFolderPath = "Packages/com.readyplayerme.avatarloader/Configurations";
+#endif
+            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_LOW}.asset");
+            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_MED}.asset");
+            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_HIGH}.asset");
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
         }
