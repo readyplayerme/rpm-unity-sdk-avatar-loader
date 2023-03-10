@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -10,6 +11,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
     {
         private static string FBX_FILE = ".fbx";
         private const string PREVIEW_ANIM_PREFIX = "__preview__";
+        private const string ASSET_ANIM_SUFFIX = ".anim";
 
         [MenuItem("Assets/Extract Animations", false, 9999)]
         private static string[] ExtractAnimations()
@@ -36,14 +38,47 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var clips = AssetDatabase.LoadAllAssetsAtPath(path);
             foreach (var clip in clips)
             {
-                if (clip != null &&  clip is AnimationClip && !clip.name.StartsWith(PREVIEW_ANIM_PREFIX))
+                if (clip != null &&  clip is AnimationClip animationClip && !animationClip.name.StartsWith(PREVIEW_ANIM_PREFIX))
                 {
-                    var temp = new AnimationClip();
-                    EditorUtility.CopySerialized(clip, temp);
-                    var validatedName = string.Join("_", clip.name.Split(Path.GetInvalidFileNameChars()));
-                    AssetDatabase.CreateAsset(temp, $"{directoryName}/{validatedName}.anim");
+                    TryCreateAsset(animationClip, directoryName);
                 }
             }
+        }
+
+        private static void TryCreateAsset(AnimationClip clip, string directoryName)
+        {
+            try
+            {
+                var temp = new AnimationClip();
+                EditorUtility.CopySerialized(clip, temp);
+                var validatedName = string.Join("_", clip.name.Split(Path.GetInvalidFileNameChars()));
+                AssetDatabase.CreateAsset(temp, GetUniqueName($"{directoryName}/{validatedName}"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to create animation asset with exception: {e}");
+                throw;
+            }
+
+        }
+
+        private static string GetUniqueName(string baseAssetPath)
+        {
+            var nameUnique = false;
+            var suffix = "";
+            var uniqueIndex = 0;
+            while (!nameUnique)
+            {
+                if (File.Exists($"{baseAssetPath}{suffix}{ASSET_ANIM_SUFFIX}"))
+                {
+                    suffix = $"_{uniqueIndex}";
+                    uniqueIndex++;
+                    continue;
+                }
+                nameUnique = true;
+            }
+
+            return $"{baseAssetPath}{suffix}{ASSET_ANIM_SUFFIX}";
         }
 
         [MenuItem("Assets/Extract Animations and Delete File", false, 9999)]
