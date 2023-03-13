@@ -1,11 +1,11 @@
 using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using ReadyPlayerMe.AvatarLoader;
-using ReadyPlayerMe.Core;
 using UnityEngine;
+using Newtonsoft.Json;
+using System.Threading;
+using ReadyPlayerMe.Core;
+using System.Threading.Tasks;
+using ReadyPlayerMe.AvatarLoader;
 
 namespace ReadyPlayerMe.Loader
 {
@@ -27,6 +27,8 @@ namespace ReadyPlayerMe.Loader
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
+        private const string MetadataTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.fff'Z'";
+
         /// <summary>
         /// Executes the operation to download the avatar and save to file if saving is enabled.
         /// </summary>
@@ -46,14 +48,13 @@ namespace ReadyPlayerMe.Loader
             else
             {
                 context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-                // context.SaveInProjectFolder is used to ensure that avatar is re-downloaded when using the Avatar Loader Window
-                context.Metadata.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+                context.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
+                if (context.IsUpdated)
+                {
+                    SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
+                }
             }
 
-            if (context.Metadata.IsUpdated)
-            {
-                SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
-            }
             return context;
         }
 
@@ -77,8 +78,7 @@ namespace ReadyPlayerMe.Loader
 #else
                 Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
 #endif
-                return ParseResponse(response.Text, response.LastModified);
-
+                return ParseResponse(response.Text);
             }
             catch (CustomException error)
             {
@@ -146,7 +146,7 @@ namespace ReadyPlayerMe.Loader
         private bool IsUpdated(AvatarMetadata metadata, AvatarUri uri, bool avatarCachingEnabled)
         {
             AvatarMetadata previousMetadata = LoadFromFile(uri.LocalMetadataPath);
-            if (avatarCachingEnabled && metadata.LastModified == previousMetadata.LastModified) return false;
+            if (avatarCachingEnabled && metadata.UpdatedAt == previousMetadata.UpdatedAt) return false;
             return true;
         }
 
@@ -156,32 +156,19 @@ namespace ReadyPlayerMe.Loader
         /// <param name="response">The response as a json string.</param>
         /// <param name="lastModified">A string representing the date of the last time the metadata was modified.</param>
         /// <returns>The avatar metadata as an <see cref="AvatarMetadata" /> structure.</returns>
-        private AvatarMetadata ParseResponse(string response, string lastModified)
+        private AvatarMetadata ParseResponse(string response)
         {
-            var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response);
-
-            if (!string.IsNullOrEmpty(lastModified))
-            {
-                metadata.LastModified = DateTime.Parse(lastModified);
-            }
-
-            // TODO: when metadata for half-body avatars are fixed, make the check
-            // if (metaData.OutfitGender == OutfitGender.None || metaData.BodyType == BodyType.None)
+            AvatarMetadata metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings() {
+                DateFormatString = MetadataTimeFormat
+            });
+            
             if (metadata.BodyType == BodyType.None)
             {
                 throw new CustomException(FailureType.MetadataParseError, "Failed to parse metadata. Unexpected body type.");
             }
-
-            if (string.IsNullOrEmpty(lastModified))
-            {
-                throw new CustomException(FailureType.MetadataParseError, "Failed to parse metadata. Last-Modified header is missing.");
-            }
-
-            metadata.LastModified = DateTime.Parse(lastModified);
+            
             SDKLogger.Log(TAG, $"{metadata.BodyType} metadata loading completed.");
             return metadata;
         }
     }
-
-
 }

@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         public BodyType BodyType;
         public OutfitGender OutfitGender;
-        public DateTime LastModified;
-        public bool IsUpdated;
+        public DateTime UpdatedAt;
     }
 }
