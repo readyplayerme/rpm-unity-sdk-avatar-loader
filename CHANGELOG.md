@@ -33,19 +33,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - core settings asset now automatically created if it is missing.
 - Various other bug fixes and improvements
 
-### Added
-- quick start sample
-- animation extract now supports extracting multiple files at once
-- avatar loaded events
-- avatar component
-
-### Updated
-- animation extractor path
-
-### Fixed
-- caching issue related to time zone differences
-
-
 ## [0.2.0] - 2023.02.08
 
 ### Added
