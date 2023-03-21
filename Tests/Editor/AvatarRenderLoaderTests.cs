@@ -8,6 +8,14 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class AvatarRenderLoaderTests
     {
+        private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.PortraitTransparent;
+        private const string RENDER_BLENDSHAPE_MESH = "Wolf3D_Head";
+        private const string RENDER_WRONG_BLENDSHAPE_MESH = "wrong_blendshape_mesh";
+        private const string RENDER_BLENDSHAPE = "mouthSmile";
+        private const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
+        private const float BLENDSHAPE_VALUE = 0.5f;
+        
+        
         [UnityTest]
         public IEnumerator RenderLoader_Load()
         {
@@ -18,7 +26,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnCompleted = data => renderTexture = data;
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
-            renderLoader.LoadRender(TestUtils.Uri.ModelUrl, TestUtils.RENDER_SCENE);
+            renderLoader.LoadRender(TestUtils.CloudfrontUri.ModelUrl, RENDER_SCENE);
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
 
@@ -36,7 +44,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnCompleted = data => renderTexture = data;
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
-            renderLoader.LoadRender(TestUtils.WrongUri.ModelUrl, TestUtils.RENDER_SCENE);
+            renderLoader.LoadRender(TestUtils.WrongUri.ModelUrl, RENDER_SCENE);
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
 
@@ -55,10 +63,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
             renderLoader.LoadRender(
-                TestUtils.Uri.ModelUrl,
-                TestUtils.RENDER_SCENE,
-                TestUtils.RENDER_BLENDSHAPE_MESH,
-                new Dictionary<string, float> { { TestUtils.RENDER_BLENDSHAPE, 0.5f } }
+                TestUtils.CloudfrontUri.ModelUrl,
+                RENDER_SCENE,
+                RENDER_BLENDSHAPE_MESH,
+                new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
@@ -78,10 +86,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
             renderLoader.LoadRender(
-                TestUtils.Uri.ModelUrl,
-                TestUtils.RENDER_SCENE,
-                TestUtils.RENDER_WRONG_BLENDSHAPE_MESH,
-                new Dictionary<string, float> { { TestUtils.RENDER_BLENDSHAPE, 0.5f } }
+                TestUtils.CloudfrontUri.ModelUrl,
+                RENDER_SCENE,
+                RENDER_WRONG_BLENDSHAPE_MESH,
+                new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
@@ -101,10 +109,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
             renderLoader.LoadRender(
-                TestUtils.Uri.ModelUrl,
-                TestUtils.RENDER_SCENE,
-                TestUtils.RENDER_BLENDSHAPE_MESH,
-                new Dictionary<string, float> { { TestUtils.RENDER_WRONG_BLENDSHAPE, 0.5f } }
+                TestUtils.CloudfrontUri.ModelUrl,
+                RENDER_SCENE,
+                RENDER_BLENDSHAPE_MESH,
+                new Dictionary<string, float> { { RENDER_WRONG_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);

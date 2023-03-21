@@ -6,7 +6,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public static class TestUtils
     {
-        public const string TEST_AVATAR_GUID = "7f7f0ab3-c639-4e0c-82b1-2134c03d2af4";
+        public const string CLOUDFRONT_TEST_AVATAR_GUID = "7f7f0ab3-c639-4e0c-82b1-2134c03d2af4";
+        public const string TEST_AVATAR_GUID = "64184ac404207164c85216d6";
         public const string TEST_WRONG_GUID = "wrong-guid";
 
         public const string MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH =
@@ -20,32 +21,33 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
         public const string MOCK_PREFAB_RELATIVE_SAVE_PATH = "Assets/Tests/Common/test.prefab";
 
-        public const string JSON_FEMININE_FULL_BODY =
-            "https://d1a370nemizbjq.cloudfront.net/7f7f0ab3-c639-4e0c-82b1-2134c03d2af4.json";
+        public const string AVATAR_URL_FULL_BODY_MASCULINE = "https://models.readyplayer.me/64184ac404207164c85216d6.glb";
+        public const string AVATAR_URL_FULL_BODY_FEMININE = "https://models.readyplayer.me/641975b2398f7e86e696913e.glb";
+        public const string AVATAR_URL_HALF_BODY_MASCULINE = "https://models.readyplayer.me/64184ac404207164c85216d6.glb";
+        public const string AVATAR_URL_HALF_BODY_FEMININE = "https://models.readyplayer.me/641975b2398f7e86e696913e.glb";
 
-        public const string JSON_MASCULINE_FULL_BODY =
-            "https://d1a370nemizbjq.cloudfront.net/fa83d7ac-3fe0-4589-a42e-7b74ea6142e5.json";
-
-        public const string JSON_FEMININE_HALF_BODY =
-            "https://d1a370nemizbjq.cloudfront.net/419f78a1-f9d4-4695-9cc9-4537a6b2f671.json";
-
-        public const string JSON_MASCULINE_HALF_BODY =
-            "https://d1a370nemizbjq.cloudfront.net/b4082a25-1529-4160-b256-b9595fa7f269.json";
-
-        public const string WRONG_JSON_URL =
-            "https://gist.githubusercontent.com/srcnalt/2ca44ce804ac28ce8722a93dca3635c9/raw";
         public static readonly string TestAvatarDirectory = $"{Application.persistentDataPath}/Avatars";
 
         public static readonly string TestJsonFilePath =
-            $"{DirectoryUtility.GetAvatarSaveDirectory(TEST_AVATAR_GUID)}/test.json";
+            $"{DirectoryUtility.GetAvatarSaveDirectory(CLOUDFRONT_TEST_AVATAR_GUID)}/test.json";
+        public static readonly AvatarUri CloudfrontUri = new AvatarUri
+        {
+            Guid = CLOUDFRONT_TEST_AVATAR_GUID,
+            ModelUrl = $"https://d1a370nemizbjq.cloudfront.net/{CLOUDFRONT_TEST_AVATAR_GUID}.glb",
+            LocalModelPath = $"{TestAvatarDirectory}/{CLOUDFRONT_TEST_AVATAR_GUID}/{CLOUDFRONT_TEST_AVATAR_GUID}.glb",
+            MetadataUrl = $"https://d1a370nemizbjq.cloudfront.net/{CLOUDFRONT_TEST_AVATAR_GUID}.json",
+            LocalMetadataPath = $"{TestAvatarDirectory}/{CLOUDFRONT_TEST_AVATAR_GUID}/{CLOUDFRONT_TEST_AVATAR_GUID}.json"
+        };
+        
         public static readonly AvatarUri Uri = new AvatarUri
         {
-            Guid = TEST_AVATAR_GUID,
-            ModelUrl = $"https://d1a370nemizbjq.cloudfront.net/{TEST_AVATAR_GUID}.glb",
+            Guid = CLOUDFRONT_TEST_AVATAR_GUID,
+            ModelUrl = $"https://models.readyplayer.me/{TEST_AVATAR_GUID}.glb",
             LocalModelPath = $"{TestAvatarDirectory}/{TEST_AVATAR_GUID}/{TEST_AVATAR_GUID}.glb",
-            MetadataUrl = $"https://d1a370nemizbjq.cloudfront.net/{TEST_AVATAR_GUID}.json",
+            MetadataUrl = $"https://models.readyplayer.me/{TEST_AVATAR_GUID}.json",
             LocalMetadataPath = $"{TestAvatarDirectory}/{TEST_AVATAR_GUID}/{TEST_AVATAR_GUID}.json"
         };
+        
         public static readonly AvatarUri WrongUri = new AvatarUri
         {
             Guid = TEST_WRONG_GUID,
@@ -54,6 +56,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             MetadataUrl = $"https://{TEST_WRONG_GUID}.com/{TEST_WRONG_GUID}.json",
             LocalMetadataPath = $"{TestAvatarDirectory}/{TEST_WRONG_GUID}/{TEST_WRONG_GUID}.json"
         };
+        
         public static readonly string MockAvatarGlbWrongPath =
             $"{DirectoryUtility.GetAvatarSaveDirectory(TEST_WRONG_GUID)}/Tests/Common/wrong.glb";
 
@@ -80,29 +83,5 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 Directory.Delete(path, recursive);
             }
         }
-
-
-        #region Avatar Render API Variables
-
-        public const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.PortraitTransparent;
-        public const string RENDER_BLENDSHAPE_MESH = "Wolf3D_Head";
-        public const string RENDER_WRONG_BLENDSHAPE_MESH = "wrong_blendshape_mesh";
-        public const string RENDER_BLENDSHAPE = "mouthSmile";
-        public const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
-
-        #endregion
-
-        #region Avatar Loader Avatar API Variables
-
-        public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
-        public const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
-        public const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
-        public const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
-        public const int TEXTURE_SIZE_LOW = 256;
-        public const int TEXTURE_SIZE_MED = 512;
-        public const int TEXTURE_SIZE_HIGH = 1024;
-        public const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
-
-        #endregion
     }
 }

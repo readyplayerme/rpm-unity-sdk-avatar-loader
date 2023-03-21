@@ -13,6 +13,15 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
         private AvatarLoaderSettings settings;
+        
+        public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
+        public const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
+        public const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
+        public const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
+        public const int TEXTURE_SIZE_LOW = 256;
+        public const int TEXTURE_SIZE_MED = 512;
+        public const int TEXTURE_SIZE_HIGH = 1024;
+        public const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
 
         [TearDown]
         public void Cleanup()
@@ -29,9 +38,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 #else
             const string configFolderPath = "Packages/com.readyplayerme.avatarloader/Configurations";
 #endif
-            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_LOW}.asset");
-            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_MED}.asset");
-            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{TestUtils.AVATAR_CONFIG_PATH_HIGH}.asset");
+            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_LOW}.asset");
+            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_MED}.asset");
+            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_HIGH}.asset");
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
         }
@@ -55,12 +64,12 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 vertexCounts.Add(avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh.vertexCount);
                 if (avatarConfigs.Count == 0) return;
                 loader.AvatarConfig = avatarConfigs.Dequeue();
-                loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+                loader.LoadAvatar(AVATAR_API_AVATAR_URL);
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
 
             loader.AvatarConfig = avatarConfigs.Dequeue();
-            loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+            loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
             yield return new WaitUntil(() => vertexCounts.Count == 3 || failureType != FailureType.None);
 
@@ -88,19 +97,19 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 textureSizes.Add(avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterial.mainTexture.width);
                 if (avatarConfigs.Count == 0) return;
                 loader.AvatarConfig = avatarConfigs.Dequeue();
-                loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+                loader.LoadAvatar(AVATAR_API_AVATAR_URL);
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
 
             loader.AvatarConfig = avatarConfigs.Dequeue();
-            loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+            loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
             yield return new WaitUntil(() => textureSizes.Count == 3 || failureType != FailureType.None);
 
             Assert.AreEqual(FailureType.None, failureType);
-            Assert.AreEqual(TestUtils.TEXTURE_SIZE_LOW, textureSizes[0]);
-            Assert.AreEqual(TestUtils.TEXTURE_SIZE_MED, textureSizes[1]);
-            Assert.AreEqual(TestUtils.TEXTURE_SIZE_HIGH, textureSizes[2]);
+            Assert.AreEqual(TEXTURE_SIZE_LOW, textureSizes[0]);
+            Assert.AreEqual(TEXTURE_SIZE_MED, textureSizes[1]);
+            Assert.AreEqual(TEXTURE_SIZE_HIGH, textureSizes[2]);
         }
 
         [UnityTest]
@@ -115,7 +124,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.AvatarConfig = avatarConfigLow;
-            loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+            loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
             yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
 
@@ -139,7 +148,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.AvatarConfig = avatarConfigMed;
-            loader.LoadAvatar(TestUtils.AVATAR_API_AVATAR_URL);
+            loader.LoadAvatar(AVATAR_API_AVATAR_URL);
 
             yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
 
@@ -147,7 +156,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(avatar);
-            Assert.AreEqual(TestUtils.AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED, blendShapeCount);
+            Assert.AreEqual(AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED, blendShapeCount);
         }
     }
 }

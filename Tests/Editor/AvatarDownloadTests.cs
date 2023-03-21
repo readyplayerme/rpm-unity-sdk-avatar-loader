@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_AVATAR_GUID}", true);
+            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.CLOUDFRONT_TEST_AVATAR_GUID}", true);
             TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_WRONG_GUID}", true);
         }
 
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
+                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.CloudfrontUri.ModelUrl, TestUtils.CloudfrontUri.LocalModelPath);
             }
             catch (Exception exception)
             {
@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsTrue(File.Exists(TestUtils.Uri.LocalModelPath));
+            Assert.IsTrue(File.Exists(TestUtils.CloudfrontUri.LocalModelPath));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var avatarDownloader = new AvatarDownloader();
             try
             {
-                bytes = await avatarDownloader.DownloadIntoMemory(TestUtils.Uri.ModelUrl);
+                bytes = await avatarDownloader.DownloadIntoMemory(TestUtils.CloudfrontUri.ModelUrl);
             }
             catch (CustomException exception)
             {
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsFalse(File.Exists(TestUtils.Uri.LocalModelPath));
+            Assert.IsFalse(File.Exists(TestUtils.CloudfrontUri.LocalModelPath));
         }
 
 
@@ -108,7 +108,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
+                await avatarDownloader.DownloadIntoFile(TestUtils.CloudfrontUri.ModelUrl, TestUtils.CloudfrontUri.LocalModelPath);
             }
             catch (Exception exception)
             {
