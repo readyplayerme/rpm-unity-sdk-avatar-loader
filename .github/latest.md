@@ -1,17 +1,15 @@
-This update includes a number of fixes and some new features like support for glTFast Defer Agent and texture channel support for avatar config.
+This update includes a Quick Start sample scene, updates to the animation extractor, additional avatar loader component and a fix for caching. 
 
 ## Changelog
 
 ### Added
-- support for offline avatar loading from cache
-- optional sdk logging
-- glTF fast defer agent support
-- texture channel support for avatar config
+- quick start sample
+- animation extract now supports extracting multiple files at once
+- avatar loaded events
+- avatar component
 
 ### Updated
-- PartnerSubdomainSettings refactored to a CoreSettings scriptable object
+- animation extractor path
 
 ### Fixed
-- Added missing URP shader variant
-- core settings asset now automatically created if it is missing.
-- Various other bug fixes and improvements
+- caching issue related to time zone differences

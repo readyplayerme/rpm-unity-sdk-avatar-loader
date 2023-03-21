@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.0] - UNRELEASED
+## [1.1.0] - 2023.03.21
 
 ### Added
 - quick start sample
@@ -32,19 +32,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added missing URP shader variant
 - core settings asset now automatically created if it is missing.
 - Various other bug fixes and improvements
-
-### Added
-- quick start sample
-- animation extract now supports extracting multiple files at once
-- avatar loaded events
-- avatar component
-
-### Updated
-- animation extractor path
-
-### Fixed
-- caching issue related to time zone differences
-
 
 ## [0.2.0] - 2023.02.08
 
