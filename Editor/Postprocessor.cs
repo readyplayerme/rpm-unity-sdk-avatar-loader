@@ -4,13 +4,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class Postprocessor : AssetPostprocessor
     {
-        #region Animation Settings
-
-#if DISABLE_AUTO_INSTALLER
-        private const string ANIMATION_ASSET_PATH = "Assets/Avatar Loader/Resources/Animations";
-#else
-        private const string ANIMATION_ASSET_PATH = "Assets/Ready Player Me/Resources";
-#endif
+        private const string ANIMATION_ASSET_PATH = "Assets/Ready Player Me/Animations";
 
         private void OnPreprocessModel()
         {
@@ -32,7 +26,5 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 SetModelImportData();
             }
         }
-
-        #endregion
     }
 }

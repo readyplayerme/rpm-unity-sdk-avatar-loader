@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEditor;
 using ReadyPlayerMe.Core;
-using ReadyPlayerMe.Core.Editor;
 using ReadyPlayerMe.Core.Analytics;
+using ReadyPlayerMe.Core.Editor;
+using ReadyPlayerMe.Loader;
+using UnityEditor;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -167,6 +168,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }, true);
         }
 
+        private double startTime;
+
         private void DrawLoadAvatarButton()
         {
             Horizontal(() =>
@@ -174,6 +177,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 GUI.enabled = isValidUrlShortcode && !string.IsNullOrEmpty(url);
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
+                    startTime = EditorApplication.timeSinceStartup;
                     AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
                     if (avatarLoaderSettings == null)
                     {
@@ -183,6 +187,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     avatarLoader.SaveInProjectFolder = true;
                     avatarLoader.OnFailed += Failed;
                     avatarLoader.OnCompleted += Completed;
+                    avatarLoader.OperationCompleted += OnOperationCompleted;
                     if (avatarLoaderSettings != null)
                     {
                         avatarLoader.AvatarConfig = avatarLoaderSettings.AvatarConfig;
@@ -200,6 +205,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }, true);
         }
 
+        private void OnOperationCompleted(object sender, IOperation<AvatarContext> e)
+        {
+            if (e.GetType() == typeof(MetadataDownloader))
+            {
+                AnalyticsEditorLogger.EventLogger.LogMetadataDownloaded(EditorApplication.timeSinceStartup - startTime);
+            }
+        }
+
         private void Failed(object sender, FailureEventArgs args)
         {
             Debug.LogError($"{args.Type} - {args.Message}");
@@ -215,6 +228,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name)}/{avatar.name}.prefab");
 
             Selection.activeObject = args.Avatar;
+            AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }
     }
 }

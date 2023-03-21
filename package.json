@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.avatarloader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "Ready Player Me Avatar Loader",
   "description": "Avatar Loader is responsible for downloading, importing and preparing Ready Player Me avatars for use in editor and runtime.",
   "unity": "2020.3",
@@ -23,6 +23,11 @@
     "url": "https://readyplayer.me"
   },
   "samples": [
+    {
+      "displayName": "QuickStart",
+      "description": "This quick start sample demonstrates how to load an avatar with a third person controller setup.",
+      "path": "Samples~/QuickStart"
+    },
     {
       "displayName": "AvatarLoading",
       "description": "Loads an avatar.",
