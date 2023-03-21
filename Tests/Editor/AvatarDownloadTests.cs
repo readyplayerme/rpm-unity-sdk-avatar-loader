@@ -10,8 +10,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.CLOUDFRONT_TEST_AVATAR_GUID}", true);
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_WRONG_GUID}", true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestUtils.TEST_WRONG_GUID, true);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.CloudfrontUri.ModelUrl, TestUtils.CloudfrontUri.LocalModelPath);
+                bytes = await avatarDownloader.DownloadIntoFile(TestAvatarData.DefaultAvatarUri.ModelUrl, TestAvatarData.DefaultAvatarUri.LocalModelPath);
             }
             catch (Exception exception)
             {
@@ -31,18 +31,18 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsTrue(File.Exists(TestUtils.CloudfrontUri.LocalModelPath));
+            Assert.IsTrue(File.Exists(TestAvatarData.DefaultAvatarUri.LocalModelPath));
         }
 
         [Test]
         public async Task Download_Avatar_Into_Memory()
         {
             byte[] bytes;
-
+            
             var avatarDownloader = new AvatarDownloader();
             try
             {
-                bytes = await avatarDownloader.DownloadIntoMemory(TestUtils.CloudfrontUri.ModelUrl);
+                bytes = await avatarDownloader.DownloadIntoMemory(TestAvatarData.DefaultAvatarUri.ModelUrl);
             }
             catch (CustomException exception)
             {
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsFalse(File.Exists(TestUtils.CloudfrontUri.LocalModelPath));
+            Assert.IsFalse(File.Exists(TestAvatarData.DefaultAvatarUri.LocalModelPath));
         }
 
 
@@ -108,7 +108,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoFile(TestUtils.CloudfrontUri.ModelUrl, TestUtils.CloudfrontUri.LocalModelPath);
+                await avatarDownloader.DownloadIntoFile(TestAvatarData.DefaultAvatarUri.ModelUrl, TestAvatarData.DefaultAvatarUri.LocalModelPath);
             }
             catch (Exception exception)
             {

@@ -10,8 +10,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.CLOUDFRONT_TEST_AVATAR_GUID}", true);
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_WRONG_GUID}", true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestUtils.TEST_WRONG_GUID, true);
         }
 
         [UnityTest]
@@ -28,11 +28,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 avatarUrl = args.Url;
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
-            loader.LoadAvatar(TestUtils.CloudfrontUri.ModelUrl);
+            loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             yield return new WaitUntil(() => avatar != null || failureType != FailureType.None);
 
-            Assert.AreEqual(TestUtils.CloudfrontUri.ModelUrl, avatarUrl);
+            Assert.AreEqual(TestAvatarData.DefaultAvatarUri.ModelUrl, avatarUrl);
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(avatar);
             Assert.IsNotNull(avatar.GetComponent<AvatarData>());
@@ -68,14 +68,14 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var loaderA = new AvatarObjectLoader();
             loaderA.OnCompleted += (_, args) => avatarA = args.Avatar;
             loaderA.OnFailed += (_, args) => failureType = args.Type;
-            loaderA.LoadAvatar(TestUtils.CloudfrontUri.ModelUrl);
+            loaderA.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             yield return new WaitUntil(() => avatarA != null || failureType != FailureType.None);
 
             var loaderB = new AvatarObjectLoader();
             loaderB.OnCompleted += (_, args) => avatarB = args.Avatar;
             loaderB.OnFailed += (_, args) => failureType = args.Type;
-            loaderB.LoadAvatar(TestUtils.CloudfrontUri.ModelUrl);
+            loaderB.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             yield return new WaitUntil(() => avatarB != null || failureType != FailureType.None);
 
@@ -97,7 +97,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var loader = new AvatarObjectLoader();
             loader.OnCompleted += (_, args) => avatarA = args.Avatar;
             loader.OnFailed += (_, args) => failureType = args.Type;
-            loader.LoadAvatar(TestUtils.CloudfrontUri.ModelUrl);
+            loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             yield return new WaitUntil(() => avatarA != null || failureType != FailureType.None);
 
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 avatar = args.Avatar;
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
-            loader.LoadAvatar(TestUtils.CloudfrontUri.ModelUrl);
+            loader.LoadAvatar(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             var frameCount = 0;
             const int cancelAfterFramesCount = 10;

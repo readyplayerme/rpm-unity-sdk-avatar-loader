@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -49,29 +50,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             //Assert.AreEqual(skinTone, metadata.SkinTone);
         }
 
-        private static async Task DownloadAndCheckCloudfrontMetadata(string url, BodyType bodyType, OutfitGender outfitGender)
-        {
-            AvatarMetadata metadata;
-
-            var metadataDownloader = new MetadataDownloader();
-            try
-            {
-                metadata = await metadataDownloader.Download(url);
-            }
-            catch (Exception exception)
-            {
-                Assert.Fail(exception.Message);
-                throw;
-            }
-
-            Assert.AreEqual(bodyType, metadata.BodyType);
-            Assert.AreEqual(outfitGender, metadata.OutfitGender);
-        }
-
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.CLOUDFRONT_TEST_AVATAR_GUID}", true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
         }
 
         [Test]
@@ -82,7 +64,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var metadataDownloader = new MetadataDownloader();
             try
             {
-                var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
+                var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
                 metadata = await metadataDownloader.Download(url);
             }
             catch (Exception exception)
@@ -91,7 +73,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 throw;
             }
 
-            metadataDownloader.SaveToFile(metadata, TestUtils.CLOUDFRONT_TEST_AVATAR_GUID, TestUtils.TestJsonFilePath, false);
+            metadataDownloader.SaveToFile(metadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
 
             Assert.AreEqual(true, File.Exists(TestUtils.TestJsonFilePath));
         }
@@ -102,7 +84,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var metadataDownloader = new MetadataDownloader();
             try
             {
-                var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
+                var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
                 await metadataDownloader.Download(url);
             }
             catch (Exception exception)
@@ -138,7 +120,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var metadataDownloader = new MetadataDownloader();
             try
             {
-                var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
+                var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
                 metadata = await metadataDownloader.Download(url);
             }
             catch (Exception exception)
@@ -156,7 +138,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var avatarMetadata = new AvatarMetadata();
 
             var metadataDownloader = new MetadataDownloader();
-            metadataDownloader.SaveToFile(avatarMetadata, TestUtils.CLOUDFRONT_TEST_AVATAR_GUID, TestUtils.TestJsonFilePath, false);
+            metadataDownloader.SaveToFile(avatarMetadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
 
             AvatarMetadata metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
 
@@ -166,106 +148,57 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public async Task Check_Metadata_Feminine_Full_Body()
         {
-            var url = TestAvatars.GetApiAvatarJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
+            var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
             await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Feminine);
         }
         
         [Test]
         public async Task Check_Metadata_Masculine_Full_Body()
         {
-            var url = TestAvatars.GetApiAvatarJsonUrl(BodyType.FullBody, OutfitGender.Masculine);
+            var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Masculine);
             await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Masculine);
         }        
         
         [Test]
         public async Task Check_Metadata_Feminine_Half_Body()
         {
-            var url = TestAvatars.GetApiAvatarJsonUrl(BodyType.HalfBody, OutfitGender.Feminine);
+            var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.HalfBody, OutfitGender.Feminine);
             await DownloadAndCheckMetadata(url, BodyType.HalfBody, OutfitGender.Feminine);
         }
         
         [Test]
         public async Task Check_Metadata_Masculine_Half_Body()
         {
-            var url = TestAvatars.GetApiAvatarJsonUrl(BodyType.HalfBody, OutfitGender.Masculine);
+            var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.HalfBody, OutfitGender.Masculine);
             await DownloadAndCheckMetadata(url, BodyType.HalfBody, OutfitGender.Masculine);
         }
 
-
         [Test]
-        public async Task Check_Cloudfront_Metadata_Feminine_Full_Body()
+        public async Task Check_Models_Metadata_Feminine_Full_Body()
         {
-            var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
-            await DownloadAndCheckCloudfrontMetadata(url, BodyType.FullBody, OutfitGender.Feminine);
-        }
-
-        [Test]
-        public async Task Check_Cloudfront_Metadata_Masculine_Full_Body()
-        {
-            var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.FullBody, OutfitGender.Masculine);
-            await DownloadAndCheckCloudfrontMetadata(url, BodyType.FullBody, OutfitGender.Masculine);
+            var url = TestAvatarData.GetAvatarModelsJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
+            await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Feminine);
         }
 
         [Test]
-        public async Task Check_Cloudfront_Metadata_Feminine_Half_Body()
+        public async Task Check_Models_Metadata_Masculine_Full_Body()
         {
-            var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.HalfBody, OutfitGender.Feminine);
-            await DownloadAndCheckCloudfrontMetadata(url, BodyType.HalfBody, OutfitGender.None);
+            var url = TestAvatarData.GetAvatarModelsJsonUrl(BodyType.FullBody, OutfitGender.Masculine);
+            await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Masculine);
         }
 
         [Test]
-        public async Task Check_Cloudfront_Metadata_Masculine_Half_Body()
+        public async Task Check_Models_Metadata_Feminine_Half_Body()
         {
-            var url = TestAvatars.GetCloudfrontAvatarJsonUrl(BodyType.HalfBody, OutfitGender.Masculine);
-            await DownloadAndCheckCloudfrontMetadata(url, BodyType.HalfBody, OutfitGender.None);
+            var url = TestAvatarData.GetAvatarModelsJsonUrl(BodyType.HalfBody, OutfitGender.Feminine);
+            await DownloadAndCheckMetadata(url, BodyType.HalfBody, OutfitGender.Feminine);
         }
 
-        /*
-        // TODO: These fail in CI due to curl error timeout fires
-        [UnityTest]
-        public IEnumerator Fail_Download_Metadata_Into_Memory_With_Timeout()
+        [Test]
+        public async Task Check_Models_Metadata_Masculine_Half_Body()
         {
-            var failureType = FailureType.None;
-            
-            var metadataDownloader = new MetadataDownloader();
-            metadataDownloader.Timeout = 1;
-            metadataDownloader.OnFailed = (type, _) => failureType = type;
-            metadataDownloader.DownloadIntoMemory(TestUtils.LARGE_JSON_URL).Run();
-
-            yield return new WaitUntil(() => failureType != FailureType.None);
-            
-            Assert.AreEqual(FailureType.MetadataDownloadError,failureType);
+            var url = TestAvatarData.GetAvatarModelsJsonUrl(BodyType.HalfBody, OutfitGender.Masculine);
+            await DownloadAndCheckMetadata(url, BodyType.HalfBody, OutfitGender.Masculine);
         }
-        
-        [UnityTest]
-        public IEnumerator Fail_Download_Metadata_Into_File_With_Timeout()
-        {
-            var failureType = FailureType.None;
-            
-            var metadataDownloader = new MetadataDownloader();
-            metadataDownloader.Timeout = 1;
-            metadataDownloader.OnFailed = (type, _) => failureType = type;
-            metadataDownloader.DownloadIntoFile(TestUtils.LARGE_JSON_URL, TestUtils.TestJsonFilePath).Run();
-            
-            yield return new WaitUntil(() => failureType != FailureType.None);
-            
-            Assert.AreEqual(FailureType.MetadataDownloadError,failureType);
-        }
-        */
-
-        /*
-        // TODO: Enable these tests when half-body avatar metadata is updated
-        [UnityTest]
-        public IEnumerator Check_Metadata_API_Feminine_Half_Body()
-        {
-            yield return TestMetadataAPI(TestUtils.JSON_FEMININE_HALF_BODY, BodyType.HalfBody, OutfitGender.Feminine);
-        }
-        
-        [UnityTest]
-        public IEnumerator Check_Metadata_API_Masculine_Half_Body()
-        {
-            yield return TestMetadataAPI(TestUtils.JSON_MASCULINE_HALF_BODY, BodyType.HalfBody, OutfitGender.Masculine);
-        }
-        */
     }
 }

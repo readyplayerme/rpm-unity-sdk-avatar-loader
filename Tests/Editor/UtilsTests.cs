@@ -212,7 +212,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
         private void CleanupDirectory()
         {
-            TestUtils.DeleteDirectoryIfExists($"{Application.persistentDataPath}/{DirectoryUtility.DefaultAvatarFolder}", true);
+            TestUtils.DeleteAvatarDirectoryIfExists(DirectoryUtility.DefaultAvatarFolder, true);
             DirectoryUtility.DefaultAvatarFolder = defaultAvatarFolder;
         }
 
@@ -220,9 +220,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Get_Avatar_Save_Directory()
         {
             DirectoryUtility.DefaultAvatarFolder = "TestAvatarFolder";
-            var directory = DirectoryUtility.GetAvatarSaveDirectory(TestUtils.CloudfrontUri.Guid, false, PARAM_HASH);
+            var directory = DirectoryUtility.GetAvatarSaveDirectory(TestAvatarData.DefaultAvatarUri.Guid, false, PARAM_HASH);
 
-            Assert.AreEqual($"{Application.persistentDataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestUtils.CloudfrontUri.Guid}/{PARAM_HASH}", directory);
+            Assert.AreEqual($"{Application.persistentDataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestAvatarData.DefaultAvatarUri.Guid}/{PARAM_HASH}", directory);
 
             CleanupDirectory();
         }
@@ -232,9 +232,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             DirectoryUtility.DefaultAvatarFolder = "TestAvatarFolder";
 
-            var directory = DirectoryUtility.GetAvatarSaveDirectory(TestUtils.CloudfrontUri.Guid, true);
+            var directory = DirectoryUtility.GetAvatarSaveDirectory(TestAvatarData.DefaultAvatarUri.Guid, true);
 
-            Assert.AreEqual($"{Application.dataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestUtils.CloudfrontUri.Guid}", directory);
+            Assert.AreEqual($"{Application.dataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestAvatarData.DefaultAvatarUri.Guid}", directory);
 
             CleanupDirectory();
         }
@@ -243,11 +243,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Validate_Avatar_Save_Directory()
         {
             DirectoryUtility.DefaultAvatarFolder = "TestAvatarFolder";
-            var path = $"{Application.persistentDataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestUtils.CloudfrontUri.Guid}";
+            var path = $"{Application.persistentDataPath}/{DirectoryUtility.DefaultAvatarFolder}/{TestAvatarData.DefaultAvatarUri.Guid}";
 
             Assert.IsFalse(Directory.Exists(path));
 
-            DirectoryUtility.ValidateAvatarSaveDirectory(TestUtils.CloudfrontUri.Guid);
+            DirectoryUtility.ValidateAvatarSaveDirectory(TestAvatarData.DefaultAvatarUri.Guid);
 
             Assert.IsTrue(Directory.Exists(path));
 
