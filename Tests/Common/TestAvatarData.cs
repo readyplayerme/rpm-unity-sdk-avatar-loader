@@ -7,6 +7,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const string HALFBODY_MASCULINE = "6419862204207164c854045b";
         private const string HALFBODY_FEMININE = "6419864b398f7e86e696aa77";
         
+        public const string TEST_WRONG_GUID = "wrong-guid";
+        
         public static readonly AvatarUri DefaultAvatarUri = new AvatarUri
         {
             Guid = FULLBODY_MASCULINE,

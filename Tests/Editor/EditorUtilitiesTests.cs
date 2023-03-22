@@ -14,18 +14,18 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [TearDown]
         public void Cleanup()
         {
-            AssetDatabase.DeleteAsset(TestUtils.MOCK_PREFAB_RELATIVE_SAVE_PATH);
+            AssetDatabase.DeleteAsset(LocalTestAssets.MOCK_PREFAB_RELATIVE_SAVE_PATH);
         }
 
         [UnityTest, Order(0)]
         public IEnumerator Avatar_Loaded_And_Saved_In_Prefab()
         {
             var testObject = new GameObject("Test");
-            EditorUtilities.CreatePrefab(testObject, TestUtils.MOCK_PREFAB_RELATIVE_SAVE_PATH);
+            EditorUtilities.CreatePrefab(testObject, LocalTestAssets.MOCK_PREFAB_RELATIVE_SAVE_PATH);
 
             yield return null;
 
-            var prefabExists = File.Exists(TestUtils.MockPrefabSavePath);
+            var prefabExists = File.Exists(LocalTestAssets.MockPrefabSavePath);
 
             Assert.IsTrue(prefabExists);
             Assert.AreEqual(true, PrefabUtility.IsPartOfAnyPrefab(testObject));
@@ -34,13 +34,13 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest, Order(1)]
         public IEnumerator Avatar_Prefab_Has_Mesh_And_Material()
         {
-            var testGlb = AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH);
+            var testGlb = AssetDatabase.LoadAssetAtPath<GameObject>(LocalTestAssets.MULTI_MESH_MALE_AVATAR_GLB_PROJECT_PATH);
             GameObject testObject = Object.Instantiate(testGlb);
-            EditorUtilities.CreatePrefab(testObject, TestUtils.MOCK_PREFAB_RELATIVE_SAVE_PATH);
+            EditorUtilities.CreatePrefab(testObject, LocalTestAssets.MOCK_PREFAB_RELATIVE_SAVE_PATH);
 
             yield return null;
 
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.MOCK_PREFAB_RELATIVE_SAVE_PATH);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(LocalTestAssets.MOCK_PREFAB_RELATIVE_SAVE_PATH);
 
             Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>();
             var isAnyMaterialNull = renderers.Any(x => x.sharedMaterials.Length == 0);
