@@ -9,26 +9,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class MetadataDownloadTests
     {
-        // private const string JSON_MASCULINE_FULL_BODY = "https://models.readyplayer.me/64184ac404207164c85216d6.json";
-        // private const string JSON_FEMININE_FULL_BODY = "https://models.readyplayer.me/641975b2398f7e86e696913e.json";
-        // private const string JSON_MASCULINE_HALF_BODY = "https://models.readyplayer.me/64184ac404207164c85216d6.json";
-        // private const string JSON_FEMININE_HALF_BODY = "https://models.readyplayer.me/641975b2398f7e86e696913e.json";
-        // private const string CLOUDFRONT_JSON_FEMININE_FULL_BODY =
-        //     "https://d1a370nemizbjq.cloudfront.net/7f7f0ab3-c639-4e0c-82b1-2134c03d2af4.json";
-        //
-        // private const string CLOUDFRONT_JSON_MASCULINE_FULL_BODY =
-        //     "https://d1a370nemizbjq.cloudfront.net/fa83d7ac-3fe0-4589-a42e-7b74ea6142e5.json";
-        //
-        // private const string CLOUDFRONT_JSON_FEMININE_HALF_BODY =
-        //     "https://d1a370nemizbjq.cloudfront.net/419f78a1-f9d4-4695-9cc9-4537a6b2f671.json";
-        //
-        // private const string CLOUDFRONT_JSON_MASCULINE_HALF_BODY =
-        //     "https://d1a370nemizbjq.cloudfront.net/b4082a25-1529-4160-b256-b9595fa7f269.json";
-
         private const string WRONG_JSON_URL =
             "https://gist.githubusercontent.com/srcnalt/2ca44ce804ac28ce8722a93dca3635c9/raw";
-        
-        
+
         private static async Task DownloadAndCheckMetadata(string url, BodyType bodyType, OutfitGender outfitGender, string skinTone = "")
         {
             AvatarMetadata metadata;
