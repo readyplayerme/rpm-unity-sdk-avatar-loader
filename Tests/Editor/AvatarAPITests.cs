@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -10,19 +9,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
     public class AvatarAPITests
     {
         private const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
-        private const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
-        private const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
-        private const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
         private const int TEXTURE_SIZE_LOW = 256;
         private const int TEXTURE_SIZE_MED = 512;
         private const int TEXTURE_SIZE_HIGH = 1024;
         private const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
-#if DISABLE_AUTO_INSTALLER
-        private const string CONFIG_FOLDER_PATH = "Assets/Ready Player Me/Avatar Loader/Configurations";
-#else
-        private const string CONFIG_FOLDER_PATH = "Packages/com.readyplayerme.avatarloader/Configurations";
-#endif
-        
+
         private AvatarConfig avatarConfigHigh;
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
@@ -38,13 +29,72 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_LOW}.asset");
-            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_MED}.asset");
-            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_HIGH}.asset");
+            avatarConfigLow = GetLowConfig();
+            avatarConfigMed = GetMedConfig();
+            avatarConfigHigh = GetHighConfig();
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
         }
 
+        private AvatarConfig GetLowConfig()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.MeshLod = MeshLod.Low;
+            avatarConfig.Pose = Pose.APose;
+            avatarConfig.TextureAtlas = TextureAtlas.Low;
+            avatarConfig.TextureSizeLimit = 256;
+            avatarConfig.UseHands = false;
+            avatarConfig.TextureChannel = GetAllTextureChannels();
+            avatarConfig.UseDracoCompression = false;
+            var morphTargets = new List<string>();
+            morphTargets.Add("none");
+            avatarConfig.MorphTargets = morphTargets;
+            return avatarConfig;
+        }
+        
+        private AvatarConfig GetMedConfig()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.MeshLod = MeshLod.Medium;
+            avatarConfig.Pose = Pose.APose;
+            avatarConfig.TextureAtlas = TextureAtlas.Medium;
+            avatarConfig.TextureSizeLimit = 512;
+            avatarConfig.UseHands = false;
+            avatarConfig.TextureChannel = GetAllTextureChannels();
+            avatarConfig.UseDracoCompression = false;
+            var morphTargets = new List<string>();
+            morphTargets.Add("Oculus Visemes");
+            avatarConfig.MorphTargets = morphTargets;
+            return avatarConfig;
+        }
+        
+        private AvatarConfig GetHighConfig()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.MeshLod = MeshLod.High;
+            avatarConfig.Pose = Pose.APose;
+            avatarConfig.TextureAtlas = TextureAtlas.High;
+            avatarConfig.TextureSizeLimit = 1024;
+            avatarConfig.UseHands = false;
+            avatarConfig.TextureChannel = GetAllTextureChannels();
+            avatarConfig.UseDracoCompression = false;
+            var morphTargets = new List<string>();
+            morphTargets.Add("Oculus Visemes");
+            avatarConfig.MorphTargets = morphTargets;
+            return avatarConfig;
+        }
+        
+        private TextureChannel[] GetAllTextureChannels()
+        {
+            var textureChannels = new TextureChannel[5];
+            textureChannels[0] = TextureChannel.BaseColor;
+            textureChannels[1] = TextureChannel.Normal;
+            textureChannels[2] = TextureChannel.MetallicRoughness;
+            textureChannels[3] = TextureChannel.Emissive;
+            textureChannels[4] = TextureChannel.Occlusion;
+            return textureChannels;
+        }
+        
         [UnityTest]
         public IEnumerator AvatarLoader_Avatar_API_Mesh_LOD()
         {
