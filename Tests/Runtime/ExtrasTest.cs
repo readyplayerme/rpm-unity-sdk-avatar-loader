@@ -26,8 +26,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             o.AddComponent<AudioListener>();
 
             singleMeshAvatarPrefab =
-                AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH);
-            audioClip = AssetDatabase.LoadAssetAtPath<AudioClip>(TestUtils.TestAudioClipPath);
+                AssetDatabase.LoadAssetAtPath<GameObject>(LocalTestAssets.SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH);
+            audioClip = AssetDatabase.LoadAssetAtPath<AudioClip>(LocalTestAssets.TestAudioClipPath);
         }
 
         #region Voice Handler Tests

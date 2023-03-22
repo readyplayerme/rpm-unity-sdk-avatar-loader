@@ -50,11 +50,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 failureType = args.Type;
                 avatarUrl = args.Url;
             };
-            loader.LoadAvatar(TestUtils.WrongUri.ModelUrl);
+            loader.LoadAvatar(TestAvatarData.WrongUri.ModelUrl);
 
             yield return new WaitUntil(() => failureType != FailureType.None);
 
-            Assert.AreEqual(TestUtils.WrongUri.ModelUrl, avatarUrl);
+            Assert.AreEqual(TestAvatarData.WrongUri.ModelUrl, avatarUrl);
             Assert.AreNotEqual(FailureType.None, failureType);
         }
 

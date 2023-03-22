@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.OnCompleted = data => renderTexture = data;
             renderLoader.OnFailed = (failType, message) => failureType = failType;
 
-            renderLoader.LoadRender(TestUtils.WrongUri.ModelUrl, RENDER_SCENE);
+            renderLoader.LoadRender(TestAvatarData.WrongUri.ModelUrl, RENDER_SCENE);
 
             yield return new WaitUntil(() => renderTexture != null || failureType != FailureType.None);
 

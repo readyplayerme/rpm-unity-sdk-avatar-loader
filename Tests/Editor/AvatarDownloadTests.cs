@@ -63,7 +63,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             try
             {
                 await avatarDownloader
-                    .DownloadIntoFile(TestUtils.WrongUri.ModelUrl, TestUtils.WrongUri.LocalModelPath);
+                    .DownloadIntoFile(TestAvatarData.WrongUri.ModelUrl, TestAvatarData.WrongUri.LocalModelPath);
 
             }
             catch (CustomException exception)
@@ -82,7 +82,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoMemory(TestUtils.WrongUri.ModelUrl);
+                await avatarDownloader.DownloadIntoMemory(TestAvatarData.WrongUri.ModelUrl);
             }
             catch (CustomException exception)
             {

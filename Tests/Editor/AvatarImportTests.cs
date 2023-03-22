@@ -15,7 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var importer = new GltFastAvatarImporter();
             try
             {
-                avatar = await importer.ImportModel(TestUtils.MultiMeshMaleAvatarGlbPath, new CancellationToken());
+                avatar = await importer.ImportModel(LocalTestAssets.MultiMeshMaleAvatarGlbPath, new CancellationToken());
             }
             catch (CustomException exception)
             {
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             var importer = new GltFastAvatarImporter();
             try
             {
-                avatar = await importer.ImportModel(TestUtils.MultiMeshHalfBodyAvatarGlbPath, new CancellationToken());
+                avatar = await importer.ImportModel(LocalTestAssets.MultiMeshHalfBodyAvatarGlbPath, new CancellationToken());
             }
             catch (CustomException exception)
             {
@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Import_Avatar_Multi_Mesh_From_Bytes()
         {
             GameObject avatar;
-            var bytes = File.ReadAllBytes(TestUtils.MultiMeshMaleAvatarGlbPath);
+            var bytes = File.ReadAllBytes(LocalTestAssets.MultiMeshMaleAvatarGlbPath);
             var importer = new GltFastAvatarImporter();
             try
             {
@@ -85,7 +85,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Import_Avatar_Single_Mesh_From_Bytes()
         {
             GameObject avatar;
-            var bytes = File.ReadAllBytes(TestUtils.SingleMeshFemaleAvatarGlbPath);
+            var bytes = File.ReadAllBytes(LocalTestAssets.SingleMeshFemaleAvatarGlbPath);
             var importer = new GltFastAvatarImporter();
             try
             {
@@ -104,7 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Import_Halfbody_Multi_Mesh_Avatar_From_Bytes()
         {
             GameObject avatar;
-            var bytes = File.ReadAllBytes(TestUtils.MultiMeshHalfBodyAvatarGlbPath);
+            var bytes = File.ReadAllBytes(LocalTestAssets.MultiMeshHalfBodyAvatarGlbPath);
             var importer = new GltFastAvatarImporter();
             try
             {
@@ -123,7 +123,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Import_Halfbody_Single_Mesh_Avatar_From_Bytes()
         {
             GameObject avatar;
-            var bytes = File.ReadAllBytes(TestUtils.SingleMeshHalfBodyAvatarGlbPath);
+            var bytes = File.ReadAllBytes(LocalTestAssets.SingleMeshHalfBodyAvatarGlbPath);
             var importer = new GltFastAvatarImporter();
             try
             {

@@ -22,11 +22,11 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Initialize()
         {
             var multiMeshAvatarPrefab =
-                AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.MULTI_MESH_MALE_PROCESSED_AVATAR_PATH);
+                AssetDatabase.LoadAssetAtPath<GameObject>(LocalTestAssets.MULTI_MESH_MALE_PROCESSED_AVATAR_PATH);
             multiMeshAvatar = Object.Instantiate(multiMeshAvatarPrefab);
 
             var singleMeshAvatarPrefab =
-                AssetDatabase.LoadAssetAtPath<GameObject>(TestUtils.SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH);
+                AssetDatabase.LoadAssetAtPath<GameObject>(LocalTestAssets.SINGLE_MESH_FEMALE_PROCESSED_AVATAR_PATH);
             singleMeshAvatar = Object.Instantiate(singleMeshAvatarPrefab);
 
             defaultAvatarFolder = DirectoryUtility.DefaultAvatarFolder;

@@ -9,6 +9,15 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         
         public const string TEST_WRONG_GUID = "wrong-guid";
         
+        public static readonly AvatarUri WrongUri = new AvatarUri
+        {
+            Guid = TEST_WRONG_GUID,
+            ModelUrl = $"{TestUtils.API_URL_PREFIX}{TEST_WRONG_GUID}{TestUtils.GLB_SUFFIX}",
+            LocalModelPath = $"{TestUtils.TestAvatarDirectory}/{TEST_WRONG_GUID}/{TEST_WRONG_GUID}{TestUtils.GLB_SUFFIX}",
+            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{TEST_WRONG_GUID}{TestUtils.JSON_SUFFIX}",
+            LocalMetadataPath = $"{TestUtils.TestAvatarDirectory}/{TEST_WRONG_GUID}/{TEST_WRONG_GUID}{TestUtils.JSON_SUFFIX}"
+        };
+        
         public static readonly AvatarUri DefaultAvatarUri = new AvatarUri
         {
             Guid = FULLBODY_MASCULINE,
