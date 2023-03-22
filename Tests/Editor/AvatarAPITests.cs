@@ -9,21 +9,24 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class AvatarAPITests
     {
+        private const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
+        private const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
+        private const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
+        private const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
+        private const int TEXTURE_SIZE_LOW = 256;
+        private const int TEXTURE_SIZE_MED = 512;
+        private const int TEXTURE_SIZE_HIGH = 1024;
+        private const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
+#if DISABLE_AUTO_INSTALLER
+        private const string CONFIG_FOLDER_PATH = "Assets/Ready Player Me/Avatar Loader/Configurations";
+#else
+        private const string CONFIG_FOLDER_PATH = "Packages/com.readyplayerme.avatarloader/Configurations";
+#endif
+        
         private AvatarConfig avatarConfigHigh;
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
         private AvatarLoaderSettings settings;
-        
-        public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
-        private const string CONFIG_FOLDER_PATH = "Assets/Ready Player Me/Avatar Loader/Configurations";
-        public const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
-        public const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
-        public const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
-        public const int TEXTURE_SIZE_LOW = 256;
-        public const int TEXTURE_SIZE_MED = 512;
-        public const int TEXTURE_SIZE_HIGH = 1024;
-        public const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
-
 
         [TearDown]
         public void Cleanup()
