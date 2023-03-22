@@ -12,8 +12,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public const string MODELS_URL_PREFIX = "https://models.readyplayer.me/";
         public const string API_URL_PREFIX = "https://api.readyplayer.me/v1/avatars/";
         public const string TEST_WRONG_GUID = "wrong-guid";
-
-        public static readonly string TestAvatarDirectory = $"{Application.persistentDataPath}/Ready Player Me/Test/Avatars";
+        public static readonly string RelativeTestAvatarsFolder = "/Ready Player Me/Test/Avatars";
+        public static readonly string TestAvatarDirectory = $"{Application.persistentDataPath}{RelativeTestAvatarsFolder}";
 
         public static readonly string TestJsonFilePath =
             $"{DirectoryUtility.GetAvatarSaveDirectory(TestAvatarData.DefaultAvatarUri.Guid)}/test.json";
