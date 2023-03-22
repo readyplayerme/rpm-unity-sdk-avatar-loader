@@ -2,9 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using ReadyPlayerMe.AvatarLoader;
+using ReadyPlayerMe.AvatarLoader.Tests;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Tests
+namespace ReadyPlayerMe.Tests
 {
     public class AvatarImportTests
     {
