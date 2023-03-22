@@ -15,6 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private AvatarLoaderSettings settings;
         
         public const string AVATAR_API_AVATAR_URL = "https://api.readyplayer.me/v1/avatars/638df693d72bffc6fa17943c.glb";
+        private const string CONFIG_FOLDER_PATH = "Assets/Ready Player Me/Avatar Loader/Configurations";
         public const string AVATAR_CONFIG_PATH_LOW = "Avatar Config Low";
         public const string AVATAR_CONFIG_PATH_MED = "Avatar Config Medium";
         public const string AVATAR_CONFIG_PATH_HIGH = "Avatar Config High";
@@ -22,6 +23,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public const int TEXTURE_SIZE_MED = 512;
         public const int TEXTURE_SIZE_HIGH = 1024;
         public const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
+
 
         [TearDown]
         public void Cleanup()
@@ -33,14 +35,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [OneTimeSetUp]
         public void Init()
         {
-#if DISABLE_AUTO_INSTALLER
-            const string configFolderPath = "Assets/Ready Player Me/Avatar Loader/Configurations";
-#else
-            const string configFolderPath = "Packages/com.readyplayerme.avatarloader/Configurations";
-#endif
-            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_LOW}.asset");
-            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_MED}.asset");
-            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{configFolderPath}/{AVATAR_CONFIG_PATH_HIGH}.asset");
+            avatarConfigLow = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_LOW}.asset");
+            avatarConfigMed = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_MED}.asset");
+            avatarConfigHigh = AssetDatabase.LoadAssetAtPath<AvatarConfig>($"{CONFIG_FOLDER_PATH}/{AVATAR_CONFIG_PATH_HIGH}.asset");
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
         }
