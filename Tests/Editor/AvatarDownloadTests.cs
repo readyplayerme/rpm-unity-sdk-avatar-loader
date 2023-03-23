@@ -37,6 +37,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public async Task Download_Avatar_Into_Memory()
         {
+            Cleanup();
             byte[] bytes;
             
             var avatarDownloader = new AvatarDownloader();
