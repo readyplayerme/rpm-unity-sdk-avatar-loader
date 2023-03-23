@@ -10,8 +10,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [TearDown]
         public void Cleanup()
         {
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_AVATAR_GUID}", true);
-            TestUtils.DeleteDirectoryIfExists($"{TestUtils.TestAvatarDirectory}/{TestUtils.TEST_WRONG_GUID}", true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestAvatarData.DefaultAvatarUri.Guid, true);
+            TestUtils.DeleteAvatarDirectoryIfExists(TestUtils.TEST_WRONG_GUID, true);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                bytes = await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
+                bytes = await avatarDownloader.DownloadIntoFile(TestAvatarData.DefaultAvatarUri.ModelUrl, TestAvatarData.DefaultAvatarUri.LocalModelPath);
             }
             catch (Exception exception)
             {
@@ -31,18 +31,19 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsTrue(File.Exists(TestUtils.Uri.LocalModelPath));
+            Assert.IsTrue(File.Exists(TestAvatarData.DefaultAvatarUri.LocalModelPath));
         }
 
         [Test]
         public async Task Download_Avatar_Into_Memory()
         {
+            Cleanup();
             byte[] bytes;
-
+            
             var avatarDownloader = new AvatarDownloader();
             try
             {
-                bytes = await avatarDownloader.DownloadIntoMemory(TestUtils.Uri.ModelUrl);
+                bytes = await avatarDownloader.DownloadIntoMemory(TestAvatarData.DefaultAvatarUri.ModelUrl);
             }
             catch (CustomException exception)
             {
@@ -51,7 +52,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             }
 
             Assert.NotNull(bytes);
-            Assert.IsFalse(File.Exists(TestUtils.Uri.LocalModelPath));
+            Assert.IsFalse(File.Exists(TestAvatarData.DefaultAvatarUri.LocalModelPath));
         }
 
 
@@ -63,7 +64,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             try
             {
                 await avatarDownloader
-                    .DownloadIntoFile(TestUtils.WrongUri.ModelUrl, TestUtils.WrongUri.LocalModelPath);
+                    .DownloadIntoFile(TestAvatarData.WrongUri.ModelUrl, TestAvatarData.WrongUri.LocalModelPath);
 
             }
             catch (CustomException exception)
@@ -82,7 +83,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoMemory(TestUtils.WrongUri.ModelUrl);
+                await avatarDownloader.DownloadIntoMemory(TestAvatarData.WrongUri.ModelUrl);
             }
             catch (CustomException exception)
             {
@@ -108,7 +109,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             try
             {
-                await avatarDownloader.DownloadIntoFile(TestUtils.Uri.ModelUrl, TestUtils.Uri.LocalModelPath);
+                await avatarDownloader.DownloadIntoFile(TestAvatarData.DefaultAvatarUri.ModelUrl, TestAvatarData.DefaultAvatarUri.LocalModelPath);
             }
             catch (Exception exception)
             {

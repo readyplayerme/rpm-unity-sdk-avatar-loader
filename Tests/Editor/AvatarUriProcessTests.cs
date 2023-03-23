@@ -13,24 +13,23 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const string SHORT_CODE_URL = "https://api.readyplayer.me/v1/avatars/DDBWOI.glb";
 
         private const string RANDOM_PARAM_HASH = "123456789";
-        private const string BASE_URL = "https://api.readyplayer.me/v1/avatars";
 
         private readonly AvatarUri expectedShortcodeUri = new AvatarUri
         {
             Guid = SHORT_CODE,
-            ModelUrl = $"{BASE_URL}/{SHORT_CODE}.glb",
-            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH)}/{SHORT_CODE}.glb",
-            MetadataUrl = $"{BASE_URL}/{SHORT_CODE}.json",
-            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE)}{SHORT_CODE}.json"
+            ModelUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
+            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH)}/{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
+            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.JSON_SUFFIX}",
+            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE)}{SHORT_CODE}{TestUtils.JSON_SUFFIX}"
         };
 
         private readonly AvatarUri expectedUri = new AvatarUri
         {
             Guid = GUID,
-            ModelUrl = $"{BASE_URL}/{GUID}.glb",
-            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH)}/{GUID}.glb",
-            MetadataUrl = $"{BASE_URL}/{GUID}.json",
-            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}.json"
+            ModelUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.GLB_SUFFIX}",
+            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH)}/{GUID}{TestUtils.GLB_SUFFIX}",
+            MetadataUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.JSON_SUFFIX}",
+            LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}{TestUtils.JSON_SUFFIX}"
         };
 
         [Test]
@@ -54,8 +53,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedUri.Guid, avatarUri.Guid);
             Assert.AreEqual(expectedUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedUri.MetadataUrl, avatarUri.MetadataUrl);
-            Assert.AreEqual($"{dir}/{avatarUri.Guid}.glb", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}.json", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
 
         [Test]
@@ -79,8 +78,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedShortcodeUri.Guid, avatarUri.Guid);
             Assert.AreEqual(expectedShortcodeUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedShortcodeUri.MetadataUrl, avatarUri.MetadataUrl);
-            Assert.AreEqual($"{dir}/{avatarUri.Guid}.glb", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}.json", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
 
         [Test]
@@ -104,8 +103,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedShortcodeUri.Guid, avatarUri.Guid);
             Assert.AreEqual(expectedShortcodeUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedShortcodeUri.MetadataUrl, avatarUri.MetadataUrl);
-            Assert.AreEqual($"{dir}/{avatarUri.Guid}.glb", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}.json", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
     }
 }
