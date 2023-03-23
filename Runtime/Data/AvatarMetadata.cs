@@ -11,5 +11,6 @@ namespace ReadyPlayerMe.AvatarLoader
         public BodyType BodyType;
         public OutfitGender OutfitGender;
         public DateTime UpdatedAt;
+        public string SkinTone;
     }
 }
