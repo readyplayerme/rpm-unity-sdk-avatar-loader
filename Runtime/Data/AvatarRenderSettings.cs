@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         public string Model;
         public AvatarRenderScene Scene;
-        public string Armature;
         public string BlendShapeMesh;
         public Dictionary<string, float> BlendShapes;
 
@@ -18,7 +17,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var parameters = "?";
             parameters += Scene.GetSceneNameAsString();
-            if (BlendShapes.Count > 0)
+            if (BlendShapes != null)
             {
                 parameters += BuildBlendshapeParameters();
             }

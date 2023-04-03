@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader
         [SerializeField] 
         private GameObject loadingPanel;
 
-        private readonly string blendShapeMesh = "Wolf3D_Avatar";
+        private readonly string blendShapeMesh = "Wolf3D_Head";
         
         /// A collection of blendshape names and values to pose the face mesh into a smile using blendshapes
         private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
