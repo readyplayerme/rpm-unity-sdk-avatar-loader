@@ -9,8 +9,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
     public class AvatarRenderLoaderTests
     {
         private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.FullbodyPortraitTransparent;
-        private const string RENDER_BLENDSHAPE_MESH = "Wolf3D_Head";
-        private const string RENDER_WRONG_BLENDSHAPE_MESH = "wrong_blendshape_mesh";
+        private readonly string[] renderBlendshapeMeshes = {"Wolf3D_Head"};
+        private readonly string[] renderWrongBlendshapeMesh = {"wrong_blendshape_mesh"};
         private const string RENDER_BLENDSHAPE = "mouthSmile";
         private const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
         private const float BLENDSHAPE_VALUE = 0.5f;
@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.LoadRender(
                 TestAvatarData.DefaultAvatarUri.ModelUrl,
                 RENDER_SCENE,
-                RENDER_BLENDSHAPE_MESH,
+                renderBlendshapeMeshes,
                 new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.LoadRender(
                 TestAvatarData.DefaultAvatarUri.ModelUrl,
                 RENDER_SCENE,
-                RENDER_WRONG_BLENDSHAPE_MESH,
+                renderWrongBlendshapeMesh,
                 new Dictionary<string, float> { { RENDER_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
@@ -111,7 +111,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             renderLoader.LoadRender(
                 TestAvatarData.DefaultAvatarUri.ModelUrl,
                 RENDER_SCENE,
-                RENDER_BLENDSHAPE_MESH,
+                renderBlendshapeMeshes,
                 new Dictionary<string, float> { { RENDER_WRONG_BLENDSHAPE, BLENDSHAPE_VALUE } }
             );
 
