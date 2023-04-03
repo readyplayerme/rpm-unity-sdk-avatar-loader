@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class AvatarRenderLoaderTests
     {
-        private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.PortraitTransparent;
+        private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.FullbodyPortraitTransparent;
         private const string RENDER_BLENDSHAPE_MESH = "Wolf3D_Head";
         private const string RENDER_WRONG_BLENDSHAPE_MESH = "wrong_blendshape_mesh";
         private const string RENDER_BLENDSHAPE = "mouthSmile";

@@ -56,7 +56,6 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 new UrlProcessor(),
                 new MetadataDownloader(),
-                new RenderRequestParameterProcessor(),
                 new AvatarRenderDownloader()
             });
             executor.ProgressChanged += ProgressChanged;
