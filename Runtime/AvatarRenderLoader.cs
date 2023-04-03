@@ -28,7 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="url">The url to the avatars .glb file.</param>
         /// <param name="renderScene">The <see cref="AvatarRenderScene" /> to use for the avatar render.</param>
-        /// <param name="renderBlendShapeMeshes">
+        /// <param name="blendShapeMeshes">
         /// The name of the <see cref="SkinnedMeshRenderer" /> that contains the blendshapes you
         /// want to set.
         /// </param>
@@ -36,7 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public async void LoadRender(
             string url,
             AvatarRenderScene renderScene,
-            string[] renderBlendShapeMeshes = null,
+            string[] blendShapeMeshes = null,
             Dictionary<string, float> renderBlendShapes = null
         )
         {
@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 Model = url,
                 Scene = renderScene,
-                BlendShapeMeshes = renderBlendShapeMeshes,
+                BlendShapeMeshes = blendShapeMeshes,
                 BlendShapes = renderBlendShapes
             };
 
