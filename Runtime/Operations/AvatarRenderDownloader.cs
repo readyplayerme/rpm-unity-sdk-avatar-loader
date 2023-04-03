@@ -37,7 +37,6 @@ namespace ReadyPlayerMe.AvatarLoader
             try
             {
                 var renderUrl = RenderParameterProcessor.GetRenderUrl(context);
-                Debug.Log($"URL = {renderUrl}");
                 context.Data = await RequestAvatarRender(renderUrl, token);
                 SDKLogger.Log(TAG, "Avatar Render Downloaded");
                 return context;

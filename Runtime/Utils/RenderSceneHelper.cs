@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using ReadyPlayerMe.AvatarLoader;
-using UnityEngine;
 
 public static class RenderSceneHelper 
 {
     public static string GetSceneNameAsString(this AvatarRenderScene avatarRenderScene)
     {
-        Debug.Log($"{RenderSceneMap[avatarRenderScene]}");
         return RenderSceneMap[avatarRenderScene];
     }
     
