@@ -15,8 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public string GetParametersAsString()
         {
-            var parameters = "?";
-            parameters += $"scene={Scene.GetSceneNameAsString()}";
+            var parameters = $"?scene={Scene.GetSceneNameAsString()}";
             if (BlendShapes != null)
             {
                 parameters += BuildBlendshapeParameters();
