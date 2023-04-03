@@ -10,13 +10,13 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         public string Model;
         public AvatarRenderScene Scene;
-        public string BlendShapeMesh;
+        public string[] BlendShapeMeshes;
         public Dictionary<string, float> BlendShapes;
 
         public string GetParametersAsString()
         {
             var parameters = "?";
-            parameters += Scene.GetSceneNameAsString();
+            parameters += $"scene={Scene.GetSceneNameAsString()}";
             if (BlendShapes != null)
             {
                 parameters += BuildBlendshapeParameters();
@@ -29,7 +29,10 @@ namespace ReadyPlayerMe.AvatarLoader
             var parameters = new StringBuilder();
             foreach (var blendShape in BlendShapes)
             {
-                parameters.Append($"&blendShapes=[{BlendShapeMesh}][{blendShape.Key}]={blendShape.Value}");
+                foreach (var blendShapeMesh in BlendShapeMeshes)
+                {
+                    parameters.Append($"&blendShapes[{blendShapeMesh}][{blendShape.Key}]={blendShape.Value}");
+                }
             }
             return parameters.ToString();
         }

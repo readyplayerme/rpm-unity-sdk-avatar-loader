@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader
         [SerializeField] 
         private GameObject loadingPanel;
 
-        private readonly string blendShapeMesh = "Wolf3D_Head";
+        private readonly string[] blendShapeMeshes = {"Wolf3D_Head", "Wolf3D_Teeth"};
         
         /// A collection of blendshape names and values to pose the face mesh into a smile using blendshapes
         private readonly Dictionary<string, float> blendShapes = new Dictionary<string, float>
@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader
             var avatarRenderer = new AvatarRenderLoader();
             avatarRenderer.OnCompleted = UpdateSprite;
             avatarRenderer.OnFailed = Fail;
-            avatarRenderer.LoadRender(url, scene, blendShapeMesh, blendShapes);
+            avatarRenderer.LoadRender(url, scene, blendShapeMeshes, blendShapes);
             loadingPanel.SetActive(true);
         }
 
