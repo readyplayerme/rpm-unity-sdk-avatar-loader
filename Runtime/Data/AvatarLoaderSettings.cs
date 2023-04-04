@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -7,7 +6,6 @@ namespace ReadyPlayerMe.AvatarLoader
     /// The <c>AvatarLoaderSettings</c> class is a <c>ScriptableObject</c> that can be used to easily configure the
     /// settings that should be used when loading a Ready Player Me avatar.
     /// </summary>
-    [CreateAssetMenu(fileName = "AvatarLoaderSettings", menuName = "Ready Player Me/Avatar Loader Settings", order = 1)]
     public class AvatarLoaderSettings : ScriptableObject
     {
 
@@ -17,7 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader
         [Tooltip("If enabled avatar assets will be stored locally and only downloaded again if the avatar has been updated.")]
         public bool AvatarCachingEnabled;
 
-        /// 
+        /// assign an <seealso cref="AvatarConfig"/> to change the configuration of your avatar
         public AvatarConfig AvatarConfig;
 
         public GLTFDeferAgent GLTFDeferAgent;
