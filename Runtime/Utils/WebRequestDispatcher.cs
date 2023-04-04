@@ -180,13 +180,15 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
+        /// <param name="timeout">Used to set how long to wait before the request will time out</param>
         /// <returns>The response data as a <see cref="Texture2D" /> if successful otherwise it will throw an exception.</returns>
-        public async Task<Texture2D> DownloadTexture(string url, CancellationToken token)
+        public async Task<Texture2D> DownloadTexture(string url, CancellationToken token, int timeout = TIMEOUT)
         {
             if (HasInternetConnection)
             {
                 using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
                 {
+                    request.timeout = timeout;
                     UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
                     while (!asyncOperation.isDone && !token.IsCancellationRequested)
                     {
@@ -195,16 +197,14 @@ namespace ReadyPlayerMe.AvatarLoader
                     }
 
                     token.ThrowCustomExceptionIfCancellationRequested();
+                    var errorDetected = request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError;
 
-                    if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
-                    {
-                        throw new CustomException(FailureType.DownloadError, request.error);
-                    }
-
-                    if (request.downloadHandler is DownloadHandlerTexture downloadHandlerTexture)
+                    if (!errorDetected && request.downloadHandler is DownloadHandlerTexture downloadHandlerTexture)
                     {
                         return downloadHandlerTexture.texture;
                     }
+                    
+                    throw new CustomException(FailureType.DownloadError, request.error);
                 }
             }
 

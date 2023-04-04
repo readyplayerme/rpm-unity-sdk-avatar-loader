@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -9,8 +10,30 @@ namespace ReadyPlayerMe.AvatarLoader
     {
         public string Model;
         public AvatarRenderScene Scene;
-        public string Armature;
-        public string BlendShapeMesh;
+        public string[] BlendShapeMeshes;
         public Dictionary<string, float> BlendShapes;
+
+        public string GetParametersAsString()
+        {
+            var parameters = $"?scene={Scene.GetSceneNameAsString()}";
+            if (BlendShapes != null)
+            {
+                parameters += BuildBlendshapeParameters();
+            }
+            return parameters;
+        }
+
+        public string BuildBlendshapeParameters()
+        {
+            var parameters = new StringBuilder();
+            foreach (var blendShape in BlendShapes)
+            {
+                foreach (var blendShapeMesh in BlendShapeMeshes)
+                {
+                    parameters.Append($"&blendShapes[{blendShapeMesh}][{blendShape.Key}]={blendShape.Value}");
+                }
+            }
+            return parameters.ToString();
+        }
     }
 }

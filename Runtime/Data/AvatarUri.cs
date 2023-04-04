@@ -10,5 +10,6 @@
         public string LocalModelPath;
         public string MetadataUrl;
         public string LocalMetadataPath;
+        public string ImageUrl;
     }
 }
