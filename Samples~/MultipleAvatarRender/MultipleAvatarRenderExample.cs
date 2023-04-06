@@ -37,6 +37,9 @@ namespace ReadyPlayerMe.AvatarLoader
             { "viseme_aa", 0.5f },
             { "jawOpen", 0.3f }
         };
+        
+        private readonly string[] blendShapeMeshes = {"Wolf3D_Head", "Wolf3D_Teeth"};
+
 
         private async void Start()
         {
@@ -47,7 +50,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 var avatarRenderer = new AvatarRenderLoader();
                 avatarRenderer.OnCompleted = texture => UpdateSprite(renderData.image, texture);
                 avatarRenderer.OnFailed = Fail;
-                avatarRenderer.LoadRender(renderData.url, renderData.avatarRenderScene, null, blendShapes);
+                avatarRenderer.LoadRender(renderData.url, renderData.avatarRenderScene, blendShapeMeshes, blendShapes);
             }
 
             while (dataList.Any(x => !x.imageLoaded))

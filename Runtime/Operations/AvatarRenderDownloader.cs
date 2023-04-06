@@ -16,12 +16,12 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string TAG = nameof(AvatarRenderDownloader);
 
         /// <summary>
-        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcherExtension" /> when making the web request.
         /// </summary>
         public int Timeout { get; set; }
 
         /// <summary>
-        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcherExtension" />
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }

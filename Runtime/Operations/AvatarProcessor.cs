@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public int Timeout { get; set; }
 
         /// <summary>
-        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcherExtension" />
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }

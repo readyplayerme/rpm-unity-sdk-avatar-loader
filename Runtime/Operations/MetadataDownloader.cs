@@ -17,12 +17,12 @@ namespace ReadyPlayerMe.Loader
         private const string TAG = nameof(MetadataDownloader);
 
         /// <summary>
-        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcherExtension" /> when making the web request.
         /// </summary>
         public int Timeout { get; set; }
 
         /// <summary>
-        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcherExtension" />
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
@@ -76,7 +76,7 @@ namespace ReadyPlayerMe.Loader
                 // add random tail to the url to prevent JSON from being loaded from the browser cache
                 var response = await dispatcher.DownloadIntoMemory(url + "?tail=" + Guid.NewGuid(), token, Timeout);
 #else
-                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
 #endif
                 return ParseResponse(response.Text);
             }
