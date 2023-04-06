@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarLoader
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Eye Animation Handler", 0)]
     public class EyeAnimationHandler : MonoBehaviour
     {
-
         private const int VERTICAL_MARGIN = 15;
         private const int HORIZONTAL_MARGIN = 5;
         private const string EYE_BLINK_LEFT_BLEND_SHAPE_NAME = "eyeBlinkLeft";
@@ -27,7 +26,7 @@ namespace ReadyPlayerMe.AvatarLoader
         [SerializeField, Range(0, 1), Tooltip("Effects the duration of the avatar blink animation in seconds.")]
         private float blinkDuration = 0.1f;
 
-        [SerializeField, Range(1, 10), Tooltip("Effects the amount of time in between each blink in seconds..")]
+        [SerializeField, Range(1, 10), Tooltip("Effects the amount of time in between each blink in seconds.")]
         private float blinkInterval = 3f;
 
         private WaitForSeconds blinkDelay;
@@ -133,15 +132,18 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         private void RotateEyes()
         {
+            leftEyeBone.localRotation = rightEyeBone.localRotation = GetRandomLookRotation();
+        }
+
+        private Quaternion GetRandomLookRotation()
+        {
             float vertical = Random.Range(-VERTICAL_MARGIN, VERTICAL_MARGIN);
             float horizontal = Random.Range(-HORIZONTAL_MARGIN, HORIZONTAL_MARGIN);
-
+            
             Quaternion rotation = isFullBody
                 ? Quaternion.Euler(horizontal, vertical, 0)
                 : Quaternion.Euler(horizontal - HALFBODY_OFFSET_X, 0, vertical + HALFBODY_OFFSET_Z);
-
-            leftEyeBone.localRotation = rotation;
-            rightEyeBone.localRotation = rotation;
+            return rotation;
         }
 
         /// <summary>

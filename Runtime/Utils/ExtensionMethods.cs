@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader
             if (children.Count == 0)
             {
                 
-                SDKLogger.AvatarLoaderLogger.Log(TAG, "ExtensionMethods.GetMeshRenderer: No SkinnedMeshRenderer found on the Game Object.");
+                SDKLogger.AvatarLoaderLogger.Log(TAG, $"No SkinnedMeshRenderer found on the Game Object {gameObject.name}.");
                 return null;
             }
 
@@ -114,7 +114,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (mesh != null) return mesh;
 
-            SDKLogger.AvatarLoaderLogger.Log(TAG, $"ExtensionMethods.GetMeshRenderer: Mesh type {meshType} not found on the Game Object.");
+            SDKLogger.AvatarLoaderLogger.Log(TAG, $"Mesh type {meshType} not found on the Game Object {gameObject.name}.");
 
             return null;
         }
