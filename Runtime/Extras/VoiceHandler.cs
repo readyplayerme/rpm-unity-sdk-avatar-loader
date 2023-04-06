@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public AudioClip AudioClip;
         public AudioSource AudioSource;
         public AudioProviderType AudioProvider = AudioProviderType.Microphone;
-        private Dictionary<SkinnedMeshRenderer, int> blendshapeMeshMap;
+        private Dictionary<SkinnedMeshRenderer, int> blendshapeMeshIndexMap;
 
         private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
 
@@ -64,9 +64,9 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private bool HasMouthOpenBlendshape()
         {
-            foreach (var blendshapeMesh in blendshapeMeshMap)
+            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
-                if (blendshapeMesh.Value >= 0)
+                if (blendshapeMeshIndex.Value >= 0)
                 {
                     return true;
                 }
@@ -77,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void CreateBlendshapeMeshMap()
         {
-            blendshapeMeshMap = new Dictionary<SkinnedMeshRenderer, int>();
+            blendshapeMeshIndexMap = new Dictionary<SkinnedMeshRenderer, int>();
             foreach (var faceMeshType in faceMeshTypes)
             {
                 var faceMesh = gameObject.GetMeshRenderer(faceMeshType);
@@ -93,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader
             if (skinMesh != null)
             {
                 var index = skinMesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);
-                blendshapeMeshMap.Add(skinMesh, index);
+                blendshapeMeshIndexMap.Add(skinMesh, index);
             }
         }
 
@@ -186,11 +186,11 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void SetBlendShapeWeights(float weight)
         {
-            foreach (var blendshapeMesh in blendshapeMeshMap)
+            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
-                if (blendshapeMesh.Value >= 0)
+                if (blendshapeMeshIndex.Value >= 0)
                 {
-                    blendshapeMesh.Key.SetBlendShapeWeight(blendshapeMesh.Value, weight);
+                    blendshapeMeshIndex.Key.SetBlendShapeWeight(blendshapeMeshIndex.Value, weight);
                 }
             }
         }
