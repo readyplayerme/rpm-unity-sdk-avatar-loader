@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -48,7 +47,11 @@ namespace ReadyPlayerMe.AvatarLoader
             foreach (var renderData in dataList)
             {
                 var avatarRenderer = new AvatarRenderLoader();
-                avatarRenderer.OnCompleted = texture => UpdateSprite(renderData.image, texture);
+                avatarRenderer.OnCompleted = texture =>
+                {
+                    UpdateSprite(renderData.image, texture);
+                    renderData.imageLoaded = true;
+                };
                 avatarRenderer.OnFailed = Fail;
                 avatarRenderer.LoadRender(renderData.url, renderData.avatarRenderScene, blendShapeMeshes, blendShapes);
             }
