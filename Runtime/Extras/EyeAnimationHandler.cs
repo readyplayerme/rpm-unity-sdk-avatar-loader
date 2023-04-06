@@ -14,11 +14,6 @@ namespace ReadyPlayerMe.AvatarLoader
         private const int HORIZONTAL_MARGIN = 5;
         private const string EYE_BLINK_LEFT_BLEND_SHAPE_NAME = "eyeBlinkLeft";
         private const string EYE_BLINK_RIGHT_BLEND_SHAPE_NAME = "eyeBlinkRight";
-        private const string HALF_BODY_LEFT_EYE_BONE_NAME = "Armature/Hips/Spine/Neck/Head/LeftEye";
-        private const string FULL_BODY_LEFT_EYE_BONE_NAME = "Armature/Hips/Spine/Spine1/Spine2/Neck/Head/LeftEye";
-        private const string HALF_BODY_RIGHT_EYE_BONE_NAME = "Armature/Hips/Spine/Neck/Head/RightEye";
-        private const string FULL_BODY_RIGHT_EYE_BONE_NAME = "Armature/Hips/Spine/Spine1/Spine2/Neck/Head/RightEye";
-        private const string ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME = "Armature/Hips/LeftUpLeg";
         private const float EYE_BLINK_MULTIPLIER = 1f;
         private const float HALFBODY_OFFSET_X = 90;
         private const float HALFBODY_OFFSET_Z = 180;
@@ -37,11 +32,11 @@ namespace ReadyPlayerMe.AvatarLoader
         private int eyeBlinkRightBlendShapeIndex = -1;
 
         private Transform leftEyeBone;
-
         private Transform rightEyeBone;
 
         private bool isFullBody;
-        private bool hasEyeBlendShapes;
+        private bool hasBlinkBlendShapes;
+        private bool hasEyeBones;
 
         public float BlinkDuration
         {
@@ -77,41 +72,70 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// This method is called when the scene is loaded and is used to setup properties and references.
         /// </summary>
-        private void Start()
+        private void Awake()
         {
             headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
-
-            eyeBlinkLeftBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_LEFT_BLEND_SHAPE_NAME);
-            eyeBlinkRightBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_RIGHT_BLEND_SHAPE_NAME);
-
-            hasEyeBlendShapes = eyeBlinkLeftBlendShapeIndex > -1 && eyeBlinkRightBlendShapeIndex > -1;
-
-            isFullBody = transform.Find(ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME);
-            leftEyeBone = transform.Find(isFullBody ? FULL_BODY_LEFT_EYE_BONE_NAME : HALF_BODY_LEFT_EYE_BONE_NAME);
-            rightEyeBone = transform.Find(isFullBody ? FULL_BODY_RIGHT_EYE_BONE_NAME : HALF_BODY_RIGHT_EYE_BONE_NAME);
-            if (leftEyeBone == null || rightEyeBone == null)
+            hasBlinkBlendShapes = HasBlinkBlendshapes();
+            ValidateSkeleton();
+            if (!CanAnimate())
             {
-                Debug.Log("No eyebones found, disabling EyeAnimationHandler");
+                Debug.LogWarning("No eye bones found or blendshapes found on Avatar, disabling EyeAnimationHandler");
+                Reset();
                 enabled = false;
-                CancelInvoke();
-                blinkCoroutine?.Stop();
+                return;
+            }
+            if (!hasBlinkBlendShapes)
+            {
+                Debug.LogWarning("No blink blendshapes found on Avatar head mesh!");
+            }
+            else 
+            {
+                Debug.LogWarning("No eye bones found in Avatar skeleton!");
             }
         }
-
+        
+        private bool HasBlinkBlendshapes()
+        {
+            eyeBlinkLeftBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_LEFT_BLEND_SHAPE_NAME);
+            eyeBlinkRightBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_RIGHT_BLEND_SHAPE_NAME);
+            return eyeBlinkLeftBlendShapeIndex > -1 && eyeBlinkRightBlendShapeIndex > -1;
+        }
+        
+        private void ValidateSkeleton()
+        {
+            isFullBody = AvatarBoneHelper.IsFullBodySkeleton(transform);
+            leftEyeBone = AvatarBoneHelper.GetLeftEyeBone(transform, isFullBody);
+            rightEyeBone = AvatarBoneHelper.GetRightEyeBone(transform, isFullBody);
+            hasEyeBones = leftEyeBone != null && rightEyeBone != null;
+        }
+        
+        private bool CanAnimate()
+        {
+            return hasBlinkBlendShapes || hasEyeBones;
+        }
+        
+        private void Reset()
+        {
+            CancelInvoke();
+            blinkCoroutine?.Stop();
+        }
+        
         private void OnEnable()
         {
-            Initialize();
+            if (CanAnimate())
+            {
+                Initialize();
+            }
         }
 
         private void OnDisable()
         {
-            CancelInvoke();
+            Reset();
         }
 
         private void OnDestroy()
         {
-            CancelInvoke();
-            blinkCoroutine?.Stop();
+            Reset();
         }
 
         /// <summary>
@@ -119,9 +143,12 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         private void AnimateEyes()
         {
-            RotateEyes();
+            if (hasEyeBones)
+            {
+                RotateEyes();
+            }
 
-            if (hasEyeBlendShapes)
+            if (hasBlinkBlendShapes)
             {
                 blinkCoroutine = BlinkEyes().Run();
             }
