@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="payload">The payload data to send as a <c>string</c>.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
         /// <param name="timeout">The number of seconds to wait for the WebRequest to finish before aborting.</param>
-        /// <returns>A <see cref="AvatarLoader.Response" /> if successful otherwise it will throw an exception.</returns>
+        /// <returns>A <see cref="Response" /> if successful otherwise it will throw an exception.</returns>
         public static async Task<Response> Dispatch(this WebRequestDispatcher webRequestDispatcher, string url, string payload,
             CancellationToken token,
             int timeout = TIMEOUT)
@@ -57,13 +57,13 @@ namespace ReadyPlayerMe.AvatarLoader
 
         /// <summary>
         /// This asynchronous method makes GET request to the <paramref name="url" /> and returns the data in the
-        /// <see cref="AvatarLoader.Response" />.
+        /// <see cref="Response" />.
         /// </summary>
         /// <param name="webRequestDispatcher">WebRequestDispatcher object</param>
         /// <param name="url">The URL to make the <see cref="UnityWebRequest" /> to.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
         /// <param name="timeout">The number of seconds to wait for the WebRequest to finish before aborting.</param>
-        /// <returns>A <see cref="AvatarLoader.Response" /> if successful otherwise it will throw an exception.</returns>
+        /// <returns>A <see cref="Response" /> if successful otherwise it will throw an exception.</returns>
         public static async Task<Response> DownloadIntoMemory(this WebRequestDispatcher webRequestDispatcher, string url, CancellationToken token,
             int timeout = TIMEOUT)
         {
@@ -102,7 +102,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="path">Where to create the file and store the response data.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
         /// <param name="timeout">The number of seconds to wait for the WebRequest to finish before aborting.</param>
-        /// <returns>A <see cref="AvatarLoader.Response" /> with the data included if successful otherwise it will throw an exception.</returns>
+        /// <returns>A <see cref="ResponseFile" /> with the data included if successful otherwise it will throw an exception.</returns>
         public static async Task<ResponseFile> DownloadIntoFile(this WebRequestDispatcher webRequestDispatcher, string url, string path,
             CancellationToken token, int timeout = TIMEOUT)
         {
@@ -128,8 +128,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 ctx: token);
             token.ThrowCustomExceptionIfCancellationRequested();
 
-            response.ReadFile();
-            response.Path = path;
+            await response.ReadFile(path, token);
             if (!response.IsSuccess)
             {
                 throw new CustomException(FailureType.DownloadError, response.Error);
