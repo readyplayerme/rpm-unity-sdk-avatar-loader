@@ -107,7 +107,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
         }
 
-        public void SaveMetadataToFile(AvatarContext avatarContext)
+        private void SaveMetadataToFile(AvatarContext avatarContext)
         {
             avatarContext.Metadata.SaveToFile(avatarContext.AvatarUri.Guid, avatarContext.AvatarUri.LocalMetadataPath, avatarContext.SaveInProjectFolder);
         }
@@ -115,18 +115,16 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// This method checks if the avatar model has been updated.
         /// </summary>
-        /// <param name="metadata">The latest version of the avatar metadata.</param>
-        /// <param name="uri">The uri with all the model and url information.</param>
-        /// <param name="avatarCachingEnabled">This flag is used to enable or disable local avatar caching.</param>
+        /// <param name="context">The avatar context with all the data required to check if the avatar needs to be updated.</param>
         /// <returns>A <c>bool</c> indicating if the avatar has been updated.</returns>
         /// r=
         /// <remarks>
         /// It is used to determine whether an avatar needs to be downloaded again or can instead be loaded from the
         /// locally stored file.
         /// </remarks>
-        public static bool IsUpdateRequired(AvatarContext context)
+        private static bool IsUpdateRequired(AvatarContext context)
         {
-            if (!context.AvatarCachingEnabled || context.SaveInProjectFolder)
+            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled )
             {
                 return true;
             }

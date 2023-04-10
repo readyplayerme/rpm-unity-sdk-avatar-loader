@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Loader;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
 {
