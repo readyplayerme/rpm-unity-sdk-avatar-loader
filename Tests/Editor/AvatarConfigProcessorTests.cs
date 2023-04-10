@@ -6,69 +6,76 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class AvatarConfigProcessorTests
     {
+        private const string TEXTURECHANNELS_EXPECTED_ALL = "&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion";
+        private const string TEXTURECHANNELS_EXPECTED_NONE = "&textureChannels=none";
+        private const string MORPHTARGETS_EXPECTED_DEFAULT = "&morphTargets=mouthOpen,mouthSmile";
+        private const string MORPHTARGETS_EXPECTED_NONE = "&morphTargets=none";
+        private const string AVATAR_QUERY_PARAMS_ACTUAL = "?pose=A&meshLod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false";
+        private readonly string[] morphTargetsDefault = { "mouthOpen", "mouthSmile" };
+        private readonly string[] morphTargetsNone = { "none" };
+
         [Test]
         public void Process_Avatar_Configuration()
         {
-
-            Assert.Pass();
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            var queryParams = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
+            Assert.AreEqual(queryParams, AVATAR_QUERY_PARAMS_ACTUAL);
         }
-
+        
         [Test]
-        public void Process_Avatar_Configuration_Default()
+        public void Process_Texture_Size_Limit_Is_Equal()
         {
-
-            Assert.Pass();
+            int size = 2;
+            var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
+            Assert.AreEqual(processedSize, size);
         }
-
+        
         [Test]
-        public void Process_Texture_Size_Limit()
+        public void Process_Texture_Size_Limit_Is_Not_Equal()
         {
-            Assert.Pass();
+            int size = 1;
+            var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
+            Assert.AreNotEqual(processedSize, size);
         }
 
         [Test]
-        public void Process_Texture_Channels()
+        public void Process_Texture_Channels_All()
         {
             var textureChannels = new List<TextureChannel>();
             textureChannels.Add(TextureChannel.BaseColor);
             textureChannels.Add(TextureChannel.Normal);
-            var textureChanelParams = "&textureChannels=";
+            textureChannels.Add(TextureChannel.MetallicRoughness);
+            textureChannels.Add(TextureChannel.Emissive);
+            textureChannels.Add(TextureChannel.Occlusion);
+            var textureChanelParams = $"&{AvatarAPI.TEXTURE_CHANNELS}=";
             textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(textureChannels);
-            Assert.AreEqual(textureChanelParams, "&textureChannels=baseColor,normal");
+            Assert.AreEqual(textureChanelParams, TEXTURECHANNELS_EXPECTED_ALL);
         }
 
         [Test]
         public void Process_Texture_Channels_None()
         {
-            var textureChanelParams = "&textureChanelParams=";
+            var textureChanelParams = $"&{AvatarAPI.TEXTURE_CHANNELS}=";
             textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(new List<TextureChannel>());
-            Assert.AreEqual(textureChanelParams, "&textureChannels==none");
+            Assert.AreEqual(textureChanelParams, TEXTURECHANNELS_EXPECTED_NONE);
         }
 
         [Test]
-        public void Process_Morph_Targets()
+        public void Process_Morph_Targets_Default()
         {
-            var morphTargets = new List<string>();
-            morphTargets.Add("mouthOpen");
-            morphTargets.Add("mouthSmile");
-            var processedMorphParams = AvatarConfigProcessor.ProcessMorphTargets(morphTargets);
-            Assert.AreEqual(processedMorphParams, "&morphTargets=mouthOpen,mouthSmile");
+            Assert.AreEqual(AvatarConfigProcessor.ProcessMorphTargets(morphTargetsDefault), MORPHTARGETS_EXPECTED_DEFAULT);
         }
 
         [Test]
         public void Process_Morph_Targets_None()
         {
-            var morphTargets = new List<string>();
-            morphTargets.Add("none");
-            var processedMorphParams = AvatarConfigProcessor.ProcessMorphTargets(morphTargets);
-            Assert.AreEqual(processedMorphParams, "&morphTargets=none");
+            Assert.AreEqual(AvatarConfigProcessor.ProcessMorphTargets(morphTargetsNone), MORPHTARGETS_EXPECTED_NONE);
         }
         
         [Test]
         public void Process_Morph_Targets_Empty()
         {
-            var processedMorphParams = AvatarConfigProcessor.ProcessMorphTargets(new List<string>());
-            Assert.IsEmpty(processedMorphParams);
+            Assert.IsEmpty(AvatarConfigProcessor.ProcessMorphTargets(new List<string>()));
         }
     }
 }

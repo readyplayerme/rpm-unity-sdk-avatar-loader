@@ -24,14 +24,19 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             SDKLogger.Log(TAG, "Processing Avatar Configuration");
 
-            return $"?pose={AvatarConfigMap.Pose[avatarConfig.Pose]}" +
-                   $"&meshLod={(int) avatarConfig.MeshLod}" +
-                   $"&textureAtlas={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
-                   $"&textureSizeLimit={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
-                   $"&textureChannels={ProcessTextureChannels(avatarConfig.TextureChannel)}" +
+            return $"?{AvatarAPI.POSE}={AvatarConfigMap.Pose[avatarConfig.Pose]}" +
+                   $"&{AvatarAPI.MESH_LOD}={(int) avatarConfig.MeshLod}" +
+                   $"&{AvatarAPI.TEXTURE_ATLAS}={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
+                   $"&{AvatarAPI.TEXTURE_SIZE_LIMIT}={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
+                   $"&{AvatarAPI.TEXTURE_CHANNELS}={ProcessTextureChannels(avatarConfig.TextureChannel)}" +
                    $"{ProcessMorphTargets(avatarConfig.MorphTargets)}" +
-                   $"&useHands={(avatarConfig.UseHands ? PARAM_TRUE : PARAM_FALSE)}" +
-                   $"&useDracoMeshCompression={(avatarConfig.UseDracoCompression ? PARAM_TRUE : PARAM_FALSE)}";
+                   $"&{AvatarAPI.USE_HANDS}={GetBoolStringValue(avatarConfig.UseHands)}" +
+                   $"&{AvatarAPI.USE_DRACO}={GetBoolStringValue(avatarConfig.UseDracoCompression)}";
+        }
+
+        private static string GetBoolStringValue(bool value)
+        {
+            return (value ? PARAM_TRUE : PARAM_FALSE);
         }
 
         /// <summary>
@@ -72,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>A query string of combined morph targets.</returns>
         public static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
         {
-            return targets.Count == 0 ? string.Empty : $"&morphTargets={string.Join(",", targets)}";
+            return targets.Count == 0 ? string.Empty : $"&{AvatarAPI.MORPH_TARGETS}={string.Join(",", targets)}";
         }
     }
 }
