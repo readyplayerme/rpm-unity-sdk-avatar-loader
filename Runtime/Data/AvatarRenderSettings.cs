@@ -17,12 +17,12 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             BlendShapes ??= new Dictionary<string, float>();
             var queryBuilder = new QueryBuilder();
-            queryBuilder.AddKeyValue(AvatarAPI.RENDER_SCENE, Scene.GetSceneNameAsString());
+            queryBuilder.AddKeyValue(AvatarAPIParameters.RENDER_SCENE, Scene.GetSceneNameAsString());
             foreach (var blendShape in BlendShapes)
             {
                 foreach (var blendShapeMesh in BlendShapeMeshes)
                 {
-                    queryBuilder.AddKeyValue($"{AvatarAPI.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
+                    queryBuilder.AddKeyValue($"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
                 }
             }
             

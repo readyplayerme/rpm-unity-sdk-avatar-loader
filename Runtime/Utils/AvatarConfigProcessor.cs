@@ -25,17 +25,17 @@ namespace ReadyPlayerMe.AvatarLoader
             SDKLogger.Log(TAG, "Processing Avatar Configuration");
 
             var queryBuilder = new QueryBuilder();
-            queryBuilder.AddKeyValue(AvatarAPI.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);
-            queryBuilder.AddKeyValue(AvatarAPI.MESH_LOD, ((int) avatarConfig.MeshLod).ToString());
-            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_ATLAS, AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]);
-            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_SIZE_LIMIT, ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit).ToString());
-            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_CHANNELS, ProcessTextureChannels(avatarConfig.TextureChannel));
+            queryBuilder.AddKeyValue(AvatarAPIParameters.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);
+            queryBuilder.AddKeyValue(AvatarAPIParameters.MESH_LOD, ((int) avatarConfig.MeshLod).ToString());
+            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_ATLAS, AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]);
+            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_SIZE_LIMIT, ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit).ToString());
+            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_CHANNELS, ProcessTextureChannels(avatarConfig.TextureChannel));
             if (avatarConfig.MorphTargets.Count > 0)
             {
-                queryBuilder.AddKeyValue(AvatarAPI.MORPH_TARGETS, string.Join(",", avatarConfig.MorphTargets));
+                queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, string.Join(",", avatarConfig.MorphTargets));
             }
-            queryBuilder.AddKeyValue(AvatarAPI.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
-            queryBuilder.AddKeyValue(AvatarAPI.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
+            queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
+            queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
             
             return queryBuilder.GetQuery;
         }
@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>A query string of combined morph targets.</returns>
         public static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
         {
-            return targets.Count == 0 ? string.Empty : $"&{AvatarAPI.MORPH_TARGETS}={string.Join(",", targets)}";
+            return targets.Count == 0 ? string.Empty : $"&{AvatarAPIParameters.MORPH_TARGETS}={string.Join(",", targets)}";
         }
     }
 }

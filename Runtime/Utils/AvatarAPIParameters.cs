@@ -1,7 +1,7 @@
 
 namespace ReadyPlayerMe.AvatarLoader
 {
-    public static class AvatarAPI
+    public static class AvatarAPIParameters
     {
         public const string POSE = "pose";
         public const string MESH_LOD = "meshLod";

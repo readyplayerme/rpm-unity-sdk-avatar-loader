@@ -50,7 +50,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Process_Texture_Channels_All()
         {
-            var textureChanelParams = $"&{AvatarAPI.TEXTURE_CHANNELS}=";
+            var textureChanelParams = $"&{AvatarAPIParameters.TEXTURE_CHANNELS}=";
             textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(textureChannelsAll);
             Assert.AreEqual(textureChanelParams, TEXTURECHANNELS_EXPECTED_ALL);
         }
@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Process_Texture_Channels_None()
         {
-            var textureChanelParams = $"&{AvatarAPI.TEXTURE_CHANNELS}=";
+            var textureChanelParams = $"&{AvatarAPIParameters.TEXTURE_CHANNELS}=";
             textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(new List<TextureChannel>());
             Assert.AreEqual(textureChanelParams, TEXTURECHANNELS_EXPECTED_NONE);
         }
