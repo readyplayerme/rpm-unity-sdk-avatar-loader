@@ -22,6 +22,8 @@ namespace ReadyPlayerMe.AvatarLoader
         /// Called when the progress of the operation changes.
         public Action<float, string> ProgressChanged { get; set; }
 
+        private OperationExecutor<AvatarContext> executor;
+
         /// <summary>
         /// This method runs through the complete avatar render loading process and returns a <see cref="Texture2D" /> with via
         /// the <see cref="AvatarRenderLoader.OnCompleted" /> event.
@@ -52,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader
             context.Url = renderSettings.Model;
             context.RenderSettings = renderSettings;
 
-            var executor = new OperationExecutor<AvatarContext>(new IOperation<AvatarContext>[]
+            executor = new OperationExecutor<AvatarContext>(new IOperation<AvatarContext>[]
             {
                 new UrlProcessor(),
                 new MetadataDownloader(),
@@ -67,11 +69,19 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             catch (CustomException exception)
             {
-                OnFailed(exception.FailureType, exception.Message);
+                OnFailed?.Invoke(exception.FailureType, exception.Message);
                 return;
             }
 
             OnCompleted?.Invoke((Texture2D) context.Data);
+        }
+
+        /// <summary>
+        /// Cancel the execution
+        /// </summary>
+        public void Cancel()
+        {
+            executor?.Cancel();
         }
     }
 }
