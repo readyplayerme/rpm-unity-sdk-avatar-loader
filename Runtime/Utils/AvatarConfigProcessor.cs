@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using ReadyPlayerMe.Core;
 
@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="textureSize">The value to process.</param>
         /// <returns>A validated <c>int</c>/returns>
-        private static int ProcessTextureSizeLimit(int textureSize)
+        public static int ProcessTextureSizeLimit(int textureSize)
         {
             return textureSize % 2 == 0 ? textureSize : textureSize + 1;
         }
@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="channels">A list of texture channel</param>
         /// <returns>A query string of combined texture channels</returns>
-        private static string ProcessTextureChannels(IReadOnlyCollection<TextureChannel> channels)
+        public static string ProcessTextureChannels(IReadOnlyCollection<TextureChannel> channels)
         {
             if (!channels.Any())
             {
@@ -70,7 +70,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="targets">A list of morph targets as strings.</param>
         /// <returns>A query string of combined morph targets.</returns>
-        private static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
+        public static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
         {
             return targets.Count == 0 ? string.Empty : $"&morphTargets={string.Join(",", targets)}";
         }
