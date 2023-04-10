@@ -43,7 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader
             };
 
             webRequestDispatcher.Timeout = timeout;
-            var response = await webRequestDispatcher.SendRequest<Response>(url, Method.POST, headers, payload, ctx: token);
+            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.POST, headers, payload, ctx: token);
 
             token.ThrowCustomExceptionIfCancellationRequested();
 
@@ -82,7 +82,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 
             webRequestDispatcher.Timeout = timeout;
-            var response = await webRequestDispatcher.SendRequest<Response>(url, Method.GET, headers, ctx: token);
+            var response = await webRequestDispatcher.SendRequest<Response>(url, HttpMethod.GET, headers, ctx: token);
             token.ThrowCustomExceptionIfCancellationRequested();
 
             if (!response.IsSuccess)
@@ -124,7 +124,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 
             webRequestDispatcher.Timeout = timeout;
-            var response = await webRequestDispatcher.SendRequest<ResponseFile>(url, Method.GET, headers, downloadHandler: downloadHandler,
+            var response = await webRequestDispatcher.SendRequest<ResponseFile>(url, HttpMethod.GET, headers, downloadHandler: downloadHandler,
                 ctx: token);
             token.ThrowCustomExceptionIfCancellationRequested();
 
@@ -155,7 +155,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 
             webRequestDispatcher.Timeout = timeout;
-            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, Method.GET, downloadHandler: new DownloadHandlerTexture(),
+            var response = await webRequestDispatcher.SendRequest<ResponseTexture>(url, HttpMethod.GET, downloadHandler: new DownloadHandlerTexture(),
                 ctx: token);
 
             token.ThrowCustomExceptionIfCancellationRequested();
