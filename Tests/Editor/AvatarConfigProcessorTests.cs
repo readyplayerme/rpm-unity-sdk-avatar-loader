@@ -13,12 +13,21 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const string AVATAR_QUERY_PARAMS_ACTUAL = "?pose=A&meshLod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false";
         private readonly string[] morphTargetsDefault = { "mouthOpen", "mouthSmile" };
         private readonly string[] morphTargetsNone = { "none" };
-
+        private readonly TextureChannel[] textureChannelsAll =
+        {
+            TextureChannel.BaseColor, 
+            TextureChannel.Normal, 
+            TextureChannel.MetallicRoughness, 
+            TextureChannel.Emissive, 
+            TextureChannel.Occlusion
+        };
+        
         [Test]
         public void Process_Avatar_Configuration()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             var queryParams = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
+            Debug.Log($"{queryParams}");
             Assert.AreEqual(queryParams, AVATAR_QUERY_PARAMS_ACTUAL);
         }
         
@@ -41,14 +50,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Process_Texture_Channels_All()
         {
-            var textureChannels = new List<TextureChannel>();
-            textureChannels.Add(TextureChannel.BaseColor);
-            textureChannels.Add(TextureChannel.Normal);
-            textureChannels.Add(TextureChannel.MetallicRoughness);
-            textureChannels.Add(TextureChannel.Emissive);
-            textureChannels.Add(TextureChannel.Occlusion);
             var textureChanelParams = $"&{AvatarAPI.TEXTURE_CHANNELS}=";
-            textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(textureChannels);
+            textureChanelParams += AvatarConfigProcessor.ProcessTextureChannels(textureChannelsAll);
             Assert.AreEqual(textureChanelParams, TEXTURECHANNELS_EXPECTED_ALL);
         }
 

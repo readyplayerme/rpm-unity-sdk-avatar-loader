@@ -11,5 +11,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public const string MORPH_TARGETS = "morphTargets";
         public const string USE_HANDS = "useHands";
         public const string USE_DRACO = "useDracoMeshCompression";
+        public const string RENDER_BLEND_SHAPES = "blendShapes";
+        public const string RENDER_SCENE = "scene";
     }
 }

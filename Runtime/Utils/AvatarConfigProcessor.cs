@@ -24,19 +24,25 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             SDKLogger.Log(TAG, "Processing Avatar Configuration");
 
-            return $"?{AvatarAPI.POSE}={AvatarConfigMap.Pose[avatarConfig.Pose]}" +
-                   $"&{AvatarAPI.MESH_LOD}={(int) avatarConfig.MeshLod}" +
-                   $"&{AvatarAPI.TEXTURE_ATLAS}={AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]}" +
-                   $"&{AvatarAPI.TEXTURE_SIZE_LIMIT}={ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit)}" +
-                   $"&{AvatarAPI.TEXTURE_CHANNELS}={ProcessTextureChannels(avatarConfig.TextureChannel)}" +
-                   $"{ProcessMorphTargets(avatarConfig.MorphTargets)}" +
-                   $"&{AvatarAPI.USE_HANDS}={GetBoolStringValue(avatarConfig.UseHands)}" +
-                   $"&{AvatarAPI.USE_DRACO}={GetBoolStringValue(avatarConfig.UseDracoCompression)}";
+            var queryBuilder = new QueryBuilder();
+            queryBuilder.AddKeyValue(AvatarAPI.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);
+            queryBuilder.AddKeyValue(AvatarAPI.MESH_LOD, ((int) avatarConfig.MeshLod).ToString());
+            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_ATLAS, AvatarConfigMap.TextureAtlas[avatarConfig.TextureAtlas]);
+            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_SIZE_LIMIT, ProcessTextureSizeLimit(avatarConfig.TextureSizeLimit).ToString());
+            queryBuilder.AddKeyValue(AvatarAPI.TEXTURE_CHANNELS, ProcessTextureChannels(avatarConfig.TextureChannel));
+            if (avatarConfig.MorphTargets.Count > 0)
+            {
+                queryBuilder.AddKeyValue(AvatarAPI.MORPH_TARGETS, string.Join(",", avatarConfig.MorphTargets));
+            }
+            queryBuilder.AddKeyValue(AvatarAPI.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
+            queryBuilder.AddKeyValue(AvatarAPI.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
+            
+            return queryBuilder.GetQuery;
         }
 
         private static string GetBoolStringValue(bool value)
         {
-            return (value ? PARAM_TRUE : PARAM_FALSE);
+            return value ? PARAM_TRUE : PARAM_FALSE;
         }
 
         /// <summary>
