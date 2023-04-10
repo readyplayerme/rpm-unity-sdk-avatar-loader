@@ -56,7 +56,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 throw;
             }
 
-            metadataDownloader.SaveToFile(metadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
+            metadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
 
             Assert.AreEqual(true, File.Exists(TestUtils.TestJsonFilePath));
         }
@@ -119,11 +119,9 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Load_Metadata_From_File()
         {
             var avatarMetadata = new AvatarMetadata();
+            avatarMetadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
 
-            var metadataDownloader = new MetadataDownloader();
-            metadataDownloader.SaveToFile(avatarMetadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
-
-            AvatarMetadata metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
+            AvatarMetadata metadata = AvatarMetadata.LoadFromFile(TestUtils.TestJsonFilePath);
 
             Assert.AreNotSame(new AvatarMetadata(), metadata);
         }

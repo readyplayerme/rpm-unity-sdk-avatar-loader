@@ -5,9 +5,8 @@ using Newtonsoft.Json;
 using System.Threading;
 using ReadyPlayerMe.Core;
 using System.Threading.Tasks;
-using ReadyPlayerMe.AvatarLoader;
 
-namespace ReadyPlayerMe.Loader
+namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
     /// This class is responsible for handling the avatar meta data .json file download, save, and parsing functionality.
@@ -27,7 +26,7 @@ namespace ReadyPlayerMe.Loader
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
 
-        private const string MetadataTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.fff'Z'";
+        private const string METADATA_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.fff'Z'";
 
         /// <summary>
         /// Executes the operation to download the avatar and save to file if saving is enabled.
@@ -43,19 +42,26 @@ namespace ReadyPlayerMe.Loader
             }
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                context.Metadata = LoadFromFile(context.AvatarUri.LocalMetadataPath);
+                context.Metadata = AvatarMetadata.LoadFromFile(context.AvatarUri.LocalMetadataPath);
             }
             else
             {
-                context.Metadata = await Download(context.AvatarUri.MetadataUrl, token);
-                context.IsUpdated = context.SaveInProjectFolder || IsUpdated(context.Metadata, context.AvatarUri, context.AvatarCachingEnabled);
-                if (context.IsUpdated)
+                var metadata = await Download(context.AvatarUri.MetadataUrl, token);
+                context = UpdateContext(context, metadata);
+                if (context.IsUpdateRequired)
                 {
-                    SaveToFile(context.Metadata, context.AvatarUri.Guid, context.AvatarUri.LocalMetadataPath, context.SaveInProjectFolder);
+                    SaveMetadataToFile(context);
                 }
             }
 
             return context;
+        }
+
+        private AvatarContext UpdateContext(AvatarContext avatarContext, AvatarMetadata metadata)
+        {
+            avatarContext.Metadata = metadata;
+            avatarContext.IsUpdateRequired = IsUpdateRequired(avatarContext);
+            return avatarContext;
         }
 
         /// <summary>
@@ -101,34 +107,9 @@ namespace ReadyPlayerMe.Loader
             }
         }
 
-        /// <summary>
-        /// Saves the avatar metadata to a local file.
-        /// </summary>
-        /// <param name="metadata">The metadata to save.</param>
-        /// <param name="guid">The avatar guid (identifier).</param>
-        /// <param name="path">The path to save the file.</param>
-        /// <param name="saveInProject">If true it will save in the project folder instead of the persistant data path.</param>
-        public void SaveToFile(AvatarMetadata metadata, string guid, string path, bool saveInProject)
+        public void SaveMetadataToFile(AvatarContext avatarContext)
         {
-            DirectoryUtility.ValidateAvatarSaveDirectory(guid, saveInProject);
-            var json = JsonConvert.SerializeObject(metadata);
-            File.WriteAllText(path, json);
-        }
-
-        /// <summary>
-        /// Loads the avatar metadata from the specified file path.
-        /// </summary>
-        /// <param name="path">The path to the meta data <c>.json</c> file.</param>
-        /// <returns>The loaded <see cref="AvatarMetadata" />.</returns>
-        public AvatarMetadata LoadFromFile(string path)
-        {
-            if (File.Exists(path))
-            {
-                var json = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<AvatarMetadata>(json);
-            }
-
-            return new AvatarMetadata();
+            avatarContext.Metadata.SaveToFile(avatarContext.AvatarUri.Guid, avatarContext.AvatarUri.LocalMetadataPath, avatarContext.SaveInProjectFolder);
         }
 
         /// <summary>
@@ -143,11 +124,14 @@ namespace ReadyPlayerMe.Loader
         /// It is used to determine whether an avatar needs to be downloaded again or can instead be loaded from the
         /// locally stored file.
         /// </remarks>
-        private bool IsUpdated(AvatarMetadata metadata, AvatarUri uri, bool avatarCachingEnabled)
+        public static bool IsUpdateRequired(AvatarContext context)
         {
-            AvatarMetadata previousMetadata = LoadFromFile(uri.LocalMetadataPath);
-            if (avatarCachingEnabled && metadata.UpdatedAt == previousMetadata.UpdatedAt) return false;
-            return true;
+            if (!context.AvatarCachingEnabled || context.SaveInProjectFolder)
+            {
+                return true;
+            }
+            AvatarMetadata previousMetadata = AvatarMetadata.LoadFromFile(context.AvatarUri.LocalMetadataPath);
+            return AvatarMetadata.IsUpdated(context.Metadata, previousMetadata);
         }
 
         /// <summary>
@@ -159,7 +143,7 @@ namespace ReadyPlayerMe.Loader
         private AvatarMetadata ParseResponse(string response)
         {
             AvatarMetadata metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings() {
-                DateFormatString = MetadataTimeFormat
+                DateFormatString = METADATA_TIME_FORMAT
             });
             
             if (metadata.BodyType == BodyType.None)
