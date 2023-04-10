@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ReadyPlayerMe.Loader;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
 {
@@ -56,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 throw;
             }
 
-            metadataDownloader.SaveToFile(metadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
+            metadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
 
             Assert.AreEqual(true, File.Exists(TestUtils.TestJsonFilePath));
         }
@@ -114,17 +112,43 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             Assert.AreNotEqual(default(DateTime), metadata.UpdatedAt);
         }
+        
+        
+        [Test]
+        public void Check_Is_Metadata_Updated()
+        {
+            var oldMetaData = new AvatarMetadata();
+            var newMetadata = new AvatarMetadata();
+            newMetadata.UpdatedAt = DateTime.Now;
+            Assert.True(AvatarMetadata.IsUpdated(newMetadata, oldMetaData));
+        }
+        
+        [Test]
+        public void Check_Is_Metadata_Not_Updated()
+        {
+            var oldMetaData = new AvatarMetadata();
+            var newMetadata = new AvatarMetadata();
+            Assert.False(AvatarMetadata.IsUpdated(newMetadata, oldMetaData));
+        }
+
+        [Test]
+        public void Save_Metadata_To_File()
+        {
+            var avatarMetadata = new AvatarMetadata();
+            if (File.Exists(TestUtils.TestJsonFilePath))
+            {
+                File.Delete(TestUtils.TestJsonFilePath);
+            }
+            avatarMetadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath);
+            Assert.True(File.Exists(TestUtils.TestJsonFilePath));
+        }
 
         [Test]
         public void Load_Metadata_From_File()
         {
             var avatarMetadata = new AvatarMetadata();
-
-            var metadataDownloader = new MetadataDownloader();
-            metadataDownloader.SaveToFile(avatarMetadata, TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
-
-            AvatarMetadata metadata = metadataDownloader.LoadFromFile(TestUtils.TestJsonFilePath);
-
+            avatarMetadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath);
+            AvatarMetadata metadata = AvatarMetadata.LoadFromFile(TestUtils.TestJsonFilePath);
             Assert.AreNotSame(new AvatarMetadata(), metadata);
         }
         

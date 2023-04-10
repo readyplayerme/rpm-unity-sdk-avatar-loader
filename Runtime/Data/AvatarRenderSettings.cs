@@ -15,25 +15,18 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public string GetParametersAsString()
         {
-            var parameters = $"?scene={Scene.GetSceneNameAsString()}";
-            if (BlendShapes != null)
-            {
-                parameters += BuildBlendshapeParameters();
-            }
-            return parameters;
-        }
-
-        public string BuildBlendshapeParameters()
-        {
-            var parameters = new StringBuilder();
+            BlendShapes ??= new Dictionary<string, float>();
+            var queryBuilder = new QueryBuilder();
+            queryBuilder.AddKeyValue(AvatarAPIParameters.RENDER_SCENE, Scene.GetSceneNameAsString());
             foreach (var blendShape in BlendShapes)
             {
                 foreach (var blendShapeMesh in BlendShapeMeshes)
                 {
-                    parameters.Append($"&blendShapes[{blendShapeMesh}][{blendShape.Key}]={blendShape.Value}");
+                    queryBuilder.AddKeyValue($"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
                 }
             }
-            return parameters.ToString();
+            
+            return queryBuilder.GetQuery;
         }
     }
 }

@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 throw new InvalidDataException($"Expected cast {typeof(string)} instead got ");
             }
 
-            if ((!context.IsUpdated || Application.internetReachability == NetworkReachability.NotReachable)
+            if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
                     && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, "Loading model from cache.");
@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 return context;
             }
 
-            if (context.IsUpdated)
+            if (context.IsUpdateRequired)
             {
                 AvatarCache.ClearAvatar(context.AvatarUri.Guid, context.SaveInProjectFolder);
             }
