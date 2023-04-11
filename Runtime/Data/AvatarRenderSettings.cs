@@ -26,7 +26,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 }
             }
             
-            return queryBuilder.GetQuery;
+            return queryBuilder.Query;
         }
     }
 }

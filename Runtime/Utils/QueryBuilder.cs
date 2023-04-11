@@ -5,7 +5,7 @@ public class QueryBuilder
     private const string STARTING_CHARACTER = "?";
     private const string PARAMETER_SEPARATOR = "&";
     private readonly StringBuilder query = new StringBuilder();
-    public string GetQuery => query.ToString();
+    public string Query => query.ToString();
 
     public QueryBuilder()
     {
@@ -27,7 +27,7 @@ public class QueryBuilder
     private void AddKey(string keyName)
     {
         //if first key does not add parameter separator
-        var separator = GetQuery.Length > 1 ? PARAMETER_SEPARATOR : "";
+        var separator = Query.Length > 1 ? PARAMETER_SEPARATOR : "";
         AppendQuery($"{separator}{keyName}=");
     }
 

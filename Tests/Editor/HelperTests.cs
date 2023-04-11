@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader
+namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class HelperTests
     {

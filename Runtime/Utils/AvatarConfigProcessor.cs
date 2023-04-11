@@ -32,12 +32,12 @@ namespace ReadyPlayerMe.AvatarLoader
             queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_CHANNELS, ProcessTextureChannels(avatarConfig.TextureChannel));
             if (avatarConfig.MorphTargets.Count > 0)
             {
-                queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, string.Join(",", avatarConfig.MorphTargets));
+                queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS, CombineMorphTargetNames(avatarConfig.MorphTargets));
             }
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
             
-            return queryBuilder.GetQuery;
+            return queryBuilder.Query;
         }
 
         private static string GetBoolStringValue(bool value)
@@ -77,13 +77,13 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Combines the list of strings in <paramref name="targets" /> into a single valid morph target parameter.
+        /// Combines the list of morph target name strings in <paramref name="morphTargetNames" /> into a single valid value.
         /// </summary>
-        /// <param name="targets">A list of morph targets as strings.</param>
-        /// <returns>A query string of combined morph targets.</returns>
-        public static string ProcessMorphTargets(IReadOnlyCollection<string> targets)
+        /// <param name="morphTargetNames">A list of morph targets as strings.</param>
+        /// <returns>A query string of combined morph target names, each name separated by ','.</returns>
+        public static string CombineMorphTargetNames(IReadOnlyCollection<string> morphTargetNames)
         {
-            return targets.Count == 0 ? string.Empty : $"&{AvatarAPIParameters.MORPH_TARGETS}={string.Join(",", targets)}";
+            return morphTargetNames.Count == 0 ? string.Empty : $"{string.Join(",", morphTargetNames)}";
         }
     }
 }
