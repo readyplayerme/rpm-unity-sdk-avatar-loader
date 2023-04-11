@@ -43,7 +43,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private Dictionary<SkinnedMeshRenderer, int> blendshapeMeshIndexMap;
 
         private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
-
+        private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
+        
         private void Start()
         {
             CreateBlendshapeMeshMap();
@@ -161,7 +162,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private float GetAmplitude()
         {
-            if (CanGetAmplitude())
+            if (CanGetAmplitude)
             {
                 var amplitude = 0f;
                 AudioSource.clip.GetData(audioSample, AudioSource.timeSamples);
@@ -175,11 +176,6 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 
             return 0;
-        }
-
-        private bool CanGetAmplitude()
-        {
-            return AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
         }
 
         #region Blend Shape Movement

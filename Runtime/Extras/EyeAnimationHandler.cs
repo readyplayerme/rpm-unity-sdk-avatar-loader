@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -37,6 +37,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private bool isFullBody;
         private bool hasBlinkBlendShapes;
         private bool hasEyeBones;
+        private bool CanAnimate => hasBlinkBlendShapes || hasEyeBones;
 
         public float BlinkDuration
         {
@@ -77,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader
             headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
             hasBlinkBlendShapes = HasBlinkBlendshapes();
             ValidateSkeleton();
-            if (!CanAnimate())
+            if (!CanAnimate)
             {
                 Debug.LogWarning("No eye bones found or blendshapes found on Avatar, disabling EyeAnimationHandler");
                 Reset();
@@ -87,10 +88,6 @@ namespace ReadyPlayerMe.AvatarLoader
             if (!hasBlinkBlendShapes)
             {
                 Debug.LogWarning("No blink blendshapes found on Avatar head mesh!");
-            }
-            else 
-            {
-                Debug.LogWarning("No eye bones found in Avatar skeleton!");
             }
         }
         
@@ -107,13 +104,12 @@ namespace ReadyPlayerMe.AvatarLoader
             leftEyeBone = AvatarBoneHelper.GetLeftEyeBone(transform, isFullBody);
             rightEyeBone = AvatarBoneHelper.GetRightEyeBone(transform, isFullBody);
             hasEyeBones = leftEyeBone != null && rightEyeBone != null;
+            if (!hasEyeBones)
+            {
+                Debug.LogWarning("No eye bones found in Avatar skeleton!");
+            }
         }
-        
-        private bool CanAnimate()
-        {
-            return hasBlinkBlendShapes || hasEyeBones;
-        }
-        
+
         private void Reset()
         {
             CancelInvoke();
@@ -122,7 +118,7 @@ namespace ReadyPlayerMe.AvatarLoader
         
         private void OnEnable()
         {
-            if (CanAnimate())
+            if (CanAnimate)
             {
                 Initialize();
             }
