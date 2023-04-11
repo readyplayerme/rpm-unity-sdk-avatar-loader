@@ -17,6 +17,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private const float EYE_BLINK_MULTIPLIER = 1f;
         private const float HALFBODY_OFFSET_X = 90;
         private const float HALFBODY_OFFSET_Z = 180;
+        private const string MISSING_EYE_BONES_MESSAGE = "Eye bones are required for EyeAnimationHandler.cs but they were not found on loaded Avatar! Eye rotation animations will not be applied";
+        private const string MISSING_MORPH_TARGETS_MESSAGE = "The 'eyeBlinkLeft' & 'eyeBlinkRight' morph targets are required for EyeAnimationHandler.cs but they were not found on Avatar mesh! Use an AvatarConfig to specify the morph targets to be included on loaded avatars.";
 
         [SerializeField, Range(0, 1), Tooltip("Effects the duration of the avatar blink animation in seconds.")]
         private float blinkDuration = 0.1f;
@@ -78,16 +80,20 @@ namespace ReadyPlayerMe.AvatarLoader
             headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
             hasBlinkBlendShapes = HasBlinkBlendshapes();
             ValidateSkeleton();
-            if (!CanAnimate)
-            {
-                Debug.LogWarning("No eye bones found or blendshapes found on Avatar, disabling EyeAnimationHandler");
-                Reset();
-                enabled = false;
-                return;
-            }
+            
             if (!hasBlinkBlendShapes)
             {
-                Debug.LogWarning("No blink blendshapes found on Avatar head mesh!");
+                Debug.LogWarning(MISSING_MORPH_TARGETS_MESSAGE);
+            }
+            else if (hasEyeBones)
+            {
+                Debug.LogWarning(MISSING_EYE_BONES_MESSAGE);
+            }
+            
+            if (!CanAnimate)
+            {
+                Reset();
+                enabled = false;
             }
         }
         

@@ -33,6 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const int AMPLITUDE_MULTIPLIER = 10;
         private const int AUDIO_SAMPLE_LENGTH = 4096;
         private const int MICROPHONE_FREQUENCY = 44100;
+        private const string MISSING_BLENDSHAPE_MESSAGE = "The 'mouthOpen' morph target is required for VoiceHandler.cs but it was not found on Avatar mesh. Use an AvatarConfig to specify the blendshapes to be included on loaded avatars.";
 
         private float[] audioSample = new float[AUDIO_SAMPLE_LENGTH];
 
@@ -50,7 +51,7 @@ namespace ReadyPlayerMe.AvatarLoader
             CreateBlendshapeMeshMap();
             if (!HasMouthOpenBlendshape())
             {
-                Debug.LogWarning("No mouthOpen blendshape found on Avatar mesh, disabling VoiceHandler.");
+                Debug.LogWarning(MISSING_BLENDSHAPE_MESSAGE);
                 enabled = false;
                 return;
             }
