@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 {
                     if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
                     {
-                        SDKLogger.Log(TAG,VARIANTS_FOUND_LOG);
+                        SDKLogger.Log(TAG, VARIANTS_FOUND_LOG);
                         shadersMissing = false;
                         break;
                     }
@@ -94,7 +94,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 if (shaderInclude.objectReferenceValue.name == serializedVariants.targetObject.name)
                 {
-                    SDKLogger.Log(TAG,VARIANTS_FOUND_LOG);
+                    SDKLogger.Log(TAG, VARIANTS_FOUND_LOG);
 
                     shadersMissing = false;
                     break;

@@ -19,7 +19,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             return newMetadata.UpdatedAt != previousMetadata.UpdatedAt;
         }
-        
+
         /// <summary>
         /// Loads the avatar metadata from the specified file path.
         /// </summary>

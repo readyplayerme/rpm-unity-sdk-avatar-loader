@@ -118,30 +118,30 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             saveButtonStyle.fixedWidth = 449;
             saveButtonStyle.fixedHeight = ButtonHeight;
             saveButtonStyle.padding = new RectOffset(5, 5, 5, 5);
-            
+
             textFieldStyle ??= new GUIStyle(GUI.skin.textField);
             textFieldStyle.fontSize = 12;
 
             textLabelStyle ??= new GUIStyle(GUI.skin.label);
             textLabelStyle.fontStyle = FontStyle.Bold;
             textLabelStyle.fontSize = 12;
-            
+
             partnerButtonStyle ??= new GUIStyle(GUI.skin.button);
             partnerButtonStyle.fontSize = 12;
             partnerButtonStyle.padding = new RectOffset(5, 5, 5, 5);
-            
+
             avatarCachingButtonStyle ??= new GUIStyle(GUI.skin.button);
             avatarCachingButtonStyle.fontStyle = FontStyle.Bold;
             avatarCachingButtonStyle.fontSize = 12;
             avatarCachingButtonStyle.padding = new RectOffset(5, 5, 5, 5);
             avatarCachingButtonStyle.fixedHeight = ButtonHeight;
             avatarCachingButtonStyle.fixedWidth = 225;
-            
+
             privacyPolicyStyle ??= new GUIStyle(GUI.skin.label);
             privacyPolicyStyle.fontStyle = FontStyle.Bold;
             privacyPolicyStyle.fontSize = 12;
             privacyPolicyStyle.fixedWidth = 100;
-            
+
             errorButtonStyle ??= new GUIStyle();
             errorButtonStyle.fixedWidth = 20;
             errorButtonStyle.fixedHeight = 20;
@@ -175,7 +175,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
 
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    GUIContent button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
+                    var button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 

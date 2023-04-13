@@ -46,7 +46,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             else
             {
-                var metadata = await Download(context.AvatarUri.MetadataUrl, token);
+                AvatarMetadata metadata = await Download(context.AvatarUri.MetadataUrl, token);
                 context = UpdateContext(context, metadata);
                 if (context.IsUpdateRequired)
                 {
@@ -82,7 +82,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 // add random tail to the url to prevent JSON from being loaded from the browser cache
                 var response = await dispatcher.DownloadIntoMemory(url + "?tail=" + Guid.NewGuid(), token, Timeout);
 #else
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
 #endif
                 return ParseResponse(response.Text);
             }
@@ -124,7 +124,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </remarks>
         private static bool IsUpdateRequired(AvatarContext context)
         {
-            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled )
+            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled)
             {
                 return true;
             }
@@ -140,15 +140,16 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The avatar metadata as an <see cref="AvatarMetadata" /> structure.</returns>
         private AvatarMetadata ParseResponse(string response)
         {
-            AvatarMetadata metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings() {
+            var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings()
+            {
                 DateFormatString = METADATA_TIME_FORMAT
             });
-            
+
             if (metadata.BodyType == BodyType.None)
             {
                 throw new CustomException(FailureType.MetadataParseError, "Failed to parse metadata. Unexpected body type.");
             }
-            
+
             SDKLogger.Log(TAG, $"{metadata.BodyType} metadata loading completed.");
             return metadata;
         }

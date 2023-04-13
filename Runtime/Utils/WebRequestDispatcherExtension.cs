@@ -75,7 +75,7 @@ namespace ReadyPlayerMe.AvatarLoader
             var headers = new Dictionary<string, string>();
             if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
             {
-                foreach (var header in CommonHeaders.GetRequestHeaders())
+                foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                 {
                     headers.Add(header.Key, header.Value);
                 }
@@ -117,7 +117,7 @@ namespace ReadyPlayerMe.AvatarLoader
             var headers = new Dictionary<string, string>();
             if (!url.Contains(CLOUDFRONT_IDENTIFIER)) // Required to prevent CORS errors in WebGL
             {
-                foreach (var header in CommonHeaders.GetRequestHeaders())
+                foreach (KeyValuePair<string, string> header in CommonHeaders.GetRequestHeaders())
                 {
                     headers.Add(header.Key, header.Value);
                 }
