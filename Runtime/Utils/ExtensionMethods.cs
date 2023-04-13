@@ -108,7 +108,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (children.Count == 0)
             {
-                
+
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"No SkinnedMeshRenderer found on the Game Object {gameObject.name}.");
                 return null;
             }

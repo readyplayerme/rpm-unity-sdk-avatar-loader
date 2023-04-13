@@ -18,14 +18,14 @@ namespace ReadyPlayerMe.AvatarLoader
             BlendShapes ??= new Dictionary<string, float>();
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.RENDER_SCENE, Scene.GetSceneNameAsString());
-            foreach (var blendShape in BlendShapes)
+            foreach (KeyValuePair<string, float> blendShape in BlendShapes)
             {
                 foreach (var blendShapeMesh in BlendShapeMeshes)
                 {
                     queryBuilder.AddKeyValue($"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
                 }
             }
-            
+
             return queryBuilder.GetQuery;
         }
     }

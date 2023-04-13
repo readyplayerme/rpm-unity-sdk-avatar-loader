@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarProcessor : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarProcessor);
-        
+
         public int Timeout { get; set; }
 
         /// <summary>

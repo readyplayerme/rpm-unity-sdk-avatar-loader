@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private AvatarConfig GetMedConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
@@ -67,7 +67,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private AvatarConfig GetHighConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
@@ -83,7 +83,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private TextureChannel[] GetAllTextureChannels()
         {
             var textureChannels = new TextureChannel[5];
@@ -94,7 +94,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             textureChannels[4] = TextureChannel.Occlusion;
             return textureChannels;
         }
-        
+
         [UnityTest]
         public IEnumerator AvatarLoader_Avatar_API_Mesh_LOD()
         {

@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 
             if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
-                    && File.Exists(context.AvatarUri.LocalModelPath))
+                && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, "Loading model from cache.");
                 context.Bytes = File.ReadAllBytes(context.AvatarUri.LocalModelPath);
@@ -102,7 +102,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)
@@ -138,7 +138,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                var response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
+                ResponseFile response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)

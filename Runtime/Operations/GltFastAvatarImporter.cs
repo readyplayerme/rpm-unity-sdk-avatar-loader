@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader
             try
             {
                 GameObject avatar = null;
-                var agent = gltfDeferAgent == null ? new UninterruptedDeferAgent() : gltfDeferAgent.GetGLTFastDeferAgent();
+                IDeferAgent agent = gltfDeferAgent == null ? new UninterruptedDeferAgent() : gltfDeferAgent.GetGLTFastDeferAgent();
 
                 var gltf = new GltfImport(deferAgent: agent);
                 var success = await gltf.LoadGltfBinary(bytes, cancellationToken: token);
