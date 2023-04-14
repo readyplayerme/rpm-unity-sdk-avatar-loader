@@ -14,5 +14,6 @@ namespace ReadyPlayerMe.AvatarLoader
         public const string USE_MESHOPT = "useMeshOptCompression";
         public const string RENDER_BLEND_SHAPES = "blendShapes";
         public const string RENDER_SCENE = "scene";
+        public const string QUALITY = "quality";
     }
 }

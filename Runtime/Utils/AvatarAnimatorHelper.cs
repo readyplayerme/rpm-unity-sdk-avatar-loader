@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -20,7 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="avatar"></param>
         public static void SetupAnimator(BodyType bodyType, GameObject avatar)
         {
-            if (bodyType != BodyType.FullBody)
+            if (bodyType != BodyType.FullBody || avatar == null)
             {
                 return;
             }

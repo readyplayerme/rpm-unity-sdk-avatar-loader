@@ -8,8 +8,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
     {
         private const string TEXTURECHANNELS_EXPECTED_ALL = "&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion";
         private const string TEXTURECHANNELS_EXPECTED_NONE = "&textureChannels=none";
-        private const string MORPHTARGETS_EXPECTED_DEFAULT = "&morphTargets=mouthOpen,mouthSmile";
-        private const string MORPHTARGETS_EXPECTED_NONE = "&morphTargets=none";
+        private const string MORPHTARGETS_EXPECTED_DEFAULT = "mouthOpen,mouthSmile";
+        private const string MORPHTARGETS_EXPECTED_NONE = "none";
         private const string AVATAR_QUERY_PARAMS_ACTUAL = "?pose=A&meshLod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false";
         private readonly string[] morphTargetsDefault = { "mouthOpen", "mouthSmile" };
         private readonly string[] morphTargetsNone = { "none" };
@@ -66,19 +66,19 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public void Process_Morph_Targets_Default()
         {
-            Assert.AreEqual(AvatarConfigProcessor.ProcessMorphTargets(morphTargetsDefault), MORPHTARGETS_EXPECTED_DEFAULT);
+            Assert.AreEqual(AvatarConfigProcessor.CombineMorphTargetNames(morphTargetsDefault), MORPHTARGETS_EXPECTED_DEFAULT);
         }
 
         [Test]
         public void Process_Morph_Targets_None()
         {
-            Assert.AreEqual(AvatarConfigProcessor.ProcessMorphTargets(morphTargetsNone), MORPHTARGETS_EXPECTED_NONE);
+            Assert.AreEqual(AvatarConfigProcessor.CombineMorphTargetNames(morphTargetsNone), MORPHTARGETS_EXPECTED_NONE);
         }
         
         [Test]
         public void Process_Morph_Targets_Empty()
         {
-            Assert.IsEmpty(AvatarConfigProcessor.ProcessMorphTargets(new List<string>()));
+            Assert.IsEmpty(AvatarConfigProcessor.CombineMorphTargetNames(new List<string>()));
         }
     }
 }
