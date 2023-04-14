@@ -52,6 +52,11 @@
       "displayName": "MultipleQualityAvatarLoading",
       "description": "Loads the same avatar multiple times with different quality settings.",
       "path": "Samples~/MultipleQualityAvatarLoading"
+    },
+    {
+      "displayName": "MultipleAvatarRender",
+      "description": "Loads the multiple avatar render with different settings.",
+      "path": "Samples~/MultipleAvatarRender"
     }
   ]
 }

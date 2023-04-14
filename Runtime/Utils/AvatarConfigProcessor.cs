@@ -36,6 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_HANDS, GetBoolStringValue(avatarConfig.UseHands));
             queryBuilder.AddKeyValue(AvatarAPIParameters.USE_DRACO, GetBoolStringValue(avatarConfig.UseDracoCompression));
+            queryBuilder.AddKeyValue(AvatarAPIParameters.USE_MESHOPT, GetBoolStringValue(avatarConfig.UseMeshOptCompression));
             
             return queryBuilder.Query;
         }

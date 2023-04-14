@@ -3,6 +3,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using ReadyPlayerMe.Core;
 
 #if UNITY_ANDROID
@@ -31,28 +32,29 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string MOUTH_OPEN_BLEND_SHAPE_NAME = "mouthOpen";
         private const int AMPLITUDE_MULTIPLIER = 10;
         private const int AUDIO_SAMPLE_LENGTH = 4096;
+        private const int MICROPHONE_FREQUENCY = 44100;
+        private const string MISSING_BLENDSHAPE_MESSAGE = "The 'mouthOpen' morph target is required for VoiceHandler.cs but it was not found on Avatar mesh. Use an AvatarConfig to specify the blendshapes to be included on loaded avatars.";
 
         private float[] audioSample = new float[AUDIO_SAMPLE_LENGTH];
-
-        private SkinnedMeshRenderer headMesh;
-        private SkinnedMeshRenderer beardMesh;
-        private SkinnedMeshRenderer teethMesh;
-
-        private int mouthOpenBlendShapeIndexOnHeadMesh = -1;
-        private int mouthOpenBlendShapeIndexOnBeardMesh = -1;
-        private int mouthOpenBlendShapeIndexOnTeethMesh = -1;
 
         // ReSharper disable InconsistentNaming
         public AudioClip AudioClip;
         public AudioSource AudioSource;
         public AudioProviderType AudioProvider = AudioProviderType.Microphone;
+        private Dictionary<SkinnedMeshRenderer, int> blendshapeMeshIndexMap;
 
+        private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
+        private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
+        
         private void Start()
         {
-            headMesh = GetMeshAndSetIndex(MeshType.HeadMesh, ref mouthOpenBlendShapeIndexOnHeadMesh);
-            beardMesh = GetMeshAndSetIndex(MeshType.BeardMesh, ref mouthOpenBlendShapeIndexOnBeardMesh);
-            teethMesh = GetMeshAndSetIndex(MeshType.TeethMesh, ref mouthOpenBlendShapeIndexOnTeethMesh);
-
+            CreateBlendshapeMeshMap();
+            if (!HasMouthOpenBlendshape())
+            {
+                Debug.LogWarning(MISSING_BLENDSHAPE_MESSAGE);
+                enabled = false;
+                return;
+            }
 #if UNITY_IOS
             CheckIOSMicrophonePermission().Run();
 #elif UNITY_ANDROID
@@ -60,6 +62,41 @@ namespace ReadyPlayerMe.AvatarLoader
 #elif UNITY_STANDALONE || UNITY_EDITOR
             InitializeAudio();
 #endif
+        }
+
+        private bool HasMouthOpenBlendshape()
+        {
+            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
+            {
+                if (blendshapeMeshIndex.Value >= 0)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        private void CreateBlendshapeMeshMap()
+        {
+            blendshapeMeshIndexMap = new Dictionary<SkinnedMeshRenderer, int>();
+            foreach (var faceMeshType in faceMeshTypes)
+            {
+                var faceMesh = gameObject.GetMeshRenderer(faceMeshType);
+                if (faceMesh)
+                {
+                    TryAddSkinMesh(faceMesh);
+                }
+            }
+        }
+
+        private void TryAddSkinMesh(SkinnedMeshRenderer skinMesh)
+        {
+            if (skinMesh != null)
+            {
+                var index = skinMesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);
+                blendshapeMeshIndexMap.Add(skinMesh, index);
+            }
         }
 
         private void Update()
@@ -96,9 +133,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private void SetMicrophoneSource()
         {
 #if UNITY_WEBGL
-            Debug.Log("Microphone is not supported in WebGL.");
+            Debug.LogWarning("Microphone is not supported in WebGL.");
 #else
-            AudioSource.clip = Microphone.Start(null, true, 1, 44100);
+            AudioSource.clip = Microphone.Start(null, true, 1, MICROPHONE_FREQUENCY);
             AudioSource.loop = true;
             AudioSource.mute = true;
             AudioSource.Play();
@@ -126,7 +163,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private float GetAmplitude()
         {
-            if (AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying)
+            if (CanGetAmplitude)
             {
                 var amplitude = 0f;
                 AudioSource.clip.GetData(audioSample, AudioSource.timeSamples);
@@ -144,28 +181,13 @@ namespace ReadyPlayerMe.AvatarLoader
 
         #region Blend Shape Movement
 
-        private SkinnedMeshRenderer GetMeshAndSetIndex(MeshType meshType, ref int index)
-        {
-            SkinnedMeshRenderer mesh = gameObject.GetMeshRenderer(meshType);
-            if (mesh != null)
-            {
-                index = mesh.sharedMesh.GetBlendShapeIndex(MOUTH_OPEN_BLEND_SHAPE_NAME);
-            }
-
-            return mesh;
-        }
-
         private void SetBlendShapeWeights(float weight)
         {
-            SetBlendShapeWeight(headMesh, mouthOpenBlendShapeIndexOnHeadMesh);
-            SetBlendShapeWeight(beardMesh, mouthOpenBlendShapeIndexOnBeardMesh);
-            SetBlendShapeWeight(teethMesh, mouthOpenBlendShapeIndexOnTeethMesh);
-
-            void SetBlendShapeWeight(SkinnedMeshRenderer mesh, int index)
+            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
-                if (index >= 0)
+                if (blendshapeMeshIndex.Value >= 0)
                 {
-                    mesh.SetBlendShapeWeight(index, weight);
+                    blendshapeMeshIndex.Key.SetBlendShapeWeight(blendshapeMeshIndex.Value, weight);
                 }
             }
         }

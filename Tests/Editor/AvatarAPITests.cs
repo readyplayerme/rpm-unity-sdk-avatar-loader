@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -46,6 +47,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.UseHands = false;
             avatarConfig.TextureChannel = GetAllTextureChannels();
             avatarConfig.UseDracoCompression = false;
+            avatarConfig.UseMeshOptCompression = false;
             var morphTargets = new List<string>();
             morphTargets.Add("none");
             avatarConfig.MorphTargets = morphTargets;
@@ -62,6 +64,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.UseHands = false;
             avatarConfig.TextureChannel = GetAllTextureChannels();
             avatarConfig.UseDracoCompression = false;
+            avatarConfig.UseMeshOptCompression = false;
             var morphTargets = new List<string>();
             morphTargets.Add("Oculus Visemes");
             avatarConfig.MorphTargets = morphTargets;
@@ -78,6 +81,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.UseHands = false;
             avatarConfig.TextureChannel = GetAllTextureChannels();
             avatarConfig.UseDracoCompression = false;
+            avatarConfig.UseMeshOptCompression = false;
             var morphTargets = new List<string>();
             morphTargets.Add("Oculus Visemes");
             avatarConfig.MorphTargets = morphTargets;
@@ -207,6 +211,24 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(avatar);
             Assert.AreEqual(AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED, blendShapeCount);
+        }
+        
+        [Test] 
+        public async Task AvatarLoader_Avatar_API_MeshOptCompression()
+        {
+            var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
+            avatarConfig.MeshLod = MeshLod.Low;
+            avatarConfig.TextureAtlas = TextureAtlas.Low;
+            avatarConfig.MorphTargets = new List<string> { "none" };
+            avatarConfig.TextureChannel = new [] { TextureChannel.BaseColor };
+
+            var downloader = new AvatarDownloader();
+            var normalBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            
+            avatarConfig.UseMeshOptCompression = true;
+            var meshOptBytes = await downloader.DownloadIntoMemory(AVATAR_API_AVATAR_URL, avatarConfig);
+            
+            Assert.Less(meshOptBytes.Length, normalBytes.Length);
         }
     }
 }
