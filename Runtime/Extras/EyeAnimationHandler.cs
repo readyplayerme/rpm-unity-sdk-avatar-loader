@@ -85,7 +85,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 Debug.LogWarning(MISSING_MORPH_TARGETS_MESSAGE);
             }
-            else if (hasEyeBones)
+            else if (!hasEyeBones)
             {
                 Debug.LogWarning(MISSING_EYE_BONES_MESSAGE);
             }
