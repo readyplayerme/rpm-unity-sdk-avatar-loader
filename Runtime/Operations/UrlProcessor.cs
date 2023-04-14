@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public async Task<AvatarUri> ProcessUrl(string url, string paramsHash, CancellationToken token = new CancellationToken())
         {
             var fractions = url.Split('?'); // separate parameters
-            url = fractions[0];
+            url = fractions[0].Trim(); // trim to remove any white spaces
             var avatarApiParameters = fractions.Length > 1 ? $"?{fractions[1]}" : "";
             if (url.ToLower().EndsWith(GLB_EXTENSION))
             {
