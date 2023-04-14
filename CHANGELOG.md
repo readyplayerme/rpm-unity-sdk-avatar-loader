@@ -7,6 +7,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Mesh Optimization compression support.
+- QueryBuilder class for handling Avatar API parameter generation
+- EyeAnimationHandler and VoiceHandler now logs if required blendshapes are missing
+- added extra unit tests for better coverage
+- AvatarMetdata now includes a color hex value for SkinTone 
+
+### Fixed
+- an issue caused by avatar URL's that have a space at beginning or end
+
+### Updated
+- AvatarRenderLoader now uses latest Render API via URL query parameters
+- refactor of WebRequestDispatcher
+- model urls for sample scenes updated
 
 ## [1.1.0] - 2023.03.21
 
