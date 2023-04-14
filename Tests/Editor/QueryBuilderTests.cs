@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public void Low_Quality_MeshLod_0()
         {
             var queryBuilder = new QueryBuilder();
-            queryBuilder.AddKeyValue(AvatarAPIParameters.QUALITY,"low" );
+            queryBuilder.AddKeyValue(AvatarAPIParameters.QUALITY, "low");
             queryBuilder.AddKeyValue(AvatarAPIParameters.MESH_LOD,0.ToString() );
             Assert.AreEqual(queryBuilder.Query, QUALITY_LOW_MESH_LOD);
         }
