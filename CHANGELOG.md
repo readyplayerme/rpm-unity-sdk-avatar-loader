@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Mesh Optimization compression support [#74](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/74)
 - QueryBuilder class for handling Avatar API parameter generation [#71](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/71)
 - EyeAnimationHandler and VoiceHandler now logs if required blendshapes are missing [#66](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/66)
-- added extra unit tests for better coverage [#68]https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/68()
+- added extra unit tests for better coverage [#68](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/68)
 - AvatarMetdata now includes a color hex value for SkinTone [#63](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/63)
 
 ### Fixed
