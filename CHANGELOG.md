@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.0] - 2023.04.17
+## [1.2.0] - 2023.04.18
 
 ### Added
 - Mesh Optimization compression support [#74](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/pull/74)
