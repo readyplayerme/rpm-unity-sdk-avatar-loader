@@ -10,24 +10,20 @@ namespace ReadyPlayerMe.AvatarLoader
     [DisallowMultipleComponent, AddComponentMenu("Ready Player Me/Eye Animation Handler", 0)]
     public class EyeAnimationHandler : MonoBehaviour
     {
-
         private const int VERTICAL_MARGIN = 15;
         private const int HORIZONTAL_MARGIN = 5;
         private const string EYE_BLINK_LEFT_BLEND_SHAPE_NAME = "eyeBlinkLeft";
         private const string EYE_BLINK_RIGHT_BLEND_SHAPE_NAME = "eyeBlinkRight";
-        private const string HALF_BODY_LEFT_EYE_BONE_NAME = "Armature/Hips/Spine/Neck/Head/LeftEye";
-        private const string FULL_BODY_LEFT_EYE_BONE_NAME = "Armature/Hips/Spine/Spine1/Spine2/Neck/Head/LeftEye";
-        private const string HALF_BODY_RIGHT_EYE_BONE_NAME = "Armature/Hips/Spine/Neck/Head/RightEye";
-        private const string FULL_BODY_RIGHT_EYE_BONE_NAME = "Armature/Hips/Spine/Spine1/Spine2/Neck/Head/RightEye";
-        private const string ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME = "Armature/Hips/LeftUpLeg";
         private const float EYE_BLINK_MULTIPLIER = 1f;
         private const float HALFBODY_OFFSET_X = 90;
         private const float HALFBODY_OFFSET_Z = 180;
+        private const string MISSING_EYE_BONES_MESSAGE = "Eye bones are required for EyeAnimationHandler.cs but they were not found on loaded Avatar! Eye rotation animations will not be applied";
+        private const string MISSING_MORPH_TARGETS_MESSAGE = "The 'eyeBlinkLeft' & 'eyeBlinkRight' morph targets are required for EyeAnimationHandler.cs but they were not found on Avatar mesh! Use an AvatarConfig to specify the morph targets to be included on loaded avatars.";
 
         [SerializeField, Range(0, 1), Tooltip("Effects the duration of the avatar blink animation in seconds.")]
         private float blinkDuration = 0.1f;
 
-        [SerializeField, Range(1, 10), Tooltip("Effects the amount of time in between each blink in seconds..")]
+        [SerializeField, Range(1, 10), Tooltip("Effects the amount of time in between each blink in seconds.")]
         private float blinkInterval = 3f;
 
         private WaitForSeconds blinkDelay;
@@ -38,11 +34,12 @@ namespace ReadyPlayerMe.AvatarLoader
         private int eyeBlinkRightBlendShapeIndex = -1;
 
         private Transform leftEyeBone;
-
         private Transform rightEyeBone;
 
         private bool isFullBody;
-        private bool hasEyeBlendShapes;
+        private bool hasBlinkBlendShapes;
+        private bool hasEyeBones;
+        private bool CanAnimate => hasBlinkBlendShapes || hasEyeBones;
 
         public float BlinkDuration
         {
@@ -78,41 +75,69 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// This method is called when the scene is loaded and is used to setup properties and references.
         /// </summary>
-        private void Start()
+        private void Awake()
         {
             headMesh = gameObject.GetMeshRenderer(MeshType.HeadMesh);
-
+            hasBlinkBlendShapes = HasBlinkBlendshapes();
+            ValidateSkeleton();
+            
+            if (!hasBlinkBlendShapes)
+            {
+                Debug.LogWarning(MISSING_MORPH_TARGETS_MESSAGE);
+            }
+            else if (!hasEyeBones)
+            {
+                Debug.LogWarning(MISSING_EYE_BONES_MESSAGE);
+            }
+            
+            if (!CanAnimate)
+            {
+                Reset();
+                enabled = false;
+            }
+        }
+        
+        private bool HasBlinkBlendshapes()
+        {
             eyeBlinkLeftBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_LEFT_BLEND_SHAPE_NAME);
             eyeBlinkRightBlendShapeIndex = headMesh.sharedMesh.GetBlendShapeIndex(EYE_BLINK_RIGHT_BLEND_SHAPE_NAME);
-
-            hasEyeBlendShapes = eyeBlinkLeftBlendShapeIndex > -1 && eyeBlinkRightBlendShapeIndex > -1;
-
-            isFullBody = transform.Find(ARMATURE_HIPS_LEFT_UP_LEG_BONE_NAME);
-            leftEyeBone = transform.Find(isFullBody ? FULL_BODY_LEFT_EYE_BONE_NAME : HALF_BODY_LEFT_EYE_BONE_NAME);
-            rightEyeBone = transform.Find(isFullBody ? FULL_BODY_RIGHT_EYE_BONE_NAME : HALF_BODY_RIGHT_EYE_BONE_NAME);
-            if (leftEyeBone == null || rightEyeBone == null)
+            return eyeBlinkLeftBlendShapeIndex > -1 && eyeBlinkRightBlendShapeIndex > -1;
+        }
+        
+        private void ValidateSkeleton()
+        {
+            isFullBody = AvatarBoneHelper.IsFullBodySkeleton(transform);
+            leftEyeBone = AvatarBoneHelper.GetLeftEyeBone(transform, isFullBody);
+            rightEyeBone = AvatarBoneHelper.GetRightEyeBone(transform, isFullBody);
+            hasEyeBones = leftEyeBone != null && rightEyeBone != null;
+            if (!hasEyeBones)
             {
-                Debug.Log("No eyebones found, disabling EyeAnimationHandler");
-                enabled = false;
-                CancelInvoke();
-                blinkCoroutine?.Stop();
+                Debug.LogWarning("No eye bones found in Avatar skeleton!");
             }
         }
 
+        private void Reset()
+        {
+            CancelInvoke();
+            blinkCoroutine?.Stop();
+        }
+        
         private void OnEnable()
         {
-            Initialize();
+            if (CanAnimate)
+            {
+                Initialize();
+            }
         }
 
         private void OnDisable()
         {
-            CancelInvoke();
+            Reset();
         }
 
         private void OnDestroy()
         {
-            CancelInvoke();
-            blinkCoroutine?.Stop();
+            Reset();
         }
 
         /// <summary>
@@ -120,9 +145,12 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         private void AnimateEyes()
         {
-            RotateEyes();
+            if (hasEyeBones)
+            {
+                RotateEyes();
+            }
 
-            if (hasEyeBlendShapes)
+            if (hasBlinkBlendShapes)
             {
                 blinkCoroutine = BlinkEyes().Run();
             }
@@ -133,15 +161,18 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         private void RotateEyes()
         {
+            leftEyeBone.localRotation = rightEyeBone.localRotation = GetRandomLookRotation();
+        }
+
+        private Quaternion GetRandomLookRotation()
+        {
             float vertical = Random.Range(-VERTICAL_MARGIN, VERTICAL_MARGIN);
             float horizontal = Random.Range(-HORIZONTAL_MARGIN, HORIZONTAL_MARGIN);
-
+            
             Quaternion rotation = isFullBody
                 ? Quaternion.Euler(horizontal, vertical, 0)
                 : Quaternion.Euler(horizontal - HALFBODY_OFFSET_X, 0, vertical + HALFBODY_OFFSET_Z);
-
-            leftEyeBone.localRotation = rotation;
-            rightEyeBone.localRotation = rotation;
+            return rotation;
         }
 
         /// <summary>

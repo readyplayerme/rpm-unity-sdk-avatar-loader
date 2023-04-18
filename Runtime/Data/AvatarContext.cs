@@ -1,4 +1,4 @@
-﻿using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -17,6 +17,6 @@ namespace ReadyPlayerMe.AvatarLoader
         public AvatarRenderSettings RenderSettings;
         public bool SaveInProjectFolder;
         public string Url;
-        public bool IsUpdated;
+        public bool IsUpdateRequired;
     }
 }

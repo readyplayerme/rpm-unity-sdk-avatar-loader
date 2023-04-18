@@ -14,18 +14,14 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarRenderDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarRenderDownloader);
-        private const string RENDER_URL = "https://render.readyplayer.me/render";
-        private const string INVALID_RENDER_URL_ERROR = "Not a valid Avatar Render Url. Check render settings";
-        private const string RENDERS = "renders";
-        private readonly string[] renderExtensions = { ".png", ".jpg" };
 
         /// <summary>
-        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcherExtension" /> when making the web request.
         /// </summary>
         public int Timeout { get; set; }
 
         /// <summary>
-        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcherExtension" />
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
@@ -40,7 +36,8 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             try
             {
-                context.Data = await RequestAvatarRenderUrl(context.Bytes, token);
+                var renderUrl = RenderParameterProcessor.GetRenderUrl(context);
+                context.Data = await RequestAvatarRender(renderUrl, token);
                 SDKLogger.Log(TAG, "Avatar Render Downloaded");
                 return context;
             }
@@ -55,60 +52,20 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="payload">The binary data of the avatar model .glb file.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
-        public async Task<Texture2D> RequestAvatarRenderUrl(byte[] payload, CancellationToken token = new CancellationToken())
+        public async Task<Texture2D> RequestAvatarRender(string url,  CancellationToken token = new CancellationToken())
         {
-            string response;
-            var dispatcher = new WebRequestDispatcher();
-            dispatcher.ProgressChanged += ProgressChanged;
+            var webRequestDispatcher = new WebRequestDispatcher();
+            webRequestDispatcher.ProgressChanged += ProgressChanged;
 
             try
             {
-                response = await dispatcher.Dispatch(RENDER_URL, payload, token);
+                return await webRequestDispatcher.DownloadTexture(url, token);
 
             }
             catch (CustomException exception)
             {
                 throw new CustomException(exception.FailureType, exception.Message);
             }
-
-            return await Parse(response, token);
-        }
-
-        /// <summary>
-        /// This method parses the json response <c>string<c> to get a URL and makes a request to download the texture.
-        /// </summary>
-        /// <param name="json">The reponse data as a json string.</param>
-        /// <param name="token">Can be used to cancel the operation.</param>
-        private async Task<Texture2D> Parse(string json, CancellationToken token)
-        {
-            try
-            {
-                JObject renderData = JObject.Parse(json);
-                var avatarRenderUrl = renderData[RENDERS][0].ToString();
-
-                if (string.IsNullOrEmpty(avatarRenderUrl) || !ValidateRenderUrl(avatarRenderUrl))
-                {
-                    throw new CustomException(FailureType.AvatarRenderError, INVALID_RENDER_URL_ERROR);
-                }
-
-                var webRequestDispatcher = new WebRequestDispatcher();
-                return await webRequestDispatcher.DownloadTexture(avatarRenderUrl, token);
-            }
-            catch (Exception exception)
-            {
-                throw new CustomException(FailureType.AvatarRenderError, exception.Message);
-            }
-        }
-
-        /// <summary>
-        /// Checks that the avatar render URL is valid.
-        /// </summary>
-        /// <param name="renderUrl"></param>
-        /// <returns>A <c>bool</c> if the render URL is valid.</returns>
-        private bool ValidateRenderUrl(string renderUrl)
-        {
-            var url = renderUrl.ToLower();
-            return renderExtensions.Any(extension => url.EndsWith(extension));
         }
     }
 }

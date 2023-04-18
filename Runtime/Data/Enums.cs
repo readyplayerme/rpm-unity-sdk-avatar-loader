@@ -39,8 +39,10 @@ namespace ReadyPlayerMe.AvatarLoader
     /// </summary>
     public enum AvatarRenderScene
     {
-        [Description("Upper body render")] Portrait,
-        [Description("Upper body render with transparent background")] PortraitTransparent,
+        [Description("Upper body render")] FullbodyPortrait,
+        [Description("Upper body render")] HalfbodyPortrait,
+        [Description("Upper body render with transparent background")] FullbodyPortraitTransparent,
+        [Description("Upper body render with transparent background")] HalfbodyPortraitTransparent,
         [Description("Posed full body render with transparent background")] FullBodyPostureTransparent
     }
 

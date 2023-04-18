@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public async Task<AvatarUri> ProcessUrl(string url, string paramsHash, CancellationToken token = new CancellationToken())
         {
             var fractions = url.Split('?'); // separate parameters
-            url = fractions[0];
+            url = fractions[0].Trim(); // trim to remove any white spaces
             var avatarApiParameters = fractions.Length > 1 ? $"?{fractions[1]}" : "";
             if (url.ToLower().EndsWith(GLB_EXTENSION))
             {
@@ -83,15 +83,12 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 var avatarUri = new AvatarUri();
 
-                var fractions = url.Split('/', '.');
-
-                avatarUri.Guid = fractions[fractions.Length - 2];
+                avatarUri.Guid = ExtractGuidFromUrl(url);
                 var fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder, paramsHash)}/{avatarUri.Guid}";
                 avatarUri.ModelUrl = $"{url}{avatarApiParameters}";
+                avatarUri.ImageUrl = url.Replace(".glb", ".png");
                 avatarUri.LocalModelPath = $"{fileName}{GLB_EXTENSION}";
-
-                url = url.Remove(url.Length - GLB_EXTENSION.Length, GLB_EXTENSION.Length);
-                avatarUri.MetadataUrl = $"{url}{JSON_EXTENSION}";
+                avatarUri.MetadataUrl = GetMetadataUrl(url);
                 fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}/{avatarUri.Guid}";
                 avatarUri.LocalMetadataPath = $"{fileName}{JSON_EXTENSION}";
 
@@ -102,6 +99,18 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 throw Fail(FailureType.UrlProcessError, $"Invalid avatar URL. {e.Message}");
             }
+        }
+
+        private string ExtractGuidFromUrl(string url)
+        {
+            var fractions = url.Split('/', '.');
+            return fractions[fractions.Length - 2];
+        }
+
+        private static string GetMetadataUrl(string modelUrl)
+        {
+            var baseUrl = modelUrl.Remove(modelUrl.Length - GLB_EXTENSION.Length, GLB_EXTENSION.Length);
+            return $"{baseUrl}{JSON_EXTENSION}";
         }
 
         /// <summary>

@@ -30,12 +30,12 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// <summary>
-        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcher" /> when making the web request.
+        /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcherExtension" /> when making the web request.
         /// </summary>
         public int Timeout { get; set; }
 
         /// <summary>
-        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcher" />
+        /// An <see cref="Action" /> callback that can be used to subscribe to <see cref="WebRequestDispatcherExtension" />
         /// <c>ProgressChanged</c> events.
         /// </summary>
         public Action<float> ProgressChanged { get; set; }
@@ -53,7 +53,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 throw new InvalidDataException($"Expected cast {typeof(string)} instead got ");
             }
 
-            if ((!context.IsUpdated || Application.internetReachability == NetworkReachability.NotReachable)
+            if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
                     && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, "Loading model from cache.");
@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 return context;
             }
 
-            if (context.IsUpdated)
+            if (context.IsUpdateRequired)
             {
                 AvatarCache.ClearAvatar(context.AvatarUri.Guid, context.SaveInProjectFolder);
             }
@@ -102,7 +102,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)
@@ -138,7 +138,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                Response response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
+                var response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
                 return response.Data;
             }
             catch (Exception exception)

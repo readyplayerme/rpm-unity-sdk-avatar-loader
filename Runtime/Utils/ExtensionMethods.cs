@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
+using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -25,6 +27,20 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 throw new CustomException(FailureType.OperationCancelled, "Operation was cancelled");
             }
+        }
+
+        /// <summary>
+        /// Saves the avatar metadata to a local file.
+        /// </summary>
+        /// <param name="metadata">The metadata to save.</param>
+        /// <param name="guid">The avatar guid (identifier).</param>
+        /// <param name="path">The path to save the file.</param>
+        /// <param name="saveInProject">If true it will save in the project folder instead of the persistant data path.</param>
+        public static void SaveToFile(this AvatarMetadata metadata, string guid, string path, bool saveInProject = false)
+        {
+            DirectoryUtility.ValidateAvatarSaveDirectory(guid, saveInProject);
+            var json = JsonConvert.SerializeObject(metadata);
+            File.WriteAllText(path, json);
         }
 
         #region Coroutine Runner
@@ -93,7 +109,7 @@ namespace ReadyPlayerMe.AvatarLoader
             if (children.Count == 0)
             {
                 
-                SDKLogger.AvatarLoaderLogger.Log(TAG, "ExtensionMethods.GetMeshRenderer: No SkinnedMeshRenderer found on the Game Object.");
+                SDKLogger.AvatarLoaderLogger.Log(TAG, $"No SkinnedMeshRenderer found on the Game Object {gameObject.name}.");
                 return null;
             }
 
@@ -114,7 +130,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (mesh != null) return mesh;
 
-            SDKLogger.AvatarLoaderLogger.Log(TAG, $"ExtensionMethods.GetMeshRenderer: Mesh type {meshType} not found on the Game Object.");
+            SDKLogger.AvatarLoaderLogger.Log(TAG, $"Mesh type {meshType} not found on the Game Object {gameObject.name}.");
 
             return null;
         }

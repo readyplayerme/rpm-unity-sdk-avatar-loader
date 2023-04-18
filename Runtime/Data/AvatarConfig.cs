@@ -29,8 +29,10 @@ namespace ReadyPlayerMe.AvatarLoader
         };
         [Tooltip("Only works for halfbody avatars. If enabled, avatars will load with hand meshes included.")]
         public bool UseHands;
-        [Tooltip("Enable if you want to use Draco compression for mesh optimization.")]
+        [Tooltip("Enable if you want to use Draco compression. More effective on complex meshes.")]
         public bool UseDracoCompression;
+        [Tooltip("Enable if you want to use Mesh Otimization compression. More effective on meshes with morph targets.")]
+        public bool UseMeshOptCompression;
         [HideInInspector]
         public List<string> MorphTargets = new List<string>();
     }
