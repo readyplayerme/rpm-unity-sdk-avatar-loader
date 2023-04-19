@@ -4,7 +4,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 {
     public class QueryBuilderTests
     {
-        private const string ATLAS_AND_MORPHS = "?textureAtlas=512&morphTargets=mouthSmile,ARKit";
+        private const string ATLAS_AND_MORPHS = "?textureAtlas=1024&morphTargets=mouthSmile,ARKit";
         private const string QUALITY_LOW_MESH_LOD = "?quality=low&meshLod=0";
         
         private readonly string[] morphTargetsDefault = { "mouthSmile", "ARKit" };
