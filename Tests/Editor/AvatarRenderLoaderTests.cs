@@ -9,13 +9,13 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
     public class AvatarRenderLoaderTests
     {
         private const AvatarRenderScene RENDER_SCENE = AvatarRenderScene.FullbodyPortraitTransparent;
-        private readonly string[] renderBlendshapeMeshes = {"Wolf3D_Head"};
-        private readonly string[] renderWrongBlendshapeMesh = {"wrong_blendshape_mesh"};
+        private readonly string[] renderBlendshapeMeshes = { "Wolf3D_Head" };
+        private readonly string[] renderWrongBlendshapeMesh = { "wrong_blendshape_mesh" };
         private const string RENDER_BLENDSHAPE = "mouthSmile";
         private const string RENDER_WRONG_BLENDSHAPE = "wrong_blendshape";
         private const float BLENDSHAPE_VALUE = 0.5f;
-        
-        
+
+
         [UnityTest]
         public IEnumerator RenderLoader_Load()
         {

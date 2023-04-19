@@ -127,7 +127,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
                     }
 
-                    GUIContent button = new GUIContent(errorIcon, URL_SHORTCODE_ERROR);
+                    var button = new GUIContent(errorIcon, URL_SHORTCODE_ERROR);
 
                     if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
                     {

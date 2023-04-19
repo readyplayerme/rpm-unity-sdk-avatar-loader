@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.AvatarLoader
             BlendShapes ??= new Dictionary<string, float>();
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.RENDER_SCENE, Scene.GetSceneNameAsString());
-            foreach (var blendShape in BlendShapes)
+            foreach (KeyValuePair<string, float> blendShape in BlendShapes)
             {
                 foreach (var blendShapeMesh in BlendShapeMeshes)
                 {

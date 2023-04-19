@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="useDefaultGLTFDeferAgent">Use default defer agent</param>
         public AvatarObjectLoader(bool useDefaultGLTFDeferAgent = true)
         {
-            var loaderSettings = AvatarLoaderSettings.LoadSettings();
+            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings.AvatarConfig != null ? loaderSettings.AvatarConfig : null;
 
@@ -120,7 +120,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
-            
+
             var avatarData = avatar.AddComponent<AvatarData>();
             avatarData.AvatarId = avatar.name;
             avatarData.AvatarMetadata = context.Metadata;

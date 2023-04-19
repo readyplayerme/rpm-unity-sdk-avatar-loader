@@ -15,13 +15,13 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private readonly string[] morphTargetsNone = { "none" };
         private readonly TextureChannel[] textureChannelsAll =
         {
-            TextureChannel.BaseColor, 
-            TextureChannel.Normal, 
-            TextureChannel.MetallicRoughness, 
-            TextureChannel.Emissive, 
+            TextureChannel.BaseColor,
+            TextureChannel.Normal,
+            TextureChannel.MetallicRoughness,
+            TextureChannel.Emissive,
             TextureChannel.Occlusion
         };
-        
+
         [Test]
         public void Process_Avatar_Configuration()
         {
@@ -30,19 +30,19 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Debug.Log($"{queryParams}");
             Assert.AreEqual(AVATAR_QUERY_PARAMS_ACTUAL, queryParams );
         }
-        
+
         [Test]
         public void Process_Texture_Size_Limit_Is_Equal()
         {
-            int size = 2;
+            var size = 2;
             var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
             Assert.AreEqual(processedSize, size);
         }
-        
+
         [Test]
         public void Process_Texture_Size_Limit_Is_Not_Equal()
         {
-            int size = 1;
+            var size = 1;
             var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
             Assert.AreNotEqual(processedSize, size);
         }
@@ -74,7 +74,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             Assert.AreEqual(AvatarConfigProcessor.CombineMorphTargetNames(morphTargetsNone), MORPHTARGETS_EXPECTED_NONE);
         }
-        
+
         [Test]
         public void Process_Morph_Targets_Empty()
         {

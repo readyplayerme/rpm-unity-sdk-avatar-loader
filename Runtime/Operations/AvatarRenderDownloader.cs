@@ -52,7 +52,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="payload">The binary data of the avatar model .glb file.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
-        public async Task<Texture2D> RequestAvatarRender(string url,  CancellationToken token = new CancellationToken())
+        public async Task<Texture2D> RequestAvatarRender(string url, CancellationToken token = new CancellationToken())
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             webRequestDispatcher.ProgressChanged += ProgressChanged;

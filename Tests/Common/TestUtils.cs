@@ -8,7 +8,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
     {
         public const string GLB_SUFFIX = ".glb";
         public const string JSON_SUFFIX = ".json";
-        
+
         public const string MODELS_URL_PREFIX = "https://models.readyplayer.me/";
         public const string API_URL_PREFIX = "https://api.readyplayer.me/v1/avatars/";
         public const string TEST_WRONG_GUID = "wrong-guid";

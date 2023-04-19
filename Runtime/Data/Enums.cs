@@ -89,7 +89,7 @@ namespace ReadyPlayerMe.AvatarLoader
         Normal,
         MetallicRoughness,
         Emissive,
-        Occlusion,
+        Occlusion
     }
 
     /// <summary>

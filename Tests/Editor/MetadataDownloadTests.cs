@@ -112,8 +112,8 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
 
             Assert.AreNotEqual(default(DateTime), metadata.UpdatedAt);
         }
-        
-        
+
+
         [Test]
         public void Check_Is_Metadata_Updated()
         {
@@ -122,7 +122,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             newMetadata.UpdatedAt = DateTime.Now;
             Assert.True(AvatarMetadata.IsUpdated(newMetadata, oldMetaData));
         }
-        
+
         [Test]
         public void Check_Is_Metadata_Not_Updated()
         {
@@ -151,28 +151,28 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             AvatarMetadata metadata = AvatarMetadata.LoadFromFile(TestUtils.TestJsonFilePath);
             Assert.AreNotSame(new AvatarMetadata(), metadata);
         }
-        
+
         [Test]
         public async Task Check_Metadata_Feminine_Full_Body()
         {
             var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Feminine);
             await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Feminine);
         }
-        
+
         [Test]
         public async Task Check_Metadata_Masculine_Full_Body()
         {
             var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.FullBody, OutfitGender.Masculine);
             await DownloadAndCheckMetadata(url, BodyType.FullBody, OutfitGender.Masculine);
-        }        
-        
+        }
+
         [Test]
         public async Task Check_Metadata_Feminine_Half_Body()
         {
             var url = TestAvatarData.GetAvatarApiJsonUrl(BodyType.HalfBody, OutfitGender.Feminine);
             await DownloadAndCheckMetadata(url, BodyType.HalfBody, OutfitGender.Feminine);
         }
-        
+
         [Test]
         public async Task Check_Metadata_Masculine_Half_Body()
         {

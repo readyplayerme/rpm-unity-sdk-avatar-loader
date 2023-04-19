@@ -21,7 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             var assetGUIDs = Selection.assetGUIDs;
             var paths = new string[assetGUIDs.Length];
-            for (int i = 0; i < assetGUIDs.Length; i++)
+            for (var i = 0; i < assetGUIDs.Length; i++)
             {
                 paths[i] = AssetDatabase.GUIDToAssetPath(assetGUIDs[i]);
                 LoadAssetsAndExtractClips(paths[i], directoryName);
@@ -30,15 +30,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 return null;
             }
-            return paths.Where(path => path.Contains(FBX_FILE)).ToArray();;
+            return paths.Where(path => path.Contains(FBX_FILE)).ToArray();
+            ;
         }
 
         private static void LoadAssetsAndExtractClips(string path, string directoryName)
         {
-            var clips = AssetDatabase.LoadAllAssetsAtPath(path);
-            foreach (var clip in clips)
+            Object[] clips = AssetDatabase.LoadAllAssetsAtPath(path);
+            foreach (Object clip in clips)
             {
-                if (clip != null &&  clip is AnimationClip animationClip && !animationClip.name.StartsWith(PREVIEW_ANIM_PREFIX))
+                if (clip != null && clip is AnimationClip animationClip && !animationClip.name.StartsWith(PREVIEW_ANIM_PREFIX))
                 {
                     TryCreateAsset(animationClip, directoryName);
                 }
@@ -84,7 +85,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [MenuItem("Assets/Extract Animations and Delete File", false, 9999)]
         private static void ExtractAnimationsAndDeleteFile()
         {
-            string[] animationFilePaths = ExtractAnimations();
+            var animationFilePaths = ExtractAnimations();
             if (animationFilePaths == null || animationFilePaths.Length < 1)
             {
                 return;
@@ -96,7 +97,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
         }
 
-        private static void DeleteFbxFiles(string[] animationFilePaths )
+        private static void DeleteFbxFiles(string[] animationFilePaths)
         {
             foreach (var animationFilePath in animationFilePaths)
             {

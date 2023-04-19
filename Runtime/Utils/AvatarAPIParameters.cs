@@ -1,4 +1,3 @@
-
 namespace ReadyPlayerMe.AvatarLoader
 {
     public static class AvatarAPIParameters

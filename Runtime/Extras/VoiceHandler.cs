@@ -45,7 +45,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
         private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
-        
+
         private void Start()
         {
             CreateBlendshapeMeshMap();
@@ -66,7 +66,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private bool HasMouthOpenBlendshape()
         {
-            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
+            foreach (KeyValuePair<SkinnedMeshRenderer, int> blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
                 if (blendshapeMeshIndex.Value >= 0)
                 {
@@ -80,9 +80,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private void CreateBlendshapeMeshMap()
         {
             blendshapeMeshIndexMap = new Dictionary<SkinnedMeshRenderer, int>();
-            foreach (var faceMeshType in faceMeshTypes)
+            foreach (MeshType faceMeshType in faceMeshTypes)
             {
-                var faceMesh = gameObject.GetMeshRenderer(faceMeshType);
+                SkinnedMeshRenderer faceMesh = gameObject.GetMeshRenderer(faceMeshType);
                 if (faceMesh)
                 {
                     TryAddSkinMesh(faceMesh);
@@ -183,7 +183,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void SetBlendShapeWeights(float weight)
         {
-            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
+            foreach (KeyValuePair<SkinnedMeshRenderer, int> blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
                 if (blendshapeMeshIndex.Value >= 0)
                 {

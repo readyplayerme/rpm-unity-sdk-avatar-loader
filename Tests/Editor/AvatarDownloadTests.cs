@@ -39,7 +39,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             Cleanup();
             byte[] bytes;
-            
+
             var avatarDownloader = new AvatarDownloader();
             try
             {
