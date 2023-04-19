@@ -19,10 +19,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         }
         
         [Test]
-        public void Texture_Atlas_1024_MorphTargets()
+        public void Texture_Atlas_512_MorphTargets()
         {
             var queryBuilder = new QueryBuilder();
-            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_ATLAS, "1024");
+            queryBuilder.AddKeyValue(AvatarAPIParameters.TEXTURE_ATLAS, "512");
             queryBuilder.AddKeyValue(AvatarAPIParameters.MORPH_TARGETS,AvatarConfigProcessor.CombineMorphTargetNames(morphTargetsDefault) );
             Assert.AreEqual(queryBuilder.Query, ATLAS_AND_MORPHS);
         }
