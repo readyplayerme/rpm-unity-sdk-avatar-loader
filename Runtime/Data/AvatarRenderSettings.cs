@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -25,8 +25,8 @@ namespace ReadyPlayerMe.AvatarLoader
                     queryBuilder.AddKeyValue($"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
                 }
             }
-
-            return queryBuilder.GetQuery;
+            
+            return queryBuilder.Query;
         }
     }
 }

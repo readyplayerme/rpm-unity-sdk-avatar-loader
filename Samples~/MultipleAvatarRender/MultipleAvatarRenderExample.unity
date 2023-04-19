@@ -1549,12 +1549,12 @@ MonoBehaviour:
     avatarRenderScene: 2
     image: {fileID: 37516423}
     imageLoaded: 0
-  - url: https://d1a370nemizbjq.cloudfront.net/93321c9f-60da-4020-ac35-00f92d81da92.glb
-    avatarRenderScene: 0
+  - url: https://models.readyplayer.me/63ff40ce9dc8b8dcb3b575af.glb
+    avatarRenderScene: 1
     image: {fileID: 1835301669}
     imageLoaded: 0
-  - url: https://d1a370nemizbjq.cloudfront.net/93321c9f-60da-4020-ac35-00f92d81da92.glb
-    avatarRenderScene: 1
+  - url: https://models.readyplayer.me/63da539e72f63b7131df0782.glb
+    avatarRenderScene: 3
     image: {fileID: 1491639854}
     imageLoaded: 0
   loadingPanel: {fileID: 466104546}
