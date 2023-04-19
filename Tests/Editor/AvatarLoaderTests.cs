@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -36,6 +37,30 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(FailureType.None, failureType);
             Assert.IsNotNull(avatar);
             Assert.IsNotNull(avatar.GetComponent<AvatarData>());
+        }
+
+        [Test]
+        public async Task AvatarLoader_Complete_Load_Async()
+        {
+            var loader = new AvatarObjectLoader();
+            var args = await loader.LoadAvatarAsync(TestAvatarData.DefaultAvatarUri.ModelUrl);
+
+            Assert.True(args != null);
+
+            if (args.GetType() == typeof(FailureEventArgs))
+            {
+                Assert.Fail(((FailureEventArgs) args).Type.ToString());
+            }
+            else if (args.GetType() == typeof(CompletionEventArgs))
+            {
+                var completedEventArgs = (CompletionEventArgs) args;
+                Assert.AreEqual(TestAvatarData.DefaultAvatarUri.ModelUrl, completedEventArgs.Url);
+                Assert.IsNotNull(completedEventArgs.Avatar);
+            }
+            else
+            {
+                Assert.Fail("Unknown event args type");
+            }
         }
 
         [UnityTest]
