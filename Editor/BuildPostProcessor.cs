@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             // create asset if it has been deleted
             if (CoreSettingsHandler.CoreSettings == null)
             {
-                ReadyPlayerMe.Core.Editor.EditorAssetGenerator.CreateSettingsAssets();
+                CoreSettingsHandler.CreateCoreSettings();
             }
             AppData appData = ApplicationData.GetData();
             AnalyticsEditorLogger.EventLogger.LogBuildApplication(appData.BuildTarget, PlayerSettings.productName, !Debug.isDebugBuild);
