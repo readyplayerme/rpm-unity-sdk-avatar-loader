@@ -13,6 +13,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private const string PARAM_TRUE = "true";
         private const string PARAM_FALSE = "false";
+        private const string PROCESSING_AVATAR_CONFIGURATION = "Processing Avatar Configuration";
 
         /// <summary>
         /// This method converts the <see cref="AvatarConfig" /> data and combines it into a <c>string</c> that can be added to
@@ -22,7 +23,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The <see cref="AvatarConfig" /> parameters combined as a <c>string</c>.</returns>
         public static string ProcessAvatarConfiguration(AvatarConfig avatarConfig)
         {
-            SDKLogger.Log(TAG, "Processing Avatar Configuration");
+            SDKLogger.Log(TAG, PROCESSING_AVATAR_CONFIGURATION);
 
             var queryBuilder = new QueryBuilder();
             queryBuilder.AddKeyValue(AvatarAPIParameters.POSE, AvatarConfigMap.Pose[avatarConfig.Pose]);

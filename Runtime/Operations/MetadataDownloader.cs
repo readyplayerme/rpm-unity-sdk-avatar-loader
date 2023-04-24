@@ -27,6 +27,8 @@ namespace ReadyPlayerMe.AvatarLoader
         public Action<float> ProgressChanged { get; set; }
 
         private const string METADATA_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.fff'Z'";
+        private const string DOWNLOADING_METADATA_INTO_MEMORY = "Downloading metadata into memory.";
+        private const string FAILED_TO_PARSE_METADATA_UNEXPECTED_BODY_TYPE = "Failed to parse metadata. Unexpected body type.";
 
         /// <summary>
         /// Executes the operation to download the avatar and save to file if saving is enabled.
@@ -72,7 +74,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The avatar metadata as a <see cref="AvatarMetadata" /> structure.</returns>
         public async Task<AvatarMetadata> Download(string url, CancellationToken token = new CancellationToken())
         {
-            SDKLogger.Log(TAG, "Downloading metadata into memory.");
+            SDKLogger.Log(TAG, DOWNLOADING_METADATA_INTO_MEMORY);
             var dispatcher = new WebRequestDispatcher();
             dispatcher.ProgressChanged += ProgressChanged;
 
@@ -147,7 +149,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (metadata.BodyType == BodyType.None)
             {
-                throw new CustomException(FailureType.MetadataParseError, "Failed to parse metadata. Unexpected body type.");
+                throw new CustomException(FailureType.MetadataParseError, FAILED_TO_PARSE_METADATA_UNEXPECTED_BODY_TYPE);
             }
 
             SDKLogger.Log(TAG, $"{metadata.BodyType} metadata loading completed.");

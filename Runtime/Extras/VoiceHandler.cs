@@ -34,6 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const int AUDIO_SAMPLE_LENGTH = 4096;
         private const int MICROPHONE_FREQUENCY = 44100;
         private const string MISSING_BLENDSHAPE_MESSAGE = "The 'mouthOpen' morph target is required for VoiceHandler.cs but it was not found on Avatar mesh. Use an AvatarConfig to specify the blendshapes to be included on loaded avatars.";
+        private const string MICROPHONE_IS_NOT_SUPPORTED_IN_WEBGL = "Microphone is not supported in WebGL.";
 
         private float[] audioSample = new float[AUDIO_SAMPLE_LENGTH];
 
@@ -133,7 +134,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private void SetMicrophoneSource()
         {
 #if UNITY_WEBGL
-            Debug.LogWarning("Microphone is not supported in WebGL.");
+            Debug.LogWarning(MICROPHONE_IS_NOT_SUPPORTED_IN_WEBGL);
 #else
             AudioSource.clip = Microphone.Start(null, true, 1, MICROPHONE_FREQUENCY);
             AudioSource.loop = true;

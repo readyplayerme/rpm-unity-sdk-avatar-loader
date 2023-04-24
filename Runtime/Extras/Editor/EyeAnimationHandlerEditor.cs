@@ -7,6 +7,8 @@ namespace ReadyPlayerMe
     [CustomEditor(typeof(EyeAnimationHandler))]
     public class EyeAnimationHandlerEditor : Editor
     {
+        private const string BLINK_DURATION = "blinkDuration";
+        private const string BLINK_INTERVAL = "blinkInterval";
         private readonly GUIContent blinkSpeedLabel =
             new GUIContent("Blink Duration", "Effects the duration of the avatar blink animation in seconds.");
 
@@ -24,8 +26,8 @@ namespace ReadyPlayerMe
 
         private void OnEnable()
         {
-            blinkDuration = serializedObject.FindProperty("blinkDuration");
-            blinkInterval = serializedObject.FindProperty("blinkInterval");
+            blinkDuration = serializedObject.FindProperty(BLINK_DURATION);
+            blinkInterval = serializedObject.FindProperty(BLINK_INTERVAL);
         }
 
         private void DrawPropertyField(SerializedProperty property, GUIContent content)

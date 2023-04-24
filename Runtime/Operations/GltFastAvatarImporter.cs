@@ -15,6 +15,7 @@ namespace ReadyPlayerMe.AvatarLoader
     public class GltFastAvatarImporter : IImporter
     {
         private const string TAG = nameof(GltFastAvatarImporter);
+        private const string IMPORTING_AVATAR_FROM_BYTE_ARRAY = "Importing avatar from byte array.";
         private readonly GLTFDeferAgent gltfDeferAgent;
 
         public int Timeout { get; set; }
@@ -56,7 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The <see cref="GameObject" /> of the avatar model.</returns>
         public async Task<GameObject> ImportModel(byte[] bytes, CancellationToken token)
         {
-            SDKLogger.Log(TAG, "Importing avatar from byte array.");
+            SDKLogger.Log(TAG, IMPORTING_AVATAR_FROM_BYTE_ARRAY);
 
             try
             {

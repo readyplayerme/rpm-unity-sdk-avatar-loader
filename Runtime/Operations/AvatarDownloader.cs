@@ -13,6 +13,8 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarDownloader);
+        private const string DOWNLOADING_AVATAR_INTO_MEMORY = "Downloading avatar into memory.";
+        private const string LOADING_MODEL_FROM_CACHE = "Loading model from cache.";
 
         /// If true the avatar will download into memory instead of a local file.
         private readonly bool downloadInMemory;
@@ -56,7 +58,7 @@ namespace ReadyPlayerMe.AvatarLoader
             if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
                 && File.Exists(context.AvatarUri.LocalModelPath))
             {
-                SDKLogger.Log(TAG, "Loading model from cache.");
+                SDKLogger.Log(TAG, LOADING_MODEL_FROM_CACHE);
                 context.Bytes = File.ReadAllBytes(context.AvatarUri.LocalModelPath);
                 return context;
             }
@@ -95,7 +97,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 SDKLogger.Log(TAG, $"Download URL with parameters: {url}");
             }
 
-            SDKLogger.Log(TAG, "Downloading avatar into memory.");
+            SDKLogger.Log(TAG, DOWNLOADING_AVATAR_INTO_MEMORY);
 
             var dispatcher = new WebRequestDispatcher();
             dispatcher.ProgressChanged = ProgressChanged;
