@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Object = UnityEngine.Object;
 
 namespace ReadyPlayerMe.AvatarLoader.Tests
 {
@@ -43,7 +45,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task AvatarLoader_Complete_Load_Async()
         {
             var loader = new AvatarObjectLoader();
-            var args = await loader.LoadAvatarAsync(TestAvatarData.DefaultAvatarUri.ModelUrl);
+            EventArgs args = await loader.LoadAvatarAsync(TestAvatarData.DefaultAvatarUri.ModelUrl);
 
             Assert.True(args != null);
 
@@ -86,6 +88,12 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest]
         public IEnumerator AvatarLoader_Replace_Old_Avatar_Instance()
         {
+            GameObject[] sceneObjects = Object.FindObjectsOfType<GameObject>();
+            foreach (GameObject sceneObject in sceneObjects)
+            {
+                Object.DestroyImmediate(sceneObject);
+            }
+
             GameObject avatarA = null;
             GameObject avatarB = null;
             var failureType = FailureType.None;
