@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader
@@ -28,7 +29,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private float blinkInterval = 3f;
 
         private WaitForSeconds blinkDelay;
-        private Coroutine blinkCoroutine;
+        private Task blinkCoroutine;
 
         private SkinnedMeshRenderer headMesh;
         private int eyeBlinkLeftBlendShapeIndex = -1;
@@ -42,6 +43,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private bool hasEyeBones;
         private bool CanAnimate => hasBlinkBlendShapes || hasEyeBones;
 
+        private CancellationTokenSource ctxSource;
         public float BlinkDuration
         {
             get => blinkDuration;
@@ -120,7 +122,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private void Reset()
         {
             CancelInvoke();
-            blinkCoroutine?.Stop();
+            ctxSource?.Cancel();
         }
 
         private void OnEnable()
@@ -144,7 +146,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// Rotates the eyes and assigns the blink coroutine. Called in the Initialize method.
         /// </summary>
-        private void AnimateEyes()
+        private async void AnimateEyes()
         {
             if (hasEyeBones)
             {
@@ -153,7 +155,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (hasBlinkBlendShapes)
             {
-                blinkCoroutine = BlinkEyes().Run();
+                ctxSource = new CancellationTokenSource();
+                await BlinkEyes(ctxSource.Token);
             }
         }
 
@@ -179,13 +182,20 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <summary>
         /// A coroutine that manipulates BlendShapes to open and close the eyes.
         /// </summary>
-        private IEnumerator BlinkEyes()
+        /// <param name="ctx"></param>
+        private async Task BlinkEyes(CancellationToken ctx)
         {
             headMesh.SetBlendShapeWeight(eyeBlinkLeftBlendShapeIndex, EYE_BLINK_MULTIPLIER);
             headMesh.SetBlendShapeWeight(eyeBlinkRightBlendShapeIndex, EYE_BLINK_MULTIPLIER);
 
-            yield return blinkDelay;
-
+            var startTime = Time.time;
+            while (Time.time - startTime < blinkDuration && !ctx.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+            
+            if(ctx.IsCancellationRequested) return;
+            
             headMesh.SetBlendShapeWeight(eyeBlinkLeftBlendShapeIndex, 0);
             headMesh.SetBlendShapeWeight(eyeBlinkRightBlendShapeIndex, 0);
         }
