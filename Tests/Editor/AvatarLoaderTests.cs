@@ -91,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Animator[] sceneObjects = Object.FindObjectsOfType<Animator>();
             foreach (Animator sceneObject in sceneObjects)
             {
-                Object.DestroyImmediate(sceneObject.gameObject.transform.root);
+                Object.DestroyImmediate(sceneObject.gameObject.transform.root.gameObject);
             }
 
             GameObject avatarA = null;
