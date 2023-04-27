@@ -5,6 +5,12 @@
 
 ## [TICKETID](https://ready-player-me.atlassian.net/browse/TICKETID)
 
+<!-- Replace the branch with the dependency, if no dependency is required than set this to develop -->
+## Dependencies
+```Package
+Core: branch
+```
+
 ## Description
 
 -   Briefly describe what this change will do
@@ -50,6 +56,3 @@
 -   If more details are necessary to support the description with images and videos add them here.
 
 <!--- Remember to copy the Changes Section into the commit message when you close the PR -->
-
-
-
