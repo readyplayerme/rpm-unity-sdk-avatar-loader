@@ -2,7 +2,7 @@ name: PR test runner
 
 on:
   pull_request:
-    types: [ opened, reopened ]
+    types: [ opened, reopened, edited ]
 
 jobs:
   runAllTests:
@@ -67,6 +67,7 @@ jobs:
           
           git pull origin "$CORE_BRANCH"
           
+      - name: Cache Project 
         uses: actions/cache@v3
         with:
           path: Library
