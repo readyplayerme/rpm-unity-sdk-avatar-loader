@@ -37,7 +37,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [Test]
         public async Task Download_Avatar_Into_Memory()
         {
-            Cleanup();
+            if (File.Exists(TestAvatarData.DefaultAvatarUri.LocalModelPath))
+            {
+                File.Delete(TestAvatarData.DefaultAvatarUri.LocalModelPath);
+            }
             byte[] bytes;
 
             var avatarDownloader = new AvatarDownloader();
