@@ -88,10 +88,10 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         [UnityTest]
         public IEnumerator AvatarLoader_Replace_Old_Avatar_Instance()
         {
-            GameObject[] sceneObjects = Object.FindObjectsOfType<GameObject>();
-            foreach (GameObject sceneObject in sceneObjects)
+            Animator[] sceneObjects = Object.FindObjectsOfType<Animator>();
+            foreach (Animator sceneObject in sceneObjects)
             {
-                Object.DestroyImmediate(sceneObject);
+                Object.DestroyImmediate(sceneObject.gameObject.transform.root);
             }
 
             GameObject avatarA = null;
