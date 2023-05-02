@@ -18,12 +18,15 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             public string url;
             public AvatarRenderScene avatarRenderScene;
-            public Image image;
             public bool imageLoaded;
         }
 
         private const string TAG = nameof(MultipleAvatarRenderExample);
 
+        [SerializeField]
+        private GameObject renderPanelPrefab;
+        [SerializeField]
+        private Transform renderPanelParent;
         [SerializeField]
         private RenderData[] dataList;
         [SerializeField]
@@ -36,8 +39,8 @@ namespace ReadyPlayerMe.AvatarLoader
             { "viseme_aa", 0.5f },
             { "jawOpen", 0.3f }
         };
-        
-        private readonly string[] blendShapeMeshes = {"Wolf3D_Head", "Wolf3D_Teeth"};
+
+        private readonly string[] blendShapeMeshes = { "Wolf3D_Head", "Wolf3D_Teeth" };
 
 
         private async void Start()
@@ -49,7 +52,11 @@ namespace ReadyPlayerMe.AvatarLoader
                 var avatarRenderer = new AvatarRenderLoader();
                 avatarRenderer.OnCompleted = texture =>
                 {
-                    UpdateSprite(renderData.image, texture);
+                    var renderPanel = Instantiate(renderPanelPrefab, renderPanelParent).GetComponent<RenderPanel>();
+                    var heading = string.Concat(renderData.avatarRenderScene.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                    renderPanel.heading.text = heading;
+
+                    UpdateSprite(renderPanel.image, texture);
                     renderData.imageLoaded = true;
                 };
                 avatarRenderer.OnFailed = Fail;
