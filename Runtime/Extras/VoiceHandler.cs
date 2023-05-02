@@ -1,10 +1,8 @@
-// ReSharper disable RedundantUsingDirective
-
 using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using ReadyPlayerMe.Core;
+using System.Threading;
+using System.Threading.Tasks;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -46,6 +44,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
         private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
 
+        private CancellationTokenSource ctxSource;
+        
         private void Start()
         {
             CreateBlendshapeMeshMap();
@@ -55,10 +55,11 @@ namespace ReadyPlayerMe.AvatarLoader
                 enabled = false;
                 return;
             }
+            ctxSource = new CancellationTokenSource();
 #if UNITY_IOS
-            CheckIOSMicrophonePermission().Run();
+            CheckIOSMicrophonePermission(ctxSource.Token);
 #elif UNITY_ANDROID
-            CheckAndroidMicrophonePermission().Run();
+            CheckAndroidMicrophonePermission(ctxSource.Token);
 #elif UNITY_STANDALONE || UNITY_EDITOR
             InitializeAudio();
 #endif
@@ -197,31 +198,38 @@ namespace ReadyPlayerMe.AvatarLoader
         #region Permissions
 
 #if UNITY_IOS
-        private IEnumerator CheckIOSMicrophonePermission()
+        private async void CheckIOSMicrophonePermission(CancellationToken ctx)
         {
-            yield return Application.RequestUserAuthorization(UserAuthorization.Microphone);
+            var asyncOperation = Application.RequestUserAuthorization(UserAuthorization.Microphone);
+            while (!asyncOperation.isDone && !ctx.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            if(ctx.IsCancellationRequested) return;
+            
             if (Application.HasUserAuthorization(UserAuthorization.Microphone))
             {
                 InitializeAudio();
             }
             else
             {
-                StartCoroutine(CheckIOSMicrophonePermission());
+                CheckIOSMicrophonePermission(ctx);
             }
         }
 #endif
 
 #if UNITY_ANDROID
-        private IEnumerator CheckAndroidMicrophonePermission()
+        private async void CheckAndroidMicrophonePermission(CancellationToken ctx)
         {
-            var wait = new WaitUntil(() =>
+            Permission.RequestUserPermission(Permission.Microphone);
+
+            while (!Permission.HasUserAuthorizedPermission(Permission.Microphone) && !ctx.IsCancellationRequested)
             {
-                Permission.RequestUserPermission(Permission.Microphone);
-
-                return Permission.HasUserAuthorizedPermission(Permission.Microphone);
-            });
-
-            yield return wait;
+                await Task.Yield();
+            }
+            
+            if(ctx.IsCancellationRequested) return;
 
             InitializeAudio();
         }
