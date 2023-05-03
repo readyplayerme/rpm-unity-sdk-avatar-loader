@@ -21,6 +21,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string MISSING_EYE_BONES_MESSAGE = "Eye bones are required for EyeAnimationHandler.cs but they were not found on loaded Avatar! Eye rotation animations will not be applied";
         private const string MISSING_MORPH_TARGETS_MESSAGE =
             "The 'eyeBlinkLeft' & 'eyeBlinkRight' morph targets are required for EyeAnimationHandler.cs but they were not found on Avatar mesh! Use an AvatarConfig to specify the morph targets to be included on loaded avatars.";
+        private const string NO_EYE_BONES_FOUND_IN_AVATAR_SKELETON = "No eye bones found in Avatar skeleton!";
 
         [SerializeField, Range(0, 1), Tooltip("Effects the duration of the avatar blink animation in seconds.")]
         private float blinkDuration = 0.1f;
@@ -115,7 +116,7 @@ namespace ReadyPlayerMe.AvatarLoader
             hasEyeBones = leftEyeBone != null && rightEyeBone != null;
             if (!hasEyeBones)
             {
-                Debug.LogWarning("No eye bones found in Avatar skeleton!");
+                Debug.LogWarning(NO_EYE_BONES_FOUND_IN_AVATAR_SKELETON);
             }
         }
 

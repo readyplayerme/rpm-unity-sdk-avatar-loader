@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (token.IsCancellationRequested)
             {
-                throw new CustomException(FailureType.OperationCancelled, "Operation was cancelled");
+                throw new CustomException(FailureType.OperationCancelled, OPERATION_WAS_CANCELLED);
             }
         }
 
@@ -49,6 +49,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private const string BEARD_MESH_NAME_FILTER = "Renderer_Beard";
         private const string TEETH_MESH_NAME_FILTER = "Renderer_Teeth";
+        private const string OPERATION_WAS_CANCELLED = "Operation was cancelled";
+        private const string COROUTINE_RUNNER = "[CoroutineRunner]";
 
         /// <summary>
         /// This method extends <c>GameObject</c> to simplify getting the Ready Player Me avatar's <c>SkinnedMeshRenderer</c>.
