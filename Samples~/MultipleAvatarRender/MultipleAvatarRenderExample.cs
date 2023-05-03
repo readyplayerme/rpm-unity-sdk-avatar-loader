@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
     /// <summary>
-    /// This class is a simple <see cref="Monobehaviour"/> to serve as an example on how to load a request a 2D render of a Ready Player Me avatar at runtime.
+    /// This class is a simple example on how to load a request a 2D render of a Ready Player Me avatar at runtime.
     /// </summary>
     public class MultipleAvatarRenderExample : MonoBehaviour
     {
@@ -53,10 +52,9 @@ namespace ReadyPlayerMe.AvatarLoader
                 avatarRenderer.OnCompleted = texture =>
                 {
                     var renderPanel = Instantiate(renderPanelPrefab, renderPanelParent).GetComponent<RenderPanel>();
-                    var heading = string.Concat(renderData.avatarRenderScene.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
-                    renderPanel.heading.text = heading;
-
-                    UpdateSprite(renderPanel.image, texture);
+                    renderPanel.SetHeading(renderData.avatarRenderScene.ToString());
+                    renderPanel.SetImage(texture);
+                    SDKLogger.Log(TAG, "Sprite Updated ");
                     renderData.imageLoaded = true;
                 };
                 avatarRenderer.OnFailed = Fail;
@@ -68,15 +66,6 @@ namespace ReadyPlayerMe.AvatarLoader
                 await Task.Yield();
             }
             loadingPanel.SetActive(false);
-        }
-
-        /// Updates the sprite renderer with the provided render
-        private void UpdateSprite(Image image, Texture2D render)
-        {
-            var sprite = Sprite.Create(render, new Rect(0, 0, render.width, render.height), new Vector2(.5f, .5f));
-            image.sprite = sprite;
-            image.preserveAspect = true;
-            SDKLogger.Log(TAG, "Sprite Updated ");
         }
 
         private void Fail(FailureType type, string message)
