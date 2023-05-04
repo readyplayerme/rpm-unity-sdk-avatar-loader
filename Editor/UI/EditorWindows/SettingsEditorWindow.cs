@@ -150,7 +150,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawContent()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 DrawPartnerSettings();
                 DrawAvatarSettings();
@@ -161,11 +161,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawPartnerSettings()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label(new GUIContent(SETTINGS_HEADING, HELP_TEXT), HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
 
@@ -175,7 +175,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     partnerSubdomain = EditorGUILayout.TextField(oldValue, textFieldStyle, GUILayout.Width(128), GUILayout.Height(20));
 
                     EditorGUILayout.LabelField(".readyplayer.me", textLabelStyle, GUILayout.Width(116), GUILayout.Height(20));
-                    var button = new GUIContent(errorIcon, DOMAIN_VALIDATION_ERROR);
+                    var button = new GUIContent(ErrorIcon, DOMAIN_VALIDATION_ERROR);
 
                     var isSubdomainValid = ValidateSubdomain();
 
@@ -199,11 +199,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawAvatarSettings()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label(new GUIContent("Avatar Settings"), HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
                     EditorGUILayout.LabelField(new GUIContent("Avatar Config", AVATAR_CONFIG_TOOLTIP), inputFieldWidth);
@@ -215,7 +215,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     }
                 });
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
                     EditorGUILayout.LabelField(new GUIContent("GLTF defer agent", DEFER_AGENT_TOOLTIP), inputFieldWidth);
@@ -231,11 +231,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawAvatarCaching()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label("Avatar Caching", HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
                     var cachingEnabled = avatarCachingEnabled;
@@ -250,7 +250,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 GUILayout.Space(4);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUI.enabled = !isCacheEmpty;
                     if (GUILayout.Button("Clear local avatar cache", avatarCachingButtonStyle))
@@ -275,11 +275,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawOtherSection()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label(OTHER_SECTION_HEADING, HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
                     analyticsEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Analytics enabled", ANALYTICS_LOGGING_DESCRIPTION), analyticsEnabled, GUILayout.Width(125));
@@ -301,7 +301,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         }
                     }
                 });
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
                     sdkLoggingEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Logging enabled", LOGGING_ENABLED_TOOLTIP), sdkLoggingEnabled, GUILayout.Width(125));

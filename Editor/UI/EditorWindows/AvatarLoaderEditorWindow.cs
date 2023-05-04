@@ -57,7 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawContent()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 DrawInputField();
                 DrawExtras();
@@ -107,11 +107,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawInputField()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label(AVATAR_HEADING, HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
 
@@ -127,7 +127,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
                     }
 
-                    var button = new GUIContent(errorIcon, URL_SHORTCODE_ERROR);
+                    var button = new GUIContent(ErrorIcon, URL_SHORTCODE_ERROR);
 
                     if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
                     {
@@ -145,15 +145,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawExtras()
         {
-            Vertical(() =>
+            Layout.Vertical(() =>
             {
                 GUILayout.Label("Extras", HeadingStyle);
 
-                Horizontal(() =>
+                Layout.Horizontal(() =>
                 {
                     GUILayout.Space(2);
 
-                    Vertical(() =>
+                    Layout.Vertical(() =>
                     {
                         useEyeAnimations = EditorGUILayout.ToggleLeft(new GUIContent("Use Eye Animations",
                                 "Optional helper component for random eye rotation and blinking, for a less static look."), useEyeAnimations,
@@ -172,7 +172,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void DrawLoadAvatarButton()
         {
-            Horizontal(() =>
+            Layout.Horizontal(() =>
             {
                 GUI.enabled = isValidUrlShortcode && !string.IsNullOrEmpty(url);
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
