@@ -11,7 +11,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string INFO_TEXT = "You can change this setting later, or fine-tune with your own created Scriptable Object.";
         private const string SELECT_AN_AVATAR_CONFIGURATION = "Select an Avatar Configuration";
 
-        private GUIStyle buttonStyle;
         public bool IsAvatarConfigFieldEmpty => avatarConfigFields.IsAvatarConfigFieldEmpty;
 
         private readonly AvatarConfigFields avatarConfigFields;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
-    public class SubdomainPanel: IEditorWindowComponent
+    public class SubdomainPanel : IEditorWindowComponent
     {
         private const string HEADING = "Enter your subdomain";
         private const string DESCRIPTION =
@@ -13,16 +13,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string STUDIO_URL =
             "https://studio.readyplayer.me";
         private const string USE_DEMO_SUBDOMAIN = "I don't have an account. Use demo subdomain instead.";
+        private const string DEMO_SUBDOMAIN = "demo";
 
         private readonly GUILayoutOption toggleWidth = GUILayout.Width(20);
 
         public bool IsSubdomainFieldEmpty => string.IsNullOrEmpty(subdomainField.PartnerSubdomain);
 
-        private GUIStyle textLabelStyle;
-
         private readonly SubdomainField subdomainField;
         private bool userDemoSubdomain;
-        
+
         public SubdomainPanel()
         {
             subdomainField = new SubdomainField();
@@ -37,7 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         richText = true,
                         fixedWidth = 435,
                         wordWrap = true,
-                        margin = new RectOffset(15,0,0,0),
+                        margin = new RectOffset(15, 0, 0, 0),
                         normal =
                         {
                             textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)
@@ -55,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 GUILayout.Space(15);
                 subdomainField.Draw();
             });
-            
+
             GUILayout.Space(20);
 
             Layout.Horizontal(() =>
@@ -64,7 +63,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 userDemoSubdomain = EditorGUILayout.Toggle(userDemoSubdomain, toggleWidth);
                 if (userDemoSubdomain)
                 {
-                    subdomainField.SetSubdomain("demo");
+                    subdomainField.SetSubdomain(DEMO_SUBDOMAIN);
                 }
                 GUILayout.Label(USE_DEMO_SUBDOMAIN);
                 GUILayout.FlexibleSpace();

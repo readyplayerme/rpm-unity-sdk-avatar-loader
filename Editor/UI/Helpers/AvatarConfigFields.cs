@@ -21,15 +21,21 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string SHOW_CACHING_FOLDER_BUTTON_TEXT = "Show in explorer";
 #endif
 
+        private const string CLEAR_LOCAL_AVATAR_CACHE = "Clear local avatar cache";
+
         private const float BUTTON_HEIGHT = 30f;
         private const string AVATAR_CONFIG = "Avatar Config";
+        private const string GLTF_DEFER_AGENT = "GLTF defer agent";
+        private const string AVATAR_CACHING_TOGGLE_LABEL = "Avatar caching enabled";
+        
+        
 
         private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(178);
         private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(253);
 
         private readonly AvatarLoaderSettings avatarLoaderSettings;
         public bool IsAvatarConfigFieldEmpty => avatarConfig == null;
-        
+
         private GUIStyle avatarCachingButtonStyle;
         private AvatarConfig avatarConfig;
         private GLTFDeferAgent gltfDeferAgent;
@@ -70,7 +76,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             Layout.Horizontal(() =>
             {
                 GUILayout.Space(3);
-                EditorGUILayout.LabelField(new GUIContent("GLTF defer agent", DEFER_AGENT_TOOLTIP), inputFieldWidth);
+                EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), inputFieldWidth);
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
                 {
@@ -87,7 +93,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(2);
                 var cachingEnabled = avatarCachingEnabled;
-                avatarCachingEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Avatar caching enabled", CACHING_TOOLTIP), avatarCachingEnabled);
+                avatarCachingEnabled = EditorGUILayout.ToggleLeft(new GUIContent(AVATAR_CACHING_TOGGLE_LABEL, CACHING_TOOLTIP), avatarCachingEnabled);
 
                 if (cachingEnabled != avatarCachingEnabled && avatarLoaderSettings != null)
                 {
@@ -101,7 +107,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             Layout.Horizontal(() =>
             {
                 GUI.enabled = !isCacheEmpty;
-                if (GUILayout.Button("Clear local avatar cache", avatarCachingButtonStyle))
+                if (GUILayout.Button(CLEAR_LOCAL_AVATAR_CACHE, avatarCachingButtonStyle))
                 {
                     TryClearCache();
                     isCacheEmpty = AvatarCache.IsCacheEmpty();

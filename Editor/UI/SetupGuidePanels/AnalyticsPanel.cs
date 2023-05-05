@@ -14,25 +14,19 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
 
-        private const string ENABLE_ANALYTICS = "Analytics Enabled";
+        private const string ENABLE_ANALYTICS_LABEL = "Analytics Enabled";
 
         private static bool enableAnalytics;
 
         private readonly GUILayoutOption toggleWidth = GUILayout.Width(20);
-        private GUIStyle buttonStyle;
 
-        private bool variablesLoaded;
-
-        private void LoadCachedVariables()
+        public AnalyticsPanel()
         {
             enableAnalytics = AnalyticsEditorLogger.IsEnabled;
-            variablesLoaded = true;
         }
 
         public void Draw(Rect position = new Rect())
         {
-            if (!variablesLoaded) LoadCachedVariables();
-
             HeadingAndDescriptionField.SetDescription(HEADING, DESCRIPTION, () =>
             {
                 GUILayout.Space(20);
@@ -67,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     AnalyticsEditorLogger.Disable();
                 }
 
-                GUILayout.Label(ENABLE_ANALYTICS);
+                GUILayout.Label(ENABLE_ANALYTICS_LABEL);
                 GUILayout.FlexibleSpace();
                 ProjectPrefs.SetBool(SetupGuideWindow.FIRST_TIME_SETUP_DONE, enableAnalytics);
             });

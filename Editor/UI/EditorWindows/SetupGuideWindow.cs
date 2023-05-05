@@ -12,6 +12,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const int BUTTON_FONT_SIZE = 12;
 
         public const string FIRST_TIME_SETUP_DONE = "first-time-setup";
+        private const string BACK_BUTTON_LABEL = "Back";
+        private const string FINISH_SETUP_BUTTON_LABEL = "Finish Setup";
+        private const string OPEN_QUICKSTART_SCENE_BUTTON_LABEL = "Open QuickStart Scene";
 
         private Header header;
         private IEditorWindowComponent[] panels;
@@ -131,7 +134,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (!(panel is SubdomainPanel))
                 {
                     GUILayout.Space(15);
-                    if (GUILayout.Button("Back", GetButtonStyle()))
+                    if (GUILayout.Button(BACK_BUTTON_LABEL, GetButtonStyle()))
                     {
                         OnBackButton();
                     }
@@ -141,12 +144,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 if (panel is AnalyticsPanel)
                 {
-                    if (GUILayout.Button("Finish Setup", GetButtonStyle()))
+                    if (GUILayout.Button(FINISH_SETUP_BUTTON_LABEL, GetButtonStyle()))
                     {
                         OnFinishSetup();
                     }
 
-                    if (GUILayout.Button("Open QuickStart Scene", GetButtonStyle()))
+                    if (GUILayout.Button(OPEN_QUICKSTART_SCENE_BUTTON_LABEL, GetButtonStyle()))
                     {
                         OnOpenQuickStartScene();
                     }
@@ -194,7 +197,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (!new QuickStartHelper().Open())
             {
-                EditorUtility.DisplayDialog("Quick Start","No quick start sample found.","OK" );
+                EditorUtility.DisplayDialog(WINDOW_NAME,"No quick start sample found.","OK" );
             }
         }
     }
