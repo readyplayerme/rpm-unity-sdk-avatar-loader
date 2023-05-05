@@ -6,9 +6,9 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     [InitializeOnLoad]
-    public class SetupWizardWindow : EditorWindow
+    public class SetupGuideWindow : EditorWindow
     {
-        private const string WINDOW_NAME = "Setup Wizard";
+        private const string WINDOW_NAME = "Setup Guide";
         private const int BUTTON_FONT_SIZE = 12;
 
         public const string FIRST_TIME_SETUP_DONE = "first-time-setup";
@@ -20,7 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// <summary>
         ///     Constructor method that subscribes to the StartUp event.
         /// </summary>
-        static SetupWizardWindow()
+        static SetupGuideWindow()
         {
             EntryPoint.Startup += OnStartup;
         }
@@ -69,7 +69,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [MenuItem("Ready Player Me/Re-run Setup")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(SetupWizardWindow), false, WINDOW_NAME);
+            GetWindow(typeof(SetupGuideWindow), false, WINDOW_NAME);
             ProjectPrefs.SetBool(FIRST_TIME_SETUP_DONE, true);
         }
 

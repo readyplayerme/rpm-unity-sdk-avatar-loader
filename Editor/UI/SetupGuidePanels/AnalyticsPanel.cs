@@ -69,7 +69,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 GUILayout.Label(ENABLE_ANALYTICS);
                 GUILayout.FlexibleSpace();
-                ProjectPrefs.SetBool(SetupWizardWindow.FIRST_TIME_SETUP_DONE, enableAnalytics);
+                ProjectPrefs.SetBool(SetupGuideWindow.FIRST_TIME_SETUP_DONE, enableAnalytics);
             });
 
             GUILayout.Space(10);
