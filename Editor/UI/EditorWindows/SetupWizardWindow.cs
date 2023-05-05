@@ -11,19 +11,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string WINDOW_NAME = "Setup Wizard";
         private const int BUTTON_FONT_SIZE = 12;
 
-        public const string FIRST_TIME_SETUP = "first-time-setup";
+        public const string FIRST_TIME_SETUP_DONE = "first-time-setup";
 
         private Header header;
-        private GUIStyle descriptionStyle;
-        private GUIStyle headingStyle;
-        private AnalyticsPanel analyticsPanel;
-        private SubdomainPanel subdomainPanel;
-        private AvatarConfigPanel avatarConfigPanel;
-        private QuickStartPanel quickStartPanel;
-        private bool displayQuickStart;
-
         private IEditorWindowComponent[] panels;
-
         private int currentPanelIndex;
 
         /// <summary>
@@ -50,6 +41,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (CanShowWindow())
             {
+                AnalyticsEditorLogger.Enable();
                 ShowWindow();
             }
 
@@ -63,7 +55,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private static bool CanShowWindow()
         {
-            return !ProjectPrefs.GetBool(FIRST_TIME_SETUP);
+            return !ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE);
         }
 
         /// <summary>
@@ -78,6 +70,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void ShowWindow()
         {
             GetWindow(typeof(SetupWizardWindow), false, WINDOW_NAME);
+            ProjectPrefs.SetBool(FIRST_TIME_SETUP_DONE, true);
         }
 
         /// <summary>
@@ -93,12 +86,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             };
 
             header ??= new Header();
-            if (quickStartPanel == null)
-            {
-                quickStartPanel = new QuickStartPanel();
-                quickStartPanel.OnQuickStartClick.AddListener(Close);
-                quickStartPanel.OnCloseClick.AddListener(Close);
-            }
         }
 
         private void OnGUI()
@@ -170,12 +157,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     {
                         GUI.enabled = false;
                     }
-                    
-                    if(panel is AvatarConfigPanel { IsAvatarConfigFieldEmpty: true })
+
+                    if (panel is AvatarConfigPanel { IsAvatarConfigFieldEmpty: true })
                     {
                         GUI.enabled = false;
                     }
-                    
+
                     if (GUILayout.Button("Next", GetButtonStyle()))
                     {
                         OnNextButton();
@@ -205,7 +192,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void OnOpenQuickStartScene()
         {
-
+            if (!new QuickStartHelper().Open())
+            {
+                EditorUtility.DisplayDialog("Quick Start","No quick start sample found.","OK" );
+            }
         }
     }
 }

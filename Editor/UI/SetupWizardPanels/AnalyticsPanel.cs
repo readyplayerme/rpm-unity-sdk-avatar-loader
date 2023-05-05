@@ -1,3 +1,4 @@
+using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void LoadCachedVariables()
         {
-            enableAnalytics = ProjectPrefs.GetBool(SetupWizardWindow.FIRST_TIME_SETUP);
+            enableAnalytics = AnalyticsEditorLogger.IsEnabled;
             variablesLoaded = true;
         }
 
@@ -39,7 +40,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     {
                         richText = true,
                         fixedWidth = 435,
-                        margin = new RectOffset(15,0,0,0),
+                        margin = new RectOffset(15, 0, 0, 0),
                         normal =
                         {
                             textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)
@@ -50,16 +51,25 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 }
                 EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
             });
-            
+
             GUILayout.FlexibleSpace();
 
             Layout.Horizontal(() =>
             {
                 GUILayout.Space(15);
                 enableAnalytics = EditorGUILayout.Toggle(enableAnalytics, toggleWidth);
+                if (enableAnalytics)
+                {
+                    AnalyticsEditorLogger.Enable();
+                }
+                else
+                {
+                    AnalyticsEditorLogger.Disable();
+                }
+
                 GUILayout.Label(ENABLE_ANALYTICS);
                 GUILayout.FlexibleSpace();
-                ProjectPrefs.SetBool(SetupWizardWindow.FIRST_TIME_SETUP, enableAnalytics);
+                ProjectPrefs.SetBool(SetupWizardWindow.FIRST_TIME_SETUP_DONE, enableAnalytics);
             });
 
             GUILayout.Space(10);
