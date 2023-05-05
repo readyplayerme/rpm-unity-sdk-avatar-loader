@@ -27,9 +27,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(178);
         private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(253);
 
-        private GUIStyle avatarCachingButtonStyle;
-
         private readonly AvatarLoaderSettings avatarLoaderSettings;
+        public bool IsAvatarConfigFieldEmpty => avatarConfig == null;
+        
+        private GUIStyle avatarCachingButtonStyle;
         private AvatarConfig avatarConfig;
         private GLTFDeferAgent gltfDeferAgent;
 
@@ -61,7 +62,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     avatarLoaderSettings.AvatarConfig = avatarConfig;
                     SaveAvatarLoaderSettings();
                 }
-            },false);
+            });
         }
 
         public void DrawGltfDeferAgent()

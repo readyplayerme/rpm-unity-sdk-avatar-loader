@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string SELECT_AN_AVATAR_CONFIGURATION = "Select an Avatar Configuration";
 
         private GUIStyle buttonStyle;
-        public bool IsAvatarConfigFieldEmpty { get; set; }
+        public bool IsAvatarConfigFieldEmpty => avatarConfigFields.IsAvatarConfigFieldEmpty;
 
         private readonly AvatarConfigFields avatarConfigFields;
 

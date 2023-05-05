@@ -6,17 +6,12 @@ using UnityEngine;
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     [InitializeOnLoad]
-    public class SetupWizard : EditorWindow
+    public class SetupWizardWindow : EditorWindow
     {
-        private enum Panel
-        {
-            SubdomainPanel,
-            AvatarConfigPanel,
-            AnalyticsPanel
-        }
-
-        private const string WINDOW_NAME = "Welcome";
+        private const string WINDOW_NAME = "Setup Wizard";
         private const int BUTTON_FONT_SIZE = 12;
+
+        public const string FIRST_TIME_SETUP = "first-time-setup";
 
         private Header header;
         private GUIStyle descriptionStyle;
@@ -27,12 +22,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private QuickStartPanel quickStartPanel;
         private bool displayQuickStart;
 
-        public static readonly string NeverAskAgainPref = "rpm-sdk-metrics-never-ask-again";
+        private IEditorWindowComponent[] panels;
+
+        private int currentPanelIndex;
 
         /// <summary>
         ///     Constructor method that subscribes to the StartUp event.
         /// </summary>
-        static SetupWizard()
+        static SetupWizardWindow()
         {
             EntryPoint.Startup += OnStartup;
         }
@@ -66,7 +63,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private static bool CanShowWindow()
         {
-            return !ProjectPrefs.GetBool(NeverAskAgainPref);
+            return !ProjectPrefs.GetBool(FIRST_TIME_SETUP);
         }
 
         /// <summary>
@@ -80,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         [MenuItem("Ready Player Me/Re-run Setup")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(SetupWizard), false, WINDOW_NAME);
+            GetWindow(typeof(SetupWizardWindow), false, WINDOW_NAME);
         }
 
         /// <summary>
@@ -88,18 +85,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         private void LoadPanels()
         {
-            if (panels == null)
+            panels ??= new IEditorWindowComponent[]
             {
-                panels = new IEditorWindowComponent[]
-                {
-                    new SubdomainPanel(),
-                    new AvatarConfigPanel(),
-                    new AnalyticsPanel(),
-                };
-                // analyticsPanel = new AnalyticsPanel();
-                // subdomainPanel = new SubdomainPanel();
-                // avatarConfigPanel = new AvatarConfigPanel();
-            }
+                new SubdomainPanel(),
+                new AvatarConfigPanel(),
+                new AnalyticsPanel(),
+            };
+
             header ??= new Header();
             if (quickStartPanel == null)
             {
@@ -145,30 +137,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             });
         }
 
-        private IEditorWindowComponent[] panels;
-
-        private int currentPanelIndex;
-
-        private void OnBackButton()
-        {
-            currentPanelIndex--;
-        }
-
-        private void OnNextButton()
-        {
-            currentPanelIndex++;
-        }
-
-        private void OnFinishSetup()
-        {
-
-        }
-
-        private void OnOpenQuickStartScene()
-        {
-
-        }
-
         private void DrawFooter(IEditorWindowComponent panel)
         {
             Layout.Horizontal(() =>
@@ -181,10 +149,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         OnBackButton();
                     }
                 }
-                // GUILayout.Space(3);
 
-
-                // GUILayout.Space(460 - 3 * GetButtonStyle().fixedWidth - 30);
                 GUILayout.FlexibleSpace();
 
                 if (panel is AnalyticsPanel)
@@ -201,20 +166,46 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 }
                 else
                 {
-                    // if (disableNextButton)
+                    if (panel is SubdomainPanel { IsSubdomainFieldEmpty: true })
                     {
-                        // GUI.enabled = false;
+                        GUI.enabled = false;
                     }
+                    
+                    if(panel is AvatarConfigPanel { IsAvatarConfigFieldEmpty: true })
+                    {
+                        GUI.enabled = false;
+                    }
+                    
                     if (GUILayout.Button("Next", GetButtonStyle()))
                     {
                         OnNextButton();
                     }
-                    // GUI.enabled = true;
+                    GUI.enabled = true;
                 }
 
                 GUILayout.Space(15);
 
             }, true, GUILayout.Width(460));
+        }
+
+        private void OnBackButton()
+        {
+            currentPanelIndex--;
+        }
+
+        private void OnNextButton()
+        {
+            currentPanelIndex++;
+        }
+
+        private void OnFinishSetup()
+        {
+            Close();
+        }
+
+        private void OnOpenQuickStartScene()
+        {
+
         }
     }
 }

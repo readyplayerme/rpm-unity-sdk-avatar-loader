@@ -1,7 +1,6 @@
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
@@ -23,14 +22,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private bool variablesLoaded;
 
-        public UnityEvent OnButtonClick = new UnityEvent();
-
         private void LoadCachedVariables()
         {
-            enableAnalytics = ProjectPrefs.GetBool(SetupWizard.NeverAskAgainPref);
+            enableAnalytics = ProjectPrefs.GetBool(SetupWizardWindow.FIRST_TIME_SETUP);
             variablesLoaded = true;
         }
-
 
         public void Draw(Rect position = new Rect())
         {
@@ -63,7 +59,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 enableAnalytics = EditorGUILayout.Toggle(enableAnalytics, toggleWidth);
                 GUILayout.Label(ENABLE_ANALYTICS);
                 GUILayout.FlexibleSpace();
-                ProjectPrefs.SetBool(SetupWizard.NeverAskAgainPref, enableAnalytics);
+                ProjectPrefs.SetBool(SetupWizardWindow.FIRST_TIME_SETUP, enableAnalytics);
             });
 
             GUILayout.Space(10);
