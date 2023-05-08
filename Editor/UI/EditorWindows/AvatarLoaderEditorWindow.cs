@@ -71,6 +71,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 avatarButtonStyle = new GUIStyle(GUI.skin.button);
                 avatarButtonStyle.fontStyle = FontStyle.Bold;
                 avatarButtonStyle.fontSize = 14;
+                avatarButtonStyle.margin = new RectOffset(15, 15, 0, 0);
                 avatarButtonStyle.fixedHeight = ButtonHeight;
             }
 
@@ -111,7 +112,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 Layout.Horizontal(() =>
                 {
-                    GUILayout.Space(2);
+                    GUILayout.Space(15);
 
                     Layout.Vertical(() =>
                     {

@@ -34,7 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     {
                         richText = true,
                         fixedWidth = 435,
-                        margin = new RectOffset(15, 0, 0, 0),
+                        margin = new RectOffset(15, 15, 0, 0),
                         normal =
                         {
                             textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)

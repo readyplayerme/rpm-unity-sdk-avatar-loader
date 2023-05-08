@@ -16,7 +16,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private readonly GUILayoutOption fieldHeight = GUILayout.Height(20);
         private readonly GUILayoutOption fieldWidth = GUILayout.Width(290);
-        private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(145);
+        private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(130);
 
         public bool IsValidUrlShortCode => isValidUrlShortcode;
         public string Url => url;
@@ -55,21 +55,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 Layout.Horizontal(() =>
                 {
                     GUILayout.Label(AVATAR_HEADING, headingStyle);
-                    if (GUILayout.Button("?", new GUIStyle(GUI.skin.button)
-                        {
-                            fontSize = 14,
-                            fixedHeight = 18,
-                            fixedWidth = 18,
-                            margin = new RectOffset(5, 0, 0, 8),
-                            normal =
-                            {
-                                textColor = new Color(0.7f, 0.7f, 0.7f, 1.0f)
-                            }
-                        }))
-                    {
-                        Application.OpenURL(LOAD_AVATAR_DOCS);
-                    }
-                    EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
+                    DocumentationButton.Draw(LOAD_AVATAR_DOCS);
                     GUILayout.FlexibleSpace();
                 });
 
@@ -78,8 +64,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     GUILayout.Space(LEFT_MARGIN);
 
                     EditorGUILayout.LabelField(
-                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),
-                        inputFieldWidth);
+                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),inputFieldWidth );
 
                     Layout.Vertical(() =>
                     {
