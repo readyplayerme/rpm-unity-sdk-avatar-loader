@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string HEADING = "Help us improve Ready Player Me SDK";
         private const string DESCRIPTION =
             "We are constantly adding new features and improvements to our SDK. Enable analytics and help us in building even better free tools for more developers. This data is used for internal purposes only and is not shared with third parties.";
-        private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <b>here</b>";
+        private const string ANALYTICS_PRIVACY_TEXT = "Read our Privacy Policy and learn how we use the data <a>here</a>";
         private const string ANALYTICS_PRIVACY_URL =
             "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
 

@@ -9,7 +9,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string HEADING = "Enter your subdomain";
         private const string DESCRIPTION =
             "Please enter your subdomain here. This ensures, that you will get your avatars and the embedded avatar-creator with the configuration you set in Studio (Developer Dashboard).";
-        private const string STUDIO_TEXT = "If you don't have a subdomain, you can get one by signing up in Studio. (https://studio.readyplayer.me)";
+        private const string STUDIO_TEXT = "If you don't have a subdomain, you can get one by signing up in Studio.<a>(https://studio.readyplayer.me)</a>";
         private const string STUDIO_URL =
             "https://studio.readyplayer.me";
         private const string USE_DEMO_SUBDOMAIN = "I don't have an account. Use demo subdomain instead.";
