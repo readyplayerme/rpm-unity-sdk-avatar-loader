@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (context.IsUpdateRequired)
             {
-                AvatarCache.ClearAvatar(context.AvatarUri.Guid, context.SaveInProjectFolder);
+                AvatarCache.DeleteAvatar(context.AvatarUri.Guid, context.SaveInProjectFolder);
             }
 
             if (downloadInMemory)

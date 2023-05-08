@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
@@ -22,37 +22,32 @@ namespace ReadyPlayerMe.AvatarLoader
         public static void Clear()
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            DeleteFolder(path);
+        }
+
+        private static void DeleteFolder(string path)
+        {
             if (Directory.Exists(path))
             {
+                Debug.Log($"Delete folder {path}");
                 Directory.Delete(path, true);
             }
+#if UNITY_EDITOR
+            path += ".meta";
+            if (File.Exists(path))
+            {
+                Debug.Log($"Delete meta file {path}");
+
+                File.Delete(path);
+            }
+#endif
         }
 
         /// Clears a specific avatar from persistent cache, while leaving the metadata.json file
-        public static void ClearAvatar(string guid, bool saveInProjectFolder = false)
+        public static void DeleteAvatar(string guid, bool saveInProjectFolder = false)
         {
             var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
-            if (Directory.Exists(path))
-            {
-                var info = new DirectoryInfo(path);
-
-                if (saveInProjectFolder)
-                {
-#if UNITY_EDITOR
-                    foreach (DirectoryInfo dir in info.GetDirectories())
-                    {
-                        AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
-                    }
-#endif
-                }
-                else
-                {
-                    foreach (DirectoryInfo dir in info.GetDirectories())
-                    {
-                        Directory.Delete(dir.FullName, true);
-                    }
-                }
-            }
+            DeleteFolder(path);
         }
 
         /// Is there any avatars present in the persistent cache.
