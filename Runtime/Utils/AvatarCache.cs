@@ -67,7 +67,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// Total Avatar variants stored for specific avatar GUID in persistent cache.
-        public static int GetAvatarCount(string avatarGuid)
+        public static int GetAvatarVariantCount(string avatarGuid)
         {
             var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
             return !Directory.Exists(path) ? 0 : new DirectoryInfo(path).GetDirectories().Length;

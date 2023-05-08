@@ -362,7 +362,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 EditorUtility.DisplayDialog("Clear Cache", "Cache is already empty", "OK");
                 return;
             }
-            var size = (AvatarCache.GetCacheSize() / (1024f * 1024)).ToString("F2");
+            var size = AvatarCache.GetCacheSizeInMb().ToString("F2");
             var avatarCount = AvatarCache.GetAvatarCount();
             if (EditorUtility.DisplayDialog("Clear Cache", $"Do you want to clear all the Avatars cache from persistent data path, {size} MB and {avatarCount} avatars?", "Ok", "Cancel"))
             {
