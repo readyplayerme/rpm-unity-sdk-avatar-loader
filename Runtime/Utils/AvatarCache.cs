@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
@@ -79,6 +79,18 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
             return !Directory.Exists(path) ? 0 : DirectoryUtility.GetDirectorySize(new DirectoryInfo(path));
+        }
+
+        public static float GetCacheSizeInMb()
+        {
+            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            return DirectoryUtility.GetFolderSizeInMb(path);
+        }
+
+        public static float GetAvatarDataSizeInMb(string avatarGuid)
+        {
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
+            return DirectoryUtility.GetFolderSizeInMb(path);
         }
     }
 }
