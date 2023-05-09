@@ -49,11 +49,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             });
             GUILayout.Space(20);
 
-            Layout.Horizontal(() =>
-            {
-                GUILayout.Space(15);
-                subdomainField.Draw();
-            });
+            subdomainField.Draw();
 
             GUILayout.Space(20);
 

@@ -15,8 +15,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const int LEFT_MARGIN = 15;
 
         private readonly GUILayoutOption fieldHeight = GUILayout.Height(20);
-        private readonly GUILayoutOption fieldWidth = GUILayout.Width(290);
-        private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(130);
+        private readonly GUILayoutOption fieldWidth = GUILayout.Width(285);
+        private readonly GUILayoutOption labelWidth = GUILayout.Width(140);
 
         public bool IsValidUrlShortCode => isValidUrlShortcode;
         public string Url => url;
@@ -64,7 +64,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     GUILayout.Space(LEFT_MARGIN);
 
                     EditorGUILayout.LabelField(
-                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),inputFieldWidth );
+                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),labelWidth);
 
                     Layout.Vertical(() =>
                     {

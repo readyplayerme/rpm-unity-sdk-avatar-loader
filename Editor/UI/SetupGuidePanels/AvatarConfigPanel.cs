@@ -9,7 +9,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string DESCRIPTION =
             "To optimize your game or experience, you have multiple options to select the right Quality/Performance settings. You can select between the presets Low (optimum performance), Medium (best tradeoff) and High (optimum visual quality).";
         private const string INFO_TEXT = "You can change this setting later, or fine-tune with your own created Scriptable Object.";
-        private const string SELECT_AN_AVATAR_CONFIGURATION = "Select an Avatar Configuration";
 
         public bool IsAvatarConfigFieldEmpty => avatarConfigFields.IsAvatarConfigFieldEmpty;
 
@@ -27,8 +26,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             GUILayout.Space(10);
             Layout.Horizontal(() =>
             {
-                GUILayout.Space(15);
-                avatarConfigFields.DrawAvatarConfig(SELECT_AN_AVATAR_CONFIGURATION);
+                avatarConfigFields.DrawAvatarConfig();
                 GUILayout.FlexibleSpace();
             });
             GUILayout.Space(10);

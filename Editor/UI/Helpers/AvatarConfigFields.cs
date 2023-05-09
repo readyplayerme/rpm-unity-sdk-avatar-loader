@@ -27,11 +27,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string AVATAR_CONFIG = "Avatar Config";
         private const string GLTF_DEFER_AGENT = "GLTF defer agent";
         private const string AVATAR_CACHING_TOGGLE_LABEL = "Avatar caching enabled";
-        
-        
+        private const string AVATAR_CONFIG_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
 
-        private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(178);
-        private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(253);
+        private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(280);
 
         private readonly AvatarLoaderSettings avatarLoaderSettings;
         public bool IsAvatarConfigFieldEmpty => avatarConfig == null;
@@ -56,12 +54,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
         }
 
-        public void DrawAvatarConfig(string label = AVATAR_CONFIG)
+        public void DrawAvatarConfig()
         {
             Layout.Horizontal(() =>
             {
-                GUILayout.Space(3);
-                EditorGUILayout.LabelField(new GUIContent(label, AVATAR_CONFIG_TOOLTIP), inputFieldWidth);
+                GUILayout.Space(15);
+                EditorGUILayout.LabelField(new GUIContent(AVATAR_CONFIG, AVATAR_CONFIG_TOOLTIP), GUILayout.Width(80));
+                DocumentationButton.Draw(AVATAR_CONFIG_DOCS_LINK);
+                GUILayout.Space(50);
+
                 avatarConfig = EditorGUILayout.ObjectField(avatarConfig, typeof(AvatarConfig), false, objectFieldWidth) as AvatarConfig;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
                 {
@@ -75,8 +76,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             Layout.Horizontal(() =>
             {
-                GUILayout.Space(3);
-                EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), inputFieldWidth);
+                GUILayout.Space(15);
+                EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), GUILayout.Width(100));
+                GUILayout.Space(50);
+
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
                 {
@@ -91,7 +94,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             LoadStyles();
             Layout.Horizontal(() =>
             {
-                GUILayout.Space(2);
+                GUILayout.Space(15);
                 var cachingEnabled = avatarCachingEnabled;
                 avatarCachingEnabled = EditorGUILayout.ToggleLeft(new GUIContent(AVATAR_CACHING_TOGGLE_LABEL, CACHING_TOOLTIP), avatarCachingEnabled);
 
@@ -106,6 +109,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             Layout.Horizontal(() =>
             {
+                GUILayout.Space(15);
+
                 GUI.enabled = !isCacheEmpty;
                 if (GUILayout.Button(CLEAR_LOCAL_AVATAR_CACHE, avatarCachingButtonStyle))
                 {
@@ -136,9 +141,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             avatarCachingButtonStyle ??= new GUIStyle(GUI.skin.button);
             avatarCachingButtonStyle.fontStyle = FontStyle.Bold;
             avatarCachingButtonStyle.fontSize = 12;
-            avatarCachingButtonStyle.padding = new RectOffset(5, 5, 5, 5);
             avatarCachingButtonStyle.fixedHeight = BUTTON_HEIGHT;
-            avatarCachingButtonStyle.fixedWidth = 225;
+            avatarCachingButtonStyle.fixedWidth = 215;
         }
 
         private static void TryClearCache()
