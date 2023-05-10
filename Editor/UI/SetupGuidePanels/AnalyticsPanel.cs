@@ -17,6 +17,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string ENABLE_ANALYTICS_LABEL = "Analytics Enabled";
 
         private static bool enableAnalytics;
+        private static bool previousAnalyticsState;
 
         private readonly GUILayoutOption toggleWidth = GUILayout.Width(20);
 
@@ -52,14 +53,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(15);
                 enableAnalytics = EditorGUILayout.Toggle(enableAnalytics, toggleWidth);
-                if (enableAnalytics)
+                switch (enableAnalytics)
                 {
-                    AnalyticsEditorLogger.Enable();
+                    case true when !previousAnalyticsState:
+                        AnalyticsEditorLogger.Enable();
+                        break;
+                    case false when previousAnalyticsState:
+                        AnalyticsEditorLogger.Disable();
+                        break;
                 }
-                else
-                {
-                    AnalyticsEditorLogger.Disable();
-                }
+                previousAnalyticsState = enableAnalytics;
 
                 GUILayout.Label(ENABLE_ANALYTICS_LABEL);
                 GUILayout.FlexibleSpace();
