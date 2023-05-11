@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarLoader
     /// </summary>
     public static class AvatarCache
     {
-
         /// Calculate cache subfolder name based on hash for avatar Config.
         public static string GetAvatarConfigurationHash(AvatarConfig avatarConfig = null)
         {
@@ -29,25 +28,49 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (Directory.Exists(path))
             {
-                Debug.Log($"Delete folder {path}");
                 Directory.Delete(path, true);
             }
 #if UNITY_EDITOR
             path += ".meta";
             if (File.Exists(path))
             {
-                Debug.Log($"Delete meta file {path}");
-
                 File.Delete(path);
             }
 #endif
         }
-
-        /// Clears a specific avatar from persistent cache, while leaving the metadata.json file
-        public static void DeleteAvatar(string guid, bool saveInProjectFolder = false)
+        
+        /// Deletes stored data a specific avatar from persistent cache.
+        public static void DeleteAvatarFolder(string guid, bool saveInProjectFolder = false)
         {
             var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
             DeleteFolder(path);
+        }
+        
+        /// deletes a specific avatar model from persistent cache, while leaving the metadata.json file
+        public static void DeleteAvatarModel(string guid, bool saveInProjectFolder = false)
+        {
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
+            if (Directory.Exists(path))
+            {
+                var info = new DirectoryInfo(path);
+
+                if (saveInProjectFolder)
+                {
+#if UNITY_EDITOR
+                    foreach (DirectoryInfo dir in info.GetDirectories())
+                    {
+                        AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
+                    }
+#endif
+                }
+                else
+                {
+                    foreach (DirectoryInfo dir in info.GetDirectories())
+                    {
+                        Directory.Delete(dir.FullName, true);
+                    }
+                }
+            }
         }
 
         /// Is there any avatars present in the persistent cache.
