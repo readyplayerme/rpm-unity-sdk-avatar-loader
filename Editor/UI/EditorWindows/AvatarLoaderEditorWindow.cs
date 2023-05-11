@@ -1,7 +1,6 @@
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
-using ReadyPlayerMe.Loader;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,57 +8,58 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class AvatarLoaderEditorWindow : EditorWindowBase
     {
-        private const string AVATAR_HEADING = "Download Avatar into Scene";
-        private const string URL_SAVE_KEY = "UrlSaveKey";
         private const string VOICE_TO_ANIM_SAVE_KEY = "VoiceToAnimSaveKey";
         private const string EYE_ANIMATION_SAVE_KEY = "EyeAnimationSaveKey";
         private const string MODEL_CACHING_SAVE_KEY = "ModelCachingSaveKey";
 
         private const string EDITOR_WINDOW_NAME = "avatar loader";
-        private const string URL_SHORTCODE_ERROR = "Please enter a valid Avatar URL or Shortcode. Click here to read more about this issue.";
+        private const string WINDOW_HEADING = "Avatar Loader";
 
-        private string url;
         private bool useVoiceToAnim;
         private bool useEyeAnimations;
         private bool initialized;
 
         private readonly GUILayoutOption fieldHeight = GUILayout.Height(20);
-        private readonly GUILayoutOption inputFieldWidth = GUILayout.Width(145);
 
         private GUIStyle errorButtonStyle;
         private GUIStyle avatarButtonStyle;
         private GUIStyle parametersSelectButtonStyle;
 
-        private bool isValidUrlShortcode;
         private AvatarLoaderSettings avatarLoaderSettings;
+        private AvatarUrlField avatarUrlField;
 
+        private double startTime;
+        
         [MenuItem("Ready Player Me/Avatar Loader", priority = 0)]
         public static void ShowWindowMenu()
         {
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
-            window.titleContent = new GUIContent("Avatar Loader");
+            window.titleContent = new GUIContent(WINDOW_HEADING);
             window.ShowUtility();
-
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
         }
 
         private void OnGUI()
         {
             if (!initialized) Initialize();
+            if (avatarUrlField == null)
+            {
+                Initialize();
+            }
             LoadStyles();
-            DrawContent(DrawContent);
+            DrawContent(DrawContent, false);
         }
 
         private void OnFocus()
         {
-            isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
+            avatarUrlField?.ValidateUrl();
         }
 
         private void DrawContent()
         {
             Layout.Vertical(() =>
             {
-                DrawInputField();
+                avatarUrlField.Draw();
                 DrawExtras();
                 DrawLoadAvatarButton();
             });
@@ -72,6 +72,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 avatarButtonStyle = new GUIStyle(GUI.skin.button);
                 avatarButtonStyle.fontStyle = FontStyle.Bold;
                 avatarButtonStyle.fontSize = 14;
+                avatarButtonStyle.margin = new RectOffset(15, 15, 0, 0);
                 avatarButtonStyle.fixedHeight = ButtonHeight;
             }
 
@@ -95,52 +96,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void Initialize()
         {
-            url = EditorPrefs.GetString(URL_SAVE_KEY);
+            avatarUrlField = new AvatarUrlField();
             useEyeAnimations = EditorPrefs.GetBool(EYE_ANIMATION_SAVE_KEY);
             useVoiceToAnim = EditorPrefs.GetBool(VOICE_TO_ANIM_SAVE_KEY);
 
             if (EditorPrefs.GetBool(MODEL_CACHING_SAVE_KEY)) EditorPrefs.SetBool(MODEL_CACHING_SAVE_KEY, false);
-            SetEditorWindowName(EDITOR_WINDOW_NAME);
-            isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
+            SetEditorWindowName(EDITOR_WINDOW_NAME,WINDOW_HEADING);
             initialized = true;
-        }
-
-        private void DrawInputField()
-        {
-            Layout.Vertical(() =>
-            {
-                GUILayout.Label(AVATAR_HEADING, HeadingStyle);
-
-                Layout.Horizontal(() =>
-                {
-                    GUILayout.Space(2);
-
-                    EditorGUILayout.LabelField(
-                        new GUIContent("Avatar URL or Shortcode", "Paste the avatar URL or shortcode received from Ready Player Me here."),
-                        inputFieldWidth);
-
-                    var tempText = EditorUtilities.TextFieldWithPlaceholder(url, " Paste Avatar URL or shortcode here", fieldHeight);
-
-                    if (tempText != url)
-                    {
-                        url = tempText.Split('?')[0];
-                        isValidUrlShortcode = EditorUtilities.IsUrlShortcodeValid(url);
-                    }
-
-                    var button = new GUIContent(ErrorIcon, URL_SHORTCODE_ERROR);
-
-                    if (!isValidUrlShortcode && GUILayout.Button(button, errorButtonStyle))
-                    {
-                        Application.OpenURL("https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator#avatar-url-and-data-format");
-                    }
-
-                    EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
-
-                    EditorPrefs.SetString(URL_SAVE_KEY, url);
-
-                    GUILayout.Space(4);
-                });
-            }, true);
         }
 
         private void DrawExtras()
@@ -151,7 +113,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 Layout.Horizontal(() =>
                 {
-                    GUILayout.Space(2);
+                    GUILayout.Space(15);
 
                     Layout.Vertical(() =>
                     {
@@ -165,20 +127,20 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                         EditorPrefs.SetBool(VOICE_TO_ANIM_SAVE_KEY, useVoiceToAnim);
                     });
                 });
-            }, true);
+                GUILayout.Space(2);
+            });
         }
 
-        private double startTime;
 
         private void DrawLoadAvatarButton()
         {
             Layout.Horizontal(() =>
             {
-                GUI.enabled = isValidUrlShortcode && !string.IsNullOrEmpty(url);
+                GUI.enabled = avatarUrlField.IsValidUrlShortCode;
                 if (GUILayout.Button("Load Avatar into the Current Scene", avatarButtonStyle))
                 {
                     startTime = EditorApplication.timeSinceStartup;
-                    AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(url, useEyeAnimations, useVoiceToAnim);
+                    AnalyticsEditorLogger.EventLogger.LogLoadAvatarFromDialog(avatarUrlField.Url, useEyeAnimations, useVoiceToAnim);
                     if (avatarLoaderSettings == null)
                     {
                         avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
@@ -196,13 +158,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                             avatarLoader.GLTFDeferAgent = avatarLoaderSettings.GLTFDeferAgent;
                         }
                     }
-                    avatarLoader.LoadAvatar(url);
+                    avatarLoader.LoadAvatar(avatarUrlField.Url);
                 }
 
                 GUI.enabled = true;
 
                 GUILayout.Space(4);
-            }, true);
+            });
         }
 
         private void OnOperationCompleted(object sender, IOperation<AvatarContext> e)
