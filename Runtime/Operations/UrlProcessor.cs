@@ -91,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 avatarUri.ImageUrl = url.Replace(".glb", ".png");
                 avatarUri.LocalModelPath = $"{fileName}{GLB_EXTENSION}";
                 avatarUri.MetadataUrl = GetMetadataUrl(url);
-                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}/{avatarUri.Guid}";
+                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}{avatarUri.Guid}";
                 avatarUri.LocalMetadataPath = $"{fileName}{JSON_EXTENSION}";
 
                 SDKLogger.Log(TAG, PROCESSING_COMPLETED);
