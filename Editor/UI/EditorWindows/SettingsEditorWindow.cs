@@ -9,7 +9,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
     public class SettingsEditorWindow : EditorWindowBase
     {
         private const string EDITOR_WINDOW_NAME = "rpm settings";
-        private const string SETTINGS_HEADING = "Partner Settings";
+        private const string WINDOW_HEADING = "Settings";
+        private const string PARTNER_SETTINGS_HEADING = "Partner Settings";
         private const string HELP_TEXT =
             "If you are a Ready Player Me partner, please enter your subdomain here to apply your configuration to the WebView.";
         private const string OTHER_SECTION_HEADING = "Other";
@@ -37,7 +38,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
-            window.titleContent = new GUIContent("Settings");
+            window.titleContent = new GUIContent(WINDOW_HEADING);
             window.ShowUtility();
 
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
@@ -45,7 +46,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void Initialize()
         {
-            SetEditorWindowName(EDITOR_WINDOW_NAME);
+            SetEditorWindowName(EDITOR_WINDOW_NAME, WINDOW_HEADING);
 
             subdomainField = new SubdomainField();
             avatarConfigFields = new AvatarConfigFields();
@@ -103,7 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             Layout.Vertical(() =>
             {
-                GUILayout.Label(new GUIContent(SETTINGS_HEADING, HELP_TEXT), HeadingStyle);
+                GUILayout.Label(new GUIContent(PARTNER_SETTINGS_HEADING, HELP_TEXT), HeadingStyle);
                 GUILayout.Space(2);
                 subdomainField?.Draw();
             }, true);

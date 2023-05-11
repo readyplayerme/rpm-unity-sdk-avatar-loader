@@ -13,6 +13,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string MODEL_CACHING_SAVE_KEY = "ModelCachingSaveKey";
 
         private const string EDITOR_WINDOW_NAME = "avatar loader";
+        private const string WINDOW_HEADING = "Avatar Loader";
 
         private bool useVoiceToAnim;
         private bool useEyeAnimations;
@@ -33,7 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void ShowWindowMenu()
         {
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
-            window.titleContent = new GUIContent("Avatar Loader");
+            window.titleContent = new GUIContent(WINDOW_HEADING);
             window.ShowUtility();
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(EDITOR_WINDOW_NAME);
         }
@@ -100,7 +101,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             useVoiceToAnim = EditorPrefs.GetBool(VOICE_TO_ANIM_SAVE_KEY);
 
             if (EditorPrefs.GetBool(MODEL_CACHING_SAVE_KEY)) EditorPrefs.SetBool(MODEL_CACHING_SAVE_KEY, false);
-            SetEditorWindowName(EDITOR_WINDOW_NAME);
+            SetEditorWindowName(EDITOR_WINDOW_NAME,WINDOW_HEADING);
             initialized = true;
         }
 

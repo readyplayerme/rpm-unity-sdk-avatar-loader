@@ -88,7 +88,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 new AnalyticsPanel(),
             };
 
-            header ??= new Header();
+            header ??= new Header(WINDOW_NAME);
         }
 
         private void OnGUI()
