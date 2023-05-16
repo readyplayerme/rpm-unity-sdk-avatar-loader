@@ -59,9 +59,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             Layout.Horizontal(() =>
             {
                 GUILayout.Space(15);
-                EditorGUILayout.LabelField(new GUIContent(AVATAR_CONFIG, AVATAR_CONFIG_TOOLTIP), GUILayout.Width(80));
+                EditorGUILayout.LabelField(new GUIContent(AVATAR_CONFIG, AVATAR_CONFIG_TOOLTIP), GUILayout.Width(81));
                 DocumentationButton.Draw(AVATAR_CONFIG_DOCS_LINK);
-                GUILayout.Space(50);
+                GUILayout.Space(49);
 
                 avatarConfig = EditorGUILayout.ObjectField(avatarConfig, typeof(AvatarConfig), false, objectFieldWidth) as AvatarConfig;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
@@ -78,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), GUILayout.Width(100));
-                GUILayout.Space(50);
+                GUILayout.Space(51);
 
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
