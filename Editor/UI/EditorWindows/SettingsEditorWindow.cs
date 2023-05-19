@@ -117,6 +117,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 GUILayout.Label(new GUIContent("Avatar Settings"), HeadingStyle);
 
                 avatarConfigFields?.DrawAvatarConfig();
+                EditorGUILayout.Space(3);
                 avatarConfigFields?.DrawGltfDeferAgent();
 
             }, true);
