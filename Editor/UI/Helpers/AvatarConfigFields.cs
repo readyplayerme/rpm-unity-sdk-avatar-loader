@@ -28,6 +28,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string GLTF_DEFER_AGENT = "GLTF defer agent";
         private const string AVATAR_CACHING_TOGGLE_LABEL = "Avatar caching enabled";
         private const string AVATAR_CONFIG_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
+        private const string DEFER_AGENT_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
 
         private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(280);
 
@@ -78,7 +79,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), GUILayout.Width(100));
-                GUILayout.Space(51);
+                DocumentationButton.Draw(DEFER_AGENT_DOCS_LINK);
+                GUILayout.Space(30);
 
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
                 if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != gltfDeferAgent)
