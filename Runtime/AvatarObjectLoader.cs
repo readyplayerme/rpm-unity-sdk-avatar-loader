@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Loader;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="useDefaultGLTFDeferAgent">Use default defer agent</param>
         public AvatarObjectLoader(bool useDefaultGLTFDeferAgent = true)
         {
-            var loaderSettings = AvatarLoaderSettings.LoadSettings();
+            AvatarLoaderSettings loaderSettings = AvatarLoaderSettings.LoadSettings();
             avatarCachingEnabled = loaderSettings && loaderSettings.AvatarCachingEnabled;
             AvatarConfig = loaderSettings.AvatarConfig != null ? loaderSettings.AvatarConfig : null;
 
@@ -72,6 +73,37 @@ namespace ReadyPlayerMe.AvatarLoader
             SDKLogger.Log(TAG, $"Started loading avatar with config {(AvatarConfig ? AvatarConfig.name : "None")} from URL {url}");
             avatarUrl = url;
             Load(url);
+        }
+        
+        /// <summary>
+        /// Load avatar asynchronously from a URL and return the result as eventArgs.
+        /// </summary>
+        /// <param name="url">The URL to the avatars .glb file.</param>
+        public async Task<EventArgs> LoadAvatarAsync(string url)
+        {
+            EventArgs eventArgs = null;
+            var isCompleted = false;
+            OnCompleted += (sender, args) =>
+            {
+                eventArgs = args;
+                isCompleted = true;
+            };
+            OnFailed += (sender, args) =>
+            {
+                eventArgs = args;
+                isCompleted = true;
+            };
+            
+            startTime = Time.timeSinceLevelLoad;
+            SDKLogger.Log(TAG, $"Started loading avatar with config {(AvatarConfig ? AvatarConfig.name : "None")} from URL {url}");
+            avatarUrl = url;
+            Load(url);
+            
+            while (!isCompleted)
+            {
+                await Task.Yield();
+            }
+            return eventArgs;
         }
 
         /// <summary>
@@ -120,7 +152,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             var avatar = (GameObject) context.Data;
             avatar.SetActive(true);
-            
+
             var avatarData = avatar.AddComponent<AvatarData>();
             avatarData.AvatarId = avatar.name;
             avatarData.AvatarMetadata = context.Metadata;

@@ -2,7 +2,7 @@ name: PR test runner
 
 on:
   pull_request:
-    types: [ opened, reopened ]
+    types: [ opened, reopened, edited ]
 
 jobs:
   runAllTests:
@@ -26,15 +26,48 @@ jobs:
           fetch-depth: 0
           ref: develop
           token: ${{ secrets.DEV_SDK_TOKEN }}
+ 
+      - name: Get PR dependencies
+        id: pr-dependencies
+        run: |
+          PR_DEPENDENCY=$(awk -v start="\`\`\`Package" -v end="\`\`\`" '{
+            if ($0 ~ start) {p=1; next}
+            if (p && !($0 ~ end)) {print}
+            if ($0 ~ end) {p=0}
+          }' <<\EOF
+          ${{ github.event.pull_request.body }}
+          EOF
+          )
+          echo "dependency=$PR_DEPENDENCY" >> "$GITHUB_OUTPUT"
       - name: Checkout submodule branch
         run: |
-          cd ${{ secrets.AVATAR_LOADER_PATH }}
-          git status
+          cd Assets/Ready\ Player\ Me/Avatar\ Loader
           git fetch -a
           git checkout ${{ github.event.pull_request.head.ref }}
           git pull origin ${{ github.event.pull_request.head.ref }}
-
-      - name: Cache Project
+          
+          dependency="${{ steps.pr-dependencies.outputs.dependency }}"
+          if [ -z "$dependency" ]; then
+            echo "No dependency found in PR description"
+            exit 0
+          fi
+          echo "Dependencies found - ${dependency}"
+          
+          CORE_BRANCH="${dependency#*Core: }"
+          CORE_BRANCH=$(echo "$CORE_BRANCH" | tr -d '\r')
+          
+          cd ../Core
+          git fetch -a
+          git checkout "$CORE_BRANCH"
+          
+          if [ $? -ne 0 ]; then
+            echo "Core checkout failed, no branch found with name $CORE_BRANCH"
+            exit 0
+          fi
+          
+          git pull origin "$CORE_BRANCH"
+          
+      - name: Cache Project 
         uses: actions/cache@v3
         with:
           path: Library
@@ -91,7 +124,9 @@ jobs:
           git config --global user.name "dev-sdk"
           git config --global user.email "dev-sdk@wolf3d.io"
           git fetch --all
-          git pull origin develop
           git add PerformanceData.json
           git commit -m 'chore: update performance data'
+          git status
+          git reset --hard
+          git pull origin develop --rebase
           git push origin develop

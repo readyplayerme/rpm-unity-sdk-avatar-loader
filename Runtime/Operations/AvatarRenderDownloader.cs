@@ -14,6 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarRenderDownloader : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarRenderDownloader);
+        private const string AVATAR_RENDER_DOWNLOADED = "Avatar Render Downloaded";
 
         /// <summary>
         /// Can be used to set the Timeout (in seconds) used by the <see cref="WebRequestDispatcherExtension" /> when making the web request.
@@ -38,7 +39,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 var renderUrl = RenderParameterProcessor.GetRenderUrl(context);
                 context.Data = await RequestAvatarRender(renderUrl, token);
-                SDKLogger.Log(TAG, "Avatar Render Downloaded");
+                SDKLogger.Log(TAG, AVATAR_RENDER_DOWNLOADED);
                 return context;
             }
             catch (CustomException exception)
@@ -52,7 +53,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </summary>
         /// <param name="payload">The binary data of the avatar model .glb file.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
-        public async Task<Texture2D> RequestAvatarRender(string url,  CancellationToken token = new CancellationToken())
+        public async Task<Texture2D> RequestAvatarRender(string url, CancellationToken token = new CancellationToken())
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             webRequestDispatcher.ProgressChanged += ProgressChanged;

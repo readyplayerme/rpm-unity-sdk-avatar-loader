@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 }
                 else
                 {
-                    SDKLogger.LogWarning(TAG,WARNING_BUILD_WITHOUT_VARIANTS);
+                    SDKLogger.LogWarning(TAG, WARNING_BUILD_WITHOUT_VARIANTS);
                 }
             }
         }

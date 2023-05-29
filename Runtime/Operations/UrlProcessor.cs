@@ -15,6 +15,8 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string SHORT_CODE_BASE_URL = "https://api.readyplayer.me/v1/avatars";
         private const string GLB_EXTENSION = ".glb";
         private const string JSON_EXTENSION = ".json";
+        private const string URL_STRING_IS_NULL = "Url string is null";
+        private const string PROCESSING_COMPLETED = "Processing completed.";
 
         private bool SaveInProjectFolder { get; set; }
 
@@ -31,7 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (string.IsNullOrEmpty(context.Url))
             {
-                throw Fail(FailureType.UrlProcessError, "Url string is null");
+                throw Fail(FailureType.UrlProcessError, URL_STRING_IS_NULL);
             }
 
             SaveInProjectFolder = context.SaveInProjectFolder;
@@ -89,10 +91,10 @@ namespace ReadyPlayerMe.AvatarLoader
                 avatarUri.ImageUrl = url.Replace(".glb", ".png");
                 avatarUri.LocalModelPath = $"{fileName}{GLB_EXTENSION}";
                 avatarUri.MetadataUrl = GetMetadataUrl(url);
-                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}/{avatarUri.Guid}";
+                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}{avatarUri.Guid}";
                 avatarUri.LocalMetadataPath = $"{fileName}{JSON_EXTENSION}";
 
-                SDKLogger.Log(TAG, "Processing completed.");
+                SDKLogger.Log(TAG, PROCESSING_COMPLETED);
                 return Task.FromResult(avatarUri);
             }
             catch (Exception e)

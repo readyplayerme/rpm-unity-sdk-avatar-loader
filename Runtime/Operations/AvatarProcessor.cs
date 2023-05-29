@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.AvatarLoader
     public class AvatarProcessor : IOperation<AvatarContext>
     {
         private const string TAG = nameof(AvatarProcessor);
-        
+
         public int Timeout { get; set; }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="avatarMetadata"></param>
         public void ProcessAvatar(GameObject avatar, AvatarMetadata avatarMetadata)
         {
-            SDKLogger.Log(TAG, "Processing avatar.");
+            SDKLogger.Log(TAG, PROCESSING_AVATAR);
 
             try
             {
@@ -138,7 +138,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="avatar">The <see cref="GameObject" /> to update.</param>
         private void AddArmatureBone(GameObject avatar)
         {
-            SDKLogger.Log(TAG, "Adding armature bone");
+            SDKLogger.Log(TAG, ADDING_ARMATURE_BONE);
 
             var armature = new GameObject();
             armature.name = BONE_ARMATURE;
@@ -155,7 +155,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="gender">Get gender of the Avatar.</param>
         private void SetupAnimator(GameObject avatar, OutfitGender gender)
         {
-            SDKLogger.Log(TAG, "Setting up animator");
+            SDKLogger.Log(TAG, SETTING_UP_ANIMATOR);
 
             var animationAvatarSource = gender == OutfitGender.Masculine
                 ? MASCULINE_ANIMATION_AVATAR_NAME
@@ -178,6 +178,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string RENDERER_PREFIX = "Renderer";
         private const string MATERIAL_PREFIX = "Material";
         private const string SKINNED_MESH_PREFIX = "SkinnedMesh";
+        private const string PROCESSING_AVATAR = "Processing avatar.";
+        private const string ADDING_ARMATURE_BONE = "Adding armature bone";
+        private const string SETTING_UP_ANIMATOR = "Setting up animator";
 
 
         // Texture property IDs

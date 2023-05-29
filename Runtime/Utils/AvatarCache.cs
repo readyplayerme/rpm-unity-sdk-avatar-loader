@@ -10,7 +10,6 @@ namespace ReadyPlayerMe.AvatarLoader
     /// </summary>
     public static class AvatarCache
     {
-
         /// Calculate cache subfolder name based on hash for avatar Config.
         public static string GetAvatarConfigurationHash(AvatarConfig avatarConfig = null)
         {
@@ -22,14 +21,33 @@ namespace ReadyPlayerMe.AvatarLoader
         public static void Clear()
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            DeleteFolder(path);
+        }
+
+        private static void DeleteFolder(string path)
+        {
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
             }
+#if UNITY_EDITOR
+            path += ".meta";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+#endif
         }
-
-        /// Clears a specific avatar from persistent cache, while leaving the metadata.json file
-        public static void ClearAvatar(string guid, bool saveInProjectFolder = false)
+        
+        /// Deletes stored data a specific avatar from persistent cache.
+        public static void DeleteAvatarFolder(string guid, bool saveInProjectFolder = false)
+        {
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
+            DeleteFolder(path);
+        }
+        
+        /// deletes a specific avatar model from persistent cache, while leaving the metadata.json file
+        public static void DeleteAvatarModel(string guid, bool saveInProjectFolder = false)
         {
             var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
             if (Directory.Exists(path))
@@ -72,7 +90,7 @@ namespace ReadyPlayerMe.AvatarLoader
         }
 
         /// Total Avatar variants stored for specific avatar GUID in persistent cache.
-        public static int GetAvatarCount(string avatarGuid)
+        public static int GetAvatarVariantCount(string avatarGuid)
         {
             var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
             return !Directory.Exists(path) ? 0 : new DirectoryInfo(path).GetDirectories().Length;
@@ -84,6 +102,18 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
             return !Directory.Exists(path) ? 0 : DirectoryUtility.GetDirectorySize(new DirectoryInfo(path));
+        }
+
+        public static float GetCacheSizeInMb()
+        {
+            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            return DirectoryUtility.GetFolderSizeInMb(path);
+        }
+
+        public static float GetAvatarDataSizeInMb(string avatarGuid)
+        {
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
+            return DirectoryUtility.GetFolderSizeInMb(path);
         }
     }
 }

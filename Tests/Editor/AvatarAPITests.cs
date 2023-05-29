@@ -15,18 +15,13 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const int TEXTURE_SIZE_HIGH = 1024;
         private const int AVATAR_CONFIG_BLEND_SHAPE_COUNT_MED = 15;
 
+        private readonly List<GameObject> avatars = new List<GameObject>();
+ 
         private AvatarConfig avatarConfigHigh;
         private AvatarConfig avatarConfigLow;
         private AvatarConfig avatarConfigMed;
         private AvatarLoaderSettings settings;
-
-        [TearDown]
-        public void Cleanup()
-        {
-            Object.DestroyImmediate(Object.FindObjectOfType(typeof(Animator)));
-            AvatarCache.Clear();
-        }
-
+        
         [OneTimeSetUp]
         public void Init()
         {
@@ -35,6 +30,18 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfigHigh = GetHighConfig();
             settings = AvatarLoaderSettings.LoadSettings();
             settings.AvatarCachingEnabled = false;
+        }
+        
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            AvatarCache.Clear();
+
+            foreach (var avatar in avatars)
+            {
+                Object.DestroyImmediate(avatar);
+            }
+            avatars.Clear();
         }
 
         private AvatarConfig GetLowConfig()
@@ -53,7 +60,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private AvatarConfig GetMedConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
@@ -70,7 +77,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private AvatarConfig GetHighConfig()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
@@ -87,7 +94,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             avatarConfig.MorphTargets = morphTargets;
             return avatarConfig;
         }
-        
+
         private TextureChannel[] GetAllTextureChannels()
         {
             var textureChannels = new TextureChannel[5];
@@ -98,7 +105,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             textureChannels[4] = TextureChannel.Occlusion;
             return textureChannels;
         }
-        
+
         [UnityTest]
         public IEnumerator AvatarLoader_Avatar_API_Mesh_LOD()
         {
@@ -115,6 +122,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             loader.OnCompleted += (sender, args) =>
             {
                 GameObject avatar = args.Avatar;
+                avatars.Add(avatar);
                 vertexCounts.Add(avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh.vertexCount);
                 if (avatarConfigs.Count == 0) return;
                 loader.AvatarConfig = avatarConfigs.Dequeue();
@@ -148,6 +156,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             loader.OnCompleted += (sender, args) =>
             {
                 GameObject avatar = args.Avatar;
+                avatars.Add(avatar);
                 textureSizes.Add(avatar.GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterial.mainTexture.width);
                 if (avatarConfigs.Count == 0) return;
                 loader.AvatarConfig = avatarConfigs.Dequeue();
@@ -175,6 +184,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
+                avatars.Add(avatar);
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.AvatarConfig = avatarConfigLow;
@@ -199,6 +209,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             loader.OnCompleted += (sender, args) =>
             {
                 avatar = args.Avatar;
+                avatars.Add(avatar);
             };
             loader.OnFailed += (sender, args) => { failureType = args.Type; };
             loader.AvatarConfig = avatarConfigMed;

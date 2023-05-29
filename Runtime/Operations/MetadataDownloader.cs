@@ -27,6 +27,8 @@ namespace ReadyPlayerMe.AvatarLoader
         public Action<float> ProgressChanged { get; set; }
 
         private const string METADATA_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.fff'Z'";
+        private const string DOWNLOADING_METADATA_INTO_MEMORY = "Downloading metadata into memory.";
+        private const string FAILED_TO_PARSE_METADATA_UNEXPECTED_BODY_TYPE = "Failed to parse metadata. Unexpected body type.";
 
         /// <summary>
         /// Executes the operation to download the avatar and save to file if saving is enabled.
@@ -46,7 +48,7 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             else
             {
-                var metadata = await Download(context.AvatarUri.MetadataUrl, token);
+                AvatarMetadata metadata = await Download(context.AvatarUri.MetadataUrl, token);
                 context = UpdateContext(context, metadata);
                 if (context.IsUpdateRequired)
                 {
@@ -72,7 +74,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The avatar metadata as a <see cref="AvatarMetadata" /> structure.</returns>
         public async Task<AvatarMetadata> Download(string url, CancellationToken token = new CancellationToken())
         {
-            SDKLogger.Log(TAG, "Downloading metadata into memory.");
+            SDKLogger.Log(TAG, DOWNLOADING_METADATA_INTO_MEMORY);
             var dispatcher = new WebRequestDispatcher();
             dispatcher.ProgressChanged += ProgressChanged;
 
@@ -82,7 +84,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 // add random tail to the url to prevent JSON from being loaded from the browser cache
                 var response = await dispatcher.DownloadIntoMemory(url + "?tail=" + Guid.NewGuid(), token, Timeout);
 #else
-                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
 #endif
                 return ParseResponse(response.Text);
             }
@@ -124,7 +126,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </remarks>
         private static bool IsUpdateRequired(AvatarContext context)
         {
-            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled )
+            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled)
             {
                 return true;
             }
@@ -140,15 +142,16 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The avatar metadata as an <see cref="AvatarMetadata" /> structure.</returns>
         private AvatarMetadata ParseResponse(string response)
         {
-            AvatarMetadata metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings() {
+            var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings()
+            {
                 DateFormatString = METADATA_TIME_FORMAT
             });
-            
+
             if (metadata.BodyType == BodyType.None)
             {
-                throw new CustomException(FailureType.MetadataParseError, "Failed to parse metadata. Unexpected body type.");
+                throw new CustomException(FailureType.MetadataParseError, FAILED_TO_PARSE_METADATA_UNEXPECTED_BODY_TYPE);
             }
-            
+
             SDKLogger.Log(TAG, $"{metadata.BodyType} metadata loading completed.");
             return metadata;
         }

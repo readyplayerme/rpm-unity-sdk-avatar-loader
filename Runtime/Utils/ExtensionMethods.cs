@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             if (token.IsCancellationRequested)
             {
-                throw new CustomException(FailureType.OperationCancelled, "Operation was cancelled");
+                throw new CustomException(FailureType.OperationCancelled, OPERATION_WAS_CANCELLED);
             }
         }
 
@@ -43,50 +42,6 @@ namespace ReadyPlayerMe.AvatarLoader
             File.WriteAllText(path, json);
         }
 
-        #region Coroutine Runner
-
-        [ExecuteInEditMode]
-        public class CoroutineRunner : MonoBehaviour
-        {
-            ~CoroutineRunner()
-            {
-                Destroy(gameObject);
-            }
-        }
-
-        private static CoroutineRunner operation;
-
-        private const HideFlags HIDE_FLAGS = HideFlags.DontSaveInEditor | HideFlags.HideInHierarchy |
-                                             HideFlags.HideInInspector | HideFlags.NotEditable |
-                                             HideFlags.DontSaveInBuild;
-
-        public static Coroutine Run(this IEnumerator iEnumerator)
-        {
-            CoroutineRunner[] operations = Resources.FindObjectsOfTypeAll<CoroutineRunner>();
-            if (operations.Length == 0)
-            {
-                operation = new GameObject("[CoroutineRunner]").AddComponent<CoroutineRunner>();
-                operation.hideFlags = HIDE_FLAGS;
-                operation.gameObject.hideFlags = HIDE_FLAGS;
-            }
-            else
-            {
-                operation = operations[0];
-            }
-
-            return operation.StartCoroutine(iEnumerator);
-        }
-
-        public static void Stop(this Coroutine coroutine)
-        {
-            if (operation != null)
-            {
-                operation.StopCoroutine(coroutine);
-            }
-        }
-
-        #endregion
-
         #region Get Picker
 
         // All possible names of objects with head mesh
@@ -94,6 +49,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private const string BEARD_MESH_NAME_FILTER = "Renderer_Beard";
         private const string TEETH_MESH_NAME_FILTER = "Renderer_Teeth";
+        private const string OPERATION_WAS_CANCELLED = "Operation was cancelled";
+        private const string COROUTINE_RUNNER = "[CoroutineRunner]";
 
         /// <summary>
         /// This method extends <c>GameObject</c> to simplify getting the Ready Player Me avatar's <c>SkinnedMeshRenderer</c>.
@@ -108,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (children.Count == 0)
             {
-                
+
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"No SkinnedMeshRenderer found on the Game Object {gameObject.name}.");
                 return null;
             }

@@ -1,10 +1,8 @@
-// ReSharper disable RedundantUsingDirective
-
 using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using ReadyPlayerMe.Core;
+using System.Threading;
+using System.Threading.Tasks;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -34,6 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private const int AUDIO_SAMPLE_LENGTH = 4096;
         private const int MICROPHONE_FREQUENCY = 44100;
         private const string MISSING_BLENDSHAPE_MESSAGE = "The 'mouthOpen' morph target is required for VoiceHandler.cs but it was not found on Avatar mesh. Use an AvatarConfig to specify the blendshapes to be included on loaded avatars.";
+        private const string MICROPHONE_IS_NOT_SUPPORTED_IN_WEBGL = "Microphone is not supported in WebGL.";
 
         private float[] audioSample = new float[AUDIO_SAMPLE_LENGTH];
 
@@ -45,6 +44,8 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private readonly MeshType[] faceMeshTypes = { MeshType.HeadMesh, MeshType.BeardMesh, MeshType.TeethMesh };
         private bool CanGetAmplitude => AudioSource != null && AudioSource.clip != null && AudioSource.isPlaying;
+
+        private CancellationTokenSource ctxSource;
         
         private void Start()
         {
@@ -55,10 +56,11 @@ namespace ReadyPlayerMe.AvatarLoader
                 enabled = false;
                 return;
             }
+            ctxSource = new CancellationTokenSource();
 #if UNITY_IOS
-            CheckIOSMicrophonePermission().Run();
+            CheckIOSMicrophonePermission(ctxSource.Token);
 #elif UNITY_ANDROID
-            CheckAndroidMicrophonePermission().Run();
+            CheckAndroidMicrophonePermission(ctxSource.Token);
 #elif UNITY_STANDALONE || UNITY_EDITOR
             InitializeAudio();
 #endif
@@ -66,7 +68,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private bool HasMouthOpenBlendshape()
         {
-            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
+            foreach (KeyValuePair<SkinnedMeshRenderer, int> blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
                 if (blendshapeMeshIndex.Value >= 0)
                 {
@@ -80,9 +82,9 @@ namespace ReadyPlayerMe.AvatarLoader
         private void CreateBlendshapeMeshMap()
         {
             blendshapeMeshIndexMap = new Dictionary<SkinnedMeshRenderer, int>();
-            foreach (var faceMeshType in faceMeshTypes)
+            foreach (MeshType faceMeshType in faceMeshTypes)
             {
-                var faceMesh = gameObject.GetMeshRenderer(faceMeshType);
+                SkinnedMeshRenderer faceMesh = gameObject.GetMeshRenderer(faceMeshType);
                 if (faceMesh)
                 {
                     TryAddSkinMesh(faceMesh);
@@ -133,7 +135,7 @@ namespace ReadyPlayerMe.AvatarLoader
         private void SetMicrophoneSource()
         {
 #if UNITY_WEBGL
-            Debug.LogWarning("Microphone is not supported in WebGL.");
+            Debug.LogWarning(MICROPHONE_IS_NOT_SUPPORTED_IN_WEBGL);
 #else
             AudioSource.clip = Microphone.Start(null, true, 1, MICROPHONE_FREQUENCY);
             AudioSource.loop = true;
@@ -183,7 +185,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void SetBlendShapeWeights(float weight)
         {
-            foreach (var blendshapeMeshIndex in blendshapeMeshIndexMap)
+            foreach (KeyValuePair<SkinnedMeshRenderer, int> blendshapeMeshIndex in blendshapeMeshIndexMap)
             {
                 if (blendshapeMeshIndex.Value >= 0)
                 {
@@ -197,31 +199,38 @@ namespace ReadyPlayerMe.AvatarLoader
         #region Permissions
 
 #if UNITY_IOS
-        private IEnumerator CheckIOSMicrophonePermission()
+        private async void CheckIOSMicrophonePermission(CancellationToken ctx)
         {
-            yield return Application.RequestUserAuthorization(UserAuthorization.Microphone);
+            var asyncOperation = Application.RequestUserAuthorization(UserAuthorization.Microphone);
+            while (!asyncOperation.isDone && !ctx.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            if(ctx.IsCancellationRequested) return;
+            
             if (Application.HasUserAuthorization(UserAuthorization.Microphone))
             {
                 InitializeAudio();
             }
             else
             {
-                StartCoroutine(CheckIOSMicrophonePermission());
+                CheckIOSMicrophonePermission(ctx);
             }
         }
 #endif
 
 #if UNITY_ANDROID
-        private IEnumerator CheckAndroidMicrophonePermission()
+        private async void CheckAndroidMicrophonePermission(CancellationToken ctx)
         {
-            var wait = new WaitUntil(() =>
+            Permission.RequestUserPermission(Permission.Microphone);
+
+            while (!Permission.HasUserAuthorizedPermission(Permission.Microphone) && !ctx.IsCancellationRequested)
             {
-                Permission.RequestUserPermission(Permission.Microphone);
-
-                return Permission.HasUserAuthorizedPermission(Permission.Microphone);
-            });
-
-            yield return wait;
+                await Task.Yield();
+            }
+            
+            if(ctx.IsCancellationRequested) return;
 
             InitializeAudio();
         }

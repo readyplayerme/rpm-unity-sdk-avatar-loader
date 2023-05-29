@@ -10,39 +10,39 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         private const string TEXTURECHANNELS_EXPECTED_NONE = "&textureChannels=none";
         private const string MORPHTARGETS_EXPECTED_DEFAULT = "mouthOpen,mouthSmile";
         private const string MORPHTARGETS_EXPECTED_NONE = "none";
-        private const string AVATAR_QUERY_PARAMS_ACTUAL = "?pose=A&meshLod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false";
+        private const string AVATAR_QUERY_PARAMS_ACTUAL = "?pose=A&meshLod=0&textureAtlas=none&textureSizeLimit=1024&textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion&useHands=false&useDracoMeshCompression=false&useMeshOptCompression=false";
         private readonly string[] morphTargetsDefault = { "mouthOpen", "mouthSmile" };
         private readonly string[] morphTargetsNone = { "none" };
         private readonly TextureChannel[] textureChannelsAll =
         {
-            TextureChannel.BaseColor, 
-            TextureChannel.Normal, 
-            TextureChannel.MetallicRoughness, 
-            TextureChannel.Emissive, 
+            TextureChannel.BaseColor,
+            TextureChannel.Normal,
+            TextureChannel.MetallicRoughness,
+            TextureChannel.Emissive,
             TextureChannel.Occlusion
         };
-        
+
         [Test]
         public void Process_Avatar_Configuration()
         {
             var avatarConfig = ScriptableObject.CreateInstance<AvatarConfig>();
             var queryParams = AvatarConfigProcessor.ProcessAvatarConfiguration(avatarConfig);
             Debug.Log($"{queryParams}");
-            Assert.AreEqual(queryParams, AVATAR_QUERY_PARAMS_ACTUAL);
+            Assert.AreEqual(AVATAR_QUERY_PARAMS_ACTUAL, queryParams );
         }
-        
+
         [Test]
         public void Process_Texture_Size_Limit_Is_Equal()
         {
-            int size = 2;
+            var size = 2;
             var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
             Assert.AreEqual(processedSize, size);
         }
-        
+
         [Test]
         public void Process_Texture_Size_Limit_Is_Not_Equal()
         {
-            int size = 1;
+            var size = 1;
             var processedSize = AvatarConfigProcessor.ProcessTextureSizeLimit(size);
             Assert.AreNotEqual(processedSize, size);
         }
@@ -74,7 +74,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             Assert.AreEqual(AvatarConfigProcessor.CombineMorphTargetNames(morphTargetsNone), MORPHTARGETS_EXPECTED_NONE);
         }
-        
+
         [Test]
         public void Process_Morph_Targets_Empty()
         {

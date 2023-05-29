@@ -20,12 +20,13 @@ namespace ReadyPlayerMe.AvatarLoader
         [Range(256, 1024), Tooltip("If set to none the mesh, materials and textures will not be combined into 1. (2 if an assets texture contains transparency)")]
         public int TextureSizeLimit = 1024;
         [Tooltip("Add textures which avatar will include")]
-        public TextureChannel[] TextureChannel = {
+        public TextureChannel[] TextureChannel =
+        {
             AvatarLoader.TextureChannel.BaseColor,
             AvatarLoader.TextureChannel.Normal,
             AvatarLoader.TextureChannel.MetallicRoughness,
             AvatarLoader.TextureChannel.Emissive,
-            AvatarLoader.TextureChannel.Occlusion,
+            AvatarLoader.TextureChannel.Occlusion
         };
         [Tooltip("Only works for halfbody avatars. If enabled, avatars will load with hand meshes included.")]
         public bool UseHands;
