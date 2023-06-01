@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="HeaderTemplate" src="Templates/HeaderTemplate.uxml" />
     <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
-    <ReadyPlayerMe.AvatarLoader.Editor.Templates.AvatarUrlTemplate style="flex-shrink: 0;" />
+    <ReadyPlayerMe.AvatarLoader.Editor.AvatarUrlTemplate style="flex-shrink: 0;" />
     <ui:VisualElement name="Extras" style="flex-shrink: 0;">
         <ui:Label text="Extras" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 14px; margin-top: 15px; margin-left: 15px; margin-bottom: 5px;" />
         <ui:Toggle label="Use Eye Animations" name="UseEyeAnimationsToggle" style="flex-direction: row-reverse; align-items: flex-start; justify-content: flex-end; width: 171px; margin-left: 15px; margin-top: 5px;" />

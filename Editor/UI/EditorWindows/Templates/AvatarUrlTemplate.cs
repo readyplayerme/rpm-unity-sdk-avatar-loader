@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ReadyPlayerMe.AvatarLoader.Editor.Templates
+namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     public class AvatarUrlTemplate : VisualElement
     {
