@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="HeadField" src="Fields/HeaderField.uxml" />
+    <ui:Template name="AvatarUrlField" src="Fields/AvatarUrlField.uxml" />
+    <ui:Instance template="HeadField" name="HeaderField" />
+    <ui:VisualElement name="Body" style="height: 200px; min-height: 200px; max-height: 200px; align-items: stretch; flex-direction: column; justify-content: flex-start;">
+        <ui:Instance template="AvatarUrlField" name="AvatarUrlField" />
+        <ui:Label text="Extras" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 14px; margin-top: 15px; margin-left: 15px; margin-bottom: 5px;" />
+        <ui:Toggle label="Use Eye Animations" name="Toggle" style="flex-direction: row-reverse; align-items: flex-start; justify-content: flex-end; width: 171px; margin-left: 15px; margin-top: 5px;" />
+        <ui:Toggle label="Use Voice To Animation" name="Toggle" style="flex-direction: row-reverse; align-items: flex-start; justify-content: flex-end; width: 171px; margin-left: 15px; margin-top: 5px;" />
+        <ui:Button text="Load Avatar into the Current Scene" display-tooltip-when-elided="true" name="LoadAvatarButton" style="margin-top: 10px; margin-left: 15px; margin-right: 15px; font-size: 16px; -unity-font-style: bold; height: 30px; -unity-text-align: middle-center; white-space: nowrap; margin-bottom: 10px;" />
+    </ui:VisualElement>
+</ui:UXML>
