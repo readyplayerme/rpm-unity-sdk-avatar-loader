@@ -1,4 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Download Avatar into Scene" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 14px; margin-top: 15px; margin-left: 15px;" />
-    <ui:TextField picking-mode="Ignore" label="Avatar URL or Shortcode" value="filler text" text="filler text" multiline="false" name="UrlField" style="align-items: center; justify-content: center; flex-direction: row; margin-left: 15px; padding-right: 15px; margin-top: 5px;" />
-</ui:UXML>
