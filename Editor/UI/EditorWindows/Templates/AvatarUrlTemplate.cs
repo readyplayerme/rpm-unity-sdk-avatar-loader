@@ -8,9 +8,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor.Templates
     public class AvatarUrlTemplate : VisualElement
     {
         private const string XML_PATH = "AvatarUrlTemplate";
+        private const string URL_SAVE_KEY = "UrlSaveKey";
         private const string URL_ELEMENT = "UrlField";
         private const string ERROR_LABEL = "ErrorLabel";
-        private const string URL_SAVE_KEY = "UrlSaveKey";
+        private const string HELP_BUTTON = "HelpButton";
+
+        private const string ERROR_HELP_URL = "https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator#avatar-url-and-data-format";
+        private const string LOAD_AVATAR_DOCS = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/load-avatars#save-avatars-as-npcs-in-your-project";
 
         public new class UxmlFactory : UxmlFactory<AvatarUrlTemplate, UxmlTraits>
         {
@@ -36,6 +40,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor.Templates
 
             errorLabel = this.Q<Label>(ERROR_LABEL);
             errorLabel.visible = !EditorUtilities.IsUrlShortcodeValid(url);
+            errorLabel.RegisterCallback<MouseDownEvent>(evt =>
+            {
+                Application.OpenURL(ERROR_HELP_URL);
+            });
+         
+            var helpButton = this.Q<Button>(HELP_BUTTON);
+            helpButton.clicked += () =>
+            {
+                Application.OpenURL(LOAD_AVATAR_DOCS);
+            };
         }
 
         private void OnValueChanged(ChangeEvent<string> evt)
