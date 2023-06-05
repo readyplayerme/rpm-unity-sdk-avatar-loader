@@ -27,8 +27,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private bool useEyeAnimations;
         private bool useVoiceToAnim;
 
-        [MenuItem("Ready Player Me/New Avatar Loader 2")]
-        public static void ShowExample()
+        [MenuItem("Ready Player Me/New Avatar Loader 2", priority = 0)]
+        public static void ShowWindow()
         {
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
