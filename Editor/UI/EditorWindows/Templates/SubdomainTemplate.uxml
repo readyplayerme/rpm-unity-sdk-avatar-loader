@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/CommonStyle.uss?fileID=7433441132597879392&amp;guid=af10d225241bded4188e82d92db9230f&amp;type=3#CommonStyle" />
+    <ui:VisualElement name="Heading" class="heading">
+        <ui:Label text="Partner Settings" display-tooltip-when-elided="true" name="Label" class="headingText" />
+    </ui:VisualElement>
+    <ui:Label text="Please enter a valid Avatar Url or Shortcode. Read more." display-tooltip-when-elided="true" focusable="false" name="ErrorLabel" style="width: 311px; white-space: nowrap; -unity-text-align: middle-left; font-size: 10px; color: rgb(204, 68, 68); align-items: auto; margin-left: 166px; margin-top: 1px; -unity-font-style: normal;" />
+</ui:UXML>
