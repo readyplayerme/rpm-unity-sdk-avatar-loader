@@ -185,6 +185,11 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void OnNextButton()
         {
+            if (panels[currentPanelIndex] is SubdomainPanel)
+            {
+                var subdomainPanel = (SubdomainPanel) panels[currentPanelIndex];
+                subdomainPanel.SaveSubdomain();
+            }
             currentPanelIndex++;
         }
 
