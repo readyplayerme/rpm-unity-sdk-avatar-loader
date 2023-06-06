@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,41 +16,20 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
         }
 
-        private readonly AvatarLoaderSettings avatarLoaderSettings;
-        private AvatarConfig avatarConfig;
-
         public AvatarConfigTemplate()
         {
-            avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
 
             var visualTree = Resources.Load<VisualTreeAsset>(XML_PATH);
             visualTree.CloneTree(this);
 
             var avatarConfigField = this.Q<ObjectField>(AVATAR_CONFIG_FIELD);
-            avatarConfigField.value = avatarLoaderSettings.AvatarConfig;
+            avatarConfigField.value = AvatarLoaderSettingsHelper.AvatarLoaderSettings.AvatarConfig;
             avatarConfigField.RegisterValueChangedCallback(OnAvatarConfigChanged);
         }
 
         private void OnAvatarConfigChanged(ChangeEvent<Object> evt)
         {
-            avatarConfig = evt.newValue as AvatarConfig;
-            SaveAvatarConfig();
-        }
-
-        private void SaveAvatarConfig()
-        {
-            if (avatarLoaderSettings != null && avatarLoaderSettings.AvatarConfig != avatarConfig)
-            {
-                avatarLoaderSettings.AvatarConfig = avatarConfig;
-                SaveAvatarLoaderSettings();
-            }
-        }
-
-        private void SaveAvatarLoaderSettings()
-        {
-            EditorUtility.SetDirty(avatarLoaderSettings);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AvatarLoaderSettingsHelper.SaveAvatarConfig(evt.newValue as AvatarConfig);
         }
     }
 }

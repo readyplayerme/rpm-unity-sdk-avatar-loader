@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEditor.UIElements;
+﻿using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,41 +16,19 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
         }
 
-        private readonly AvatarLoaderSettings avatarLoaderSettings;
-        private GLTFDeferAgent deferAgent;
-
         public GltfDeferAgentTemplate()
         {
-            avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
-            
             var visualTree = Resources.Load<VisualTreeAsset>(XML_PATH);
             visualTree.CloneTree(this);
-            
+
             var deferAgentField = this.Q<ObjectField>(DEFER_AGENT_FIELD);
-            deferAgentField.value = avatarLoaderSettings.GLTFDeferAgent;
+            deferAgentField.value = AvatarLoaderSettingsHelper.AvatarLoaderSettings.GLTFDeferAgent;
             deferAgentField.RegisterValueChangedCallback(OnAvatarConfigChanged);
         }
 
         private void OnAvatarConfigChanged(ChangeEvent<Object> evt)
         {
-            deferAgent = evt.newValue as GLTFDeferAgent;
-            SaveDeferAgent();
-        }
-        
-        private void SaveDeferAgent()
-        {
-            if (avatarLoaderSettings != null && avatarLoaderSettings.GLTFDeferAgent != deferAgent)
-            {
-                avatarLoaderSettings.GLTFDeferAgent = deferAgent;
-                SaveAvatarLoaderSettings();
-            }
-        }
-        
-        private void SaveAvatarLoaderSettings()
-        {
-            EditorUtility.SetDirty(avatarLoaderSettings);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AvatarLoaderSettingsHelper.SaveDeferAgent(evt.newValue as GLTFDeferAgent);
         }
     }
 }
