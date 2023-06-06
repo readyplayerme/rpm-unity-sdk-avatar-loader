@@ -67,5 +67,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             GUILayout.Space(10);
         }
+
+        public void SaveSubdomain()
+        {
+            subdomainField.SaveSubdomain();
+        }
     }
 }
