@@ -1,11 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="HeaderTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/HeaderTemplate.uxml?fileID=9197481963319205126&amp;guid=07a53a11b73eff34685f226bf17a42d4&amp;type=3#HeaderTemplate" />
-    <ui:Template name="SubdomainTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/Resources/SubdomainTemplate.uxml?fileID=9197481963319205126&amp;guid=46ff0eb88845af64197b452221dd6ede&amp;type=3#SubdomainTemplate" />
     <ui:Template name="AvatarConfigTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/Resources/AvatarConfigTemplate.uxml?fileID=9197481963319205126&amp;guid=850efdc3488431049a92498a649cf827&amp;type=3#AvatarConfigTemplate" />
     <ui:Template name="GltfDeferAgentTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/Resources/GltfDeferAgentTemplate.uxml?fileID=9197481963319205126&amp;guid=04375d43dfab75c4aad92fe6197b1a70&amp;type=3#GltfDeferAgentTemplate" />
     <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/CommonStyle.uss?fileID=7433441132597879392&amp;guid=af10d225241bded4188e82d92db9230f&amp;type=3#CommonStyle" />
     <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
-    <ui:Instance template="SubdomainTemplate" name="SubdomainTemplate" />
+    <ReadyPlayerMe.AvatarLoader.Editor.SubdomainTemplate />
     <ui:VisualElement name="AvatarSettings" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); height: auto; align-self: auto; justify-content: flex-start; align-items: stretch; flex-direction: flex-start; flex-shrink: 0;">
         <ui:VisualElement name="AvatarSettingsHeading" class="heading">
             <ui:Label text="Avatar Settings" display-tooltip-when-elided="true" class="headingText" />
@@ -24,21 +23,21 @@
             <ui:Button text="Show in Explorer" display-tooltip-when-elided="true" name="ShowCacheButton" style="flex-grow: 0; -unity-font-style: bold; align-self: stretch; align-items: auto; width: 230px;" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Other" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
+    <ui:VisualElement name="Other" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
         <ui:VisualElement name="OtherHeading" class="heading">
             <ui:Label text="Other" display-tooltip-when-elided="true" class="headingText" />
         </ui:VisualElement>
-        <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-self: flex-start; align-items: center;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-self: flex-start; align-items: center; flex-shrink: 0;">
             <ui:Toggle label="Analytics enabled" name="AvatarCachingEnabled" style="flex-direction: row-reverse; margin-left: 15px; margin-top: 10px; align-items: center;" />
             <ui:Label tabindex="-1" text="(Privacy Policy)" display-tooltip-when-elided="true" name="PrivacyPolicyLabel" style="-unity-font-style: bold; margin-top: 10px;" />
         </ui:VisualElement>
         <ui:Toggle label="Avatar caching enabled" name="AvatarCachingEnabled" style="flex-direction: row-reverse; align-self: flex-start; margin-left: 15px; margin-top: 10px;" />
     </ui:VisualElement>
-    <ui:VisualElement name="Support" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
+    <ui:VisualElement name="Support" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
         <ui:VisualElement name="SupportHeading" class="heading">
             <ui:Label text="Support" display-tooltip-when-elided="true" class="headingText" />
         </ui:VisualElement>
-        <ui:VisualElement name="Buttons" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between; align-items: center; height: 40px; margin-left: 15px; margin-right: 15px; margin-top: 10px; width: 450px;">
+        <ui:VisualElement name="Buttons" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between; align-items: center; height: 40px; margin-left: 15px; margin-right: 15px; margin-top: 10px; width: 450px; flex-shrink: 0;">
             <ui:Button text="Documentation" display-tooltip-when-elided="true" name="DocumentationButton" style="width: 150px; align-items: auto; flex-grow: 0; justify-content: space-around; align-self: stretch;" />
             <ui:Button text="FAQ" display-tooltip-when-elided="true" name="FaqButton" style="width: 150px; justify-content: space-around; align-self: stretch; align-items: auto;" />
             <ui:Button text="Discord" display-tooltip-when-elided="true" name="DiscordButton" style="width: 150px; justify-content: space-around; align-self: stretch; align-items: auto;" />
