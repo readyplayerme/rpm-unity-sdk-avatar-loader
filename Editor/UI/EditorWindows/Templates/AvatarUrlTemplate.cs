@@ -40,7 +40,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             errorLabel = this.Q<Label>(ERROR_LABEL);
             errorLabel.visible = !EditorUtilities.IsUrlShortcodeValid(url);
-            errorLabel.RegisterCallback<MouseDownEvent>(evt =>
+            errorLabel.RegisterCallback<MouseDownEvent>(_ =>
             {
                 Application.OpenURL(ERROR_HELP_URL);
             });
