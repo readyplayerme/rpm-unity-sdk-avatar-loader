@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
+    [Obsolete("Use AvatarLoaderEditor instead")]
     public class AvatarLoaderEditorWindow : EditorWindowBase
     {
         private const string VOICE_TO_ANIM_SAVE_KEY = "VoiceToAnimSaveKey";
@@ -30,7 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private double startTime;
         
-        [MenuItem("Ready Player Me/Avatar Loader", priority = 0)]
+        [Obsolete("Use AvatarLoaderEditor instead")]
         public static void ShowWindowMenu()
         {
             var window = (AvatarLoaderEditorWindow) GetWindow(typeof(AvatarLoaderEditorWindow));
