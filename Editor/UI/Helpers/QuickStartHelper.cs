@@ -19,11 +19,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
 
             var sample = (Sample) quickStartSample;
+            ImportAndOpenSample(sample);
 
-            if (!sample.isImported)
-            {
-                ImportAndOpenSample(sample);
-            }
             return true;
         }
 
@@ -41,9 +38,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void ImportAndOpenSample(Sample quickStartSample)
         {
-            quickStartSample.Import();
-            while (!quickStartSample.isImported)
-                Thread.Sleep(1);
+            if (!quickStartSample.isImported)
+            {
+                quickStartSample.Import();
+                while (!quickStartSample.isImported)
+                    Thread.Sleep(1);
+            }
+
             OpenQuickStartScene(quickStartSample.importPath);
         }
 
