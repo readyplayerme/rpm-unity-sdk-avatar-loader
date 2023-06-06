@@ -20,3 +20,7 @@
     flex-shrink: 0;
     -unity-font-style: normal;
 }
+
+.unity-toggle__label {
+    margin-left: 10px;
+}

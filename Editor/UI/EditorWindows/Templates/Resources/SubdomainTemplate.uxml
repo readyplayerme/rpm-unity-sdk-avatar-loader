@@ -3,7 +3,7 @@
     <ui:VisualElement name="Heading" class="heading">
         <ui:Label text="Partner Settings" display-tooltip-when-elided="true" name="Label" class="headingText" />
     </ui:VisualElement>
-    <ui:VisualElement name="Container" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center; justify-content: flex-start; align-self: flex-start; margin-left: 15px; margin-right: 15px; flex-shrink: 1;">
+    <ui:VisualElement name="Container" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center; justify-content: flex-start; align-self: flex-start; margin-left: 15px; margin-right: 15px; flex-shrink: 1; width: 450px;">
         <ui:VisualElement name="LabelAndHelpButton" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); min-width: 145px; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center;">
             <ui:Label tabindex="-1" text="Your subdomain" display-tooltip-when-elided="true" enable-rich-text="true" name="Label" style="height: 33px; -unity-text-align: middle-left; margin-left: 0;" />
             <ui:Button text="?" display-tooltip-when-elided="true" name="HelpButton" class="button2" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 20px; height: 20px; border-top-left-radius: 15px; border-bottom-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; -unity-text-align: middle-center; white-space: nowrap;" />

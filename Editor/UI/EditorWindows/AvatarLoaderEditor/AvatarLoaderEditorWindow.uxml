@@ -1,12 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="HeaderTemplate" src="../Templates/HeaderTemplate.uxml" />
-    <Style src="../CommonStyle.uss" />
+    <ui:Template name="HeaderTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/HeaderTemplate.uxml?fileID=9197481963319205126&amp;guid=07a53a11b73eff34685f226bf17a42d4&amp;type=3#HeaderTemplate" />
+    <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/CommonStyle.uss?fileID=7433441132597879392&amp;guid=af10d225241bded4188e82d92db9230f&amp;type=3#CommonStyle" />
     <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
     <ReadyPlayerMe.AvatarLoader.Editor.AvatarUrlTemplate style="flex-shrink: 0;" />
     <ui:VisualElement name="Extras" style="flex-shrink: 0; flex-direction: column; align-items: flex-start; justify-content: flex-start; align-self: stretch;">
         <ui:Label text="Extras" display-tooltip-when-elided="true" class="headingText" />
-        <ui:Toggle label="Use Eye Animations" name="UseEyeAnimationsToggle" style="flex-direction: row-reverse; align-items: center; justify-content: center; width: 196px; margin-left: 15px; margin-top: 5px; align-self: auto; padding-right: 0; flex-grow: 0;" />
-        <ui:Toggle label="Use Voice To Animation" name="UseVoiceToAnimationToggle" style="flex-direction: row-reverse; align-items: center; justify-content: space-between; width: 210px; margin-left: 15px; margin-top: 5px; align-self: stretch;" />
+        <ui:Toggle label="Use Eye Animations" name="UseEyeAnimationsToggle" style="flex-direction: row-reverse; margin-left: 15px; margin-top: 10px;" />
+        <ui:Toggle label="Use Voice To Animation" name="UseVoiceToAnimationToggle" style="flex-direction: row-reverse; margin-left: 15px; margin-top: 10px;" />
     </ui:VisualElement>
     <ui:Button text="Load Avatar into the Current Scene" display-tooltip-when-elided="true" name="LoadAvatarButton" style="margin-top: 10px; margin-left: 15px; margin-right: 15px; font-size: 16px; -unity-font-style: bold; height: 30px; -unity-text-align: middle-center; white-space: nowrap; margin-bottom: 10px;" />
 </ui:UXML>
