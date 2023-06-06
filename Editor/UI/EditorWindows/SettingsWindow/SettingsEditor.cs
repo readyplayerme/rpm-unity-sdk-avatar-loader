@@ -37,7 +37,7 @@ namespace ReadyPlayerMe.Settings.Editor
         private bool isCacheEmpty;
         private Button clearCacheButton;
 
-        [MenuItem("Ready Player Me/New Settings 2", priority = 1)]
+        [MenuItem("Ready Player Me/Settings", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<SettingsEditor>();

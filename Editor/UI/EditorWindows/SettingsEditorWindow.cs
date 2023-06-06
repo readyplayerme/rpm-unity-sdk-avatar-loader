@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 using ReadyPlayerMe.Core;
@@ -6,6 +7,7 @@ using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
+    [Obsolete("Use SettingsEditor instead")]
     public class SettingsEditorWindow : EditorWindowBase
     {
         private const string EDITOR_WINDOW_NAME = "rpm settings";
@@ -33,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private SubdomainField subdomainField;
         private AvatarConfigFields avatarConfigFields;
 
-        [MenuItem("Ready Player Me/Settings", priority = 1)]
+        [Obsolete("Use SettingsEditor instead")]
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
