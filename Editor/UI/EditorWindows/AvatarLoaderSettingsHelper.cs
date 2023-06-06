@@ -37,6 +37,15 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
         }
         
+        public static void SetAvatarCaching(bool enable)
+        {
+            if (avatarLoaderSettings != null)
+            {
+                avatarLoaderSettings.AvatarCachingEnabled = enable;
+                SaveAvatarLoaderSettings();
+            }
+        }
+        
         private static void SaveAvatarLoaderSettings()
         {
             EditorUtility.SetDirty(avatarLoaderSettings);
