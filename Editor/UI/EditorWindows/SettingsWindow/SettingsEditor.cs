@@ -25,7 +25,11 @@ namespace ReadyPlayerMe.Settings.Editor
         private const string DOCUMENTATION_BUTTON = "DocumentationButton";
         private const string FAQ_BUTTON = "FaqButton";
         private const string DISCORD_BUTTON = "DiscordButton";
-        
+        private const string CLEAR_CACHE = "Clear Cache";
+        private const string CACHE_IS_ALREADY_EMPTY = "Cache is already empty";
+        private const string OK = "OK";
+        private const string CANCEL = "Cancel";
+
 #if UNITY_EDITOR_LINUX
         private const string SHOW_CACHING_FOLDER_BUTTON_TEXT = "Show in file manager";
 #elif UNITY_EDITOR_OSX
@@ -118,12 +122,12 @@ namespace ReadyPlayerMe.Settings.Editor
         {
             if (isCacheEmpty)
             {
-                EditorUtility.DisplayDialog("Clear Cache", "Cache is already empty", "OK");
+                EditorUtility.DisplayDialog(CLEAR_CACHE, CACHE_IS_ALREADY_EMPTY, OK);
                 return;
             }
             var size = (AvatarCache.GetCacheSize() / (1024f * 1024)).ToString("F2");
             var avatarCount = AvatarCache.GetAvatarCount();
-            if (EditorUtility.DisplayDialog("Clear Cache", $"Do you want to clear all the Avatars cache from persistent data path, {size} MB and {avatarCount} avatars?", "Ok", "Cancel"))
+            if (EditorUtility.DisplayDialog(CLEAR_CACHE, $"Do you want to clear all the Avatars cache from persistent data path, {size} MB and {avatarCount} avatars?", OK, CANCEL))
             {
                 AvatarCache.Clear();
             }
