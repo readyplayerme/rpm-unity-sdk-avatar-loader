@@ -42,6 +42,7 @@ namespace ReadyPlayerMe.Settings.Editor
         {
             var window = GetWindow<SettingsEditor>();
             window.titleContent = new GUIContent(SETTINGS);
+            window.minSize = new Vector2(500, 580);
 
             AnalyticsEditorLogger.EventLogger.LogOpenDialog(SETTINGS);
         }
@@ -75,7 +76,7 @@ namespace ReadyPlayerMe.Settings.Editor
             analyticsEnabledToggle.value = AnalyticsEditorLogger.IsEnabled;
             analyticsEnabledToggle.RegisterValueChangedCallback(OnAnalyticsToggled);
 
-            rootVisualElement.Q<Label>("PrivacyPolicyLabel").RegisterCallback<MouseUpEvent>(_ => Application.OpenURL(ANALYTICS_PRIVACY_URL) );
+            rootVisualElement.Q<Label>("PrivacyPolicyLabel").RegisterCallback<MouseUpEvent>(_ => Application.OpenURL(ANALYTICS_PRIVACY_URL));
 
             var loggingEnabledToggle = rootVisualElement.Q<Toggle>("LoggingEnabledToggle");
             loggingEnabledToggle.value = SDKLogger.IsLoggingEnabled();
