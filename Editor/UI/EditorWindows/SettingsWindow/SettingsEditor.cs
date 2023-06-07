@@ -13,10 +13,19 @@ namespace ReadyPlayerMe.Settings.Editor
     {
         private const string SETTINGS = "Settings";
         private const string HEADER_LABEL = "HeaderLabel";
-
         private const string CACHING_TOOLTIP =
             "Enable caching to improve avatar loading performance at runtime.";
-
+        private const string AVATAR_CACHING_HEADING = "AvatarCachingHeading";
+        private const string AVATAR_CACHING_HELP_BUTTON = "AvatarCachingHelpButton";
+        private const string AVATAR_CACHING_ENABLED_TOGGLE = "AvatarCachingEnabledToggle";
+        private const string CLEAR_CACHE_BUTTON = "ClearCacheButton";
+        private const string SHOW_CACHE_BUTTON = "ShowCacheButton";
+        private const string ANALYTICS_ENABLED_TOGGLE = "AnalyticsEnabledToggle";
+        private const string LOGGING_ENABLED_TOGGLE = "LoggingEnabledToggle";
+        private const string DOCUMENTATION_BUTTON = "DocumentationButton";
+        private const string FAQ_BUTTON = "FaqButton";
+        private const string DISCORD_BUTTON = "DiscordButton";
+        
 #if UNITY_EDITOR_LINUX
         private const string SHOW_CACHING_FOLDER_BUTTON_TEXT = "Show in file manager";
 #elif UNITY_EDITOR_OSX
@@ -31,7 +40,7 @@ namespace ReadyPlayerMe.Settings.Editor
         private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
         private const string FAQ_URL = "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
         private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
-
+        
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         private bool isCacheEmpty;
@@ -56,35 +65,35 @@ namespace ReadyPlayerMe.Settings.Editor
 
             isCacheEmpty = AvatarCache.IsCacheEmpty();
 
-            rootVisualElement.Q("AvatarCachingHeading").tooltip = CACHING_TOOLTIP;
+            rootVisualElement.Q(AVATAR_CACHING_HEADING).tooltip = CACHING_TOOLTIP;
 
-            rootVisualElement.Q<Button>("AvatarCachingHelpButton").clicked += () => Application.OpenURL(CACHING_DOCS_LINK);
+            rootVisualElement.Q<Button>(AVATAR_CACHING_HELP_BUTTON).clicked += () => Application.OpenURL(CACHING_DOCS_LINK);
 
-            var avatarCachingToggle = rootVisualElement.Q<Toggle>("AvatarCachingEnabledToggle");
+            var avatarCachingToggle = rootVisualElement.Q<Toggle>(AVATAR_CACHING_ENABLED_TOGGLE);
             avatarCachingToggle.value = AvatarLoaderSettingsHelper.AvatarLoaderSettings.AvatarCachingEnabled;
             avatarCachingToggle.RegisterValueChangedCallback(evt => AvatarLoaderSettingsHelper.AvatarLoaderSettings.AvatarCachingEnabled = evt.newValue);
 
-            clearCacheButton = rootVisualElement.Q<Button>("ClearCacheButton");
+            clearCacheButton = rootVisualElement.Q<Button>(CLEAR_CACHE_BUTTON);
             clearCacheButton.clicked += TryClearCache;
             clearCacheButton.SetEnabled(!isCacheEmpty);
 
-            var showCacheButton = rootVisualElement.Q<Button>("ShowCacheButton");
+            var showCacheButton = rootVisualElement.Q<Button>(SHOW_CACHE_BUTTON);
             showCacheButton.text = SHOW_CACHING_FOLDER_BUTTON_TEXT;
             showCacheButton.clicked += ShowCacheDirectory;
 
-            var analyticsEnabledToggle = rootVisualElement.Q<Toggle>("AnalyticsEnabledToggle");
+            var analyticsEnabledToggle = rootVisualElement.Q<Toggle>(ANALYTICS_ENABLED_TOGGLE);
             analyticsEnabledToggle.value = AnalyticsEditorLogger.IsEnabled;
             analyticsEnabledToggle.RegisterValueChangedCallback(OnAnalyticsToggled);
 
             rootVisualElement.Q<Label>("PrivacyPolicyLabel").RegisterCallback<MouseUpEvent>(_ => Application.OpenURL(ANALYTICS_PRIVACY_URL));
 
-            var loggingEnabledToggle = rootVisualElement.Q<Toggle>("LoggingEnabledToggle");
+            var loggingEnabledToggle = rootVisualElement.Q<Toggle>(LOGGING_ENABLED_TOGGLE);
             loggingEnabledToggle.value = SDKLogger.IsLoggingEnabled();
             loggingEnabledToggle.RegisterValueChangedCallback(evt => SDKLogger.EnableLogging(evt.newValue));
 
-            rootVisualElement.Q<Button>("DocumentationButton").clicked += () => Application.OpenURL(DOCS_URL);
-            rootVisualElement.Q<Button>("FaqButton").clicked += () => Application.OpenURL(FAQ_URL);
-            rootVisualElement.Q<Button>("DiscordButton").clicked += () => Application.OpenURL(DISCORD_URL);
+            rootVisualElement.Q<Button>(DOCUMENTATION_BUTTON).clicked += () => Application.OpenURL(DOCS_URL);
+            rootVisualElement.Q<Button>(FAQ_BUTTON).clicked += () => Application.OpenURL(FAQ_URL);
+            rootVisualElement.Q<Button>(DISCORD_BUTTON).clicked += () => Application.OpenURL(DISCORD_URL);
         }
 
         private void OnFocus()
@@ -97,12 +106,10 @@ namespace ReadyPlayerMe.Settings.Editor
         {
             if (evt.newValue)
             {
-                Debug.Log("Enabling analytics");
                 AnalyticsEditorLogger.Enable();
             }
             else
             {
-                Debug.Log("Disabling analytics");
                 AnalyticsEditorLogger.Disable();
             }
         }

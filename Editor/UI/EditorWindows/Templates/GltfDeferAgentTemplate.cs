@@ -10,6 +10,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string DEFER_AGENT_FIELD = "DeferAgentField";
         private const string DEFER_AGENT_TOOLTIP = "Assign a defer agent which decides how the glTF will be loaded.";
         private const string DEFER_AGENT_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
+        private const string DEFER_AGENT_LABEL = "DeferAgentLabel";
+        private const string DEFER_AGENT_HELP_BUTTON = "DeferAgentHelpButton";
 
         public new class UxmlFactory : UxmlFactory<GltfDeferAgentTemplate, UxmlTraits>
         {
@@ -23,8 +25,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             var visualTree = Resources.Load<VisualTreeAsset>(XML_PATH);
             visualTree.CloneTree(this);
 
-            this.Q<Label>("DeferAgentLabel").tooltip = DEFER_AGENT_TOOLTIP;
-            this.Q<Button>("DeferAgentHelpButton").clicked += OnHelpButtonClicked;
+            this.Q<Label>(DEFER_AGENT_LABEL).tooltip = DEFER_AGENT_TOOLTIP;
+            this.Q<Button>(DEFER_AGENT_HELP_BUTTON).clicked += OnHelpButtonClicked;
 
             var deferAgentField = this.Q<ObjectField>(DEFER_AGENT_FIELD);
             deferAgentField.value = AvatarLoaderSettingsHelper.AvatarLoaderSettings.GLTFDeferAgent;
