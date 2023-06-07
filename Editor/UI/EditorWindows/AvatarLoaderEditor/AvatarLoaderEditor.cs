@@ -32,6 +32,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             var window = GetWindow<AvatarLoaderEditor>();
             window.titleContent = new GUIContent(AVATAR_LOADER);
+            window.minSize = new Vector2(500, 300);
         }
 
         public void CreateGUI()
