@@ -11,7 +11,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string WINDOW_NAME = "Setup Guide";
         private const int BUTTON_FONT_SIZE = 12;
 
-        public const string FIRST_TIME_SETUP_DONE = "first-time-setup";
         private const string BACK_BUTTON_LABEL = "Back";
         private const string FINISH_SETUP_BUTTON_LABEL = "Finish Setup";
         private const string OPEN_QUICKSTART_SCENE_BUTTON_LABEL = "Open QuickStart Scene";
@@ -58,7 +57,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private static bool CanShowWindow()
         {
-            return !ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE);
+            return !ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE);
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         public static void ShowWindow()
         {
             GetWindow(typeof(SetupGuideWindow), false, WINDOW_NAME);
-            ProjectPrefs.SetBool(FIRST_TIME_SETUP_DONE, true);
+            ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, true);
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 new SubdomainPanel(),
                 new AvatarConfigPanel(),
-                new AnalyticsPanel(),
+                new AnalyticsPanel()
             };
 
             header ??= new Header(WINDOW_NAME);
@@ -105,7 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 fontSize = BUTTON_FONT_SIZE,
                 padding = new RectOffset(10, 10, 5, 5),
                 fixedHeight = 30,
-                stretchWidth = true,
+                stretchWidth = true
             };
         }
 
@@ -202,7 +201,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (!new QuickStartHelper().Open())
             {
-                EditorUtility.DisplayDialog(WINDOW_NAME,"No quick start sample found.","OK" );
+                EditorUtility.DisplayDialog(WINDOW_NAME, "No quick start sample found.", "OK");
             }
         }
     }
