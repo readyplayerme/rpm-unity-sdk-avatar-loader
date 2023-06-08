@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedUri.MetadataUrl, avatarUri.MetadataUrl);
             Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedShortcodeUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedShortcodeUri.MetadataUrl, avatarUri.MetadataUrl);
             Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
             Assert.AreEqual(expectedShortcodeUri.ModelUrl, avatarUri.ModelUrl);
             Assert.AreEqual(expectedShortcodeUri.MetadataUrl, avatarUri.MetadataUrl);
             Assert.AreEqual($"{dir}/{avatarUri.Guid}{TestUtils.GLB_SUFFIX}", avatarUri.LocalModelPath);
-            Assert.AreEqual($"{jsonDir}{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
+            Assert.AreEqual($"{jsonDir}/{avatarUri.Guid}{TestUtils.JSON_SUFFIX}", avatarUri.LocalMetadataPath);
         }
     }
 }
