@@ -1,5 +1,5 @@
+using System.Globalization;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ReadyPlayerMe.AvatarLoader
 {
@@ -22,7 +22,9 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 foreach (var blendShapeMesh in BlendShapeMeshes)
                 {
-                    queryBuilder.AddKeyValue($"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]", blendShape.Value.ToString());
+                    string key = $"{AvatarAPIParameters.RENDER_BLEND_SHAPES}[{blendShapeMesh}][{blendShape.Key}]";
+                    string value = blendShape.Value.ToString(CultureInfo.InvariantCulture);
+                    queryBuilder.AddKeyValue(key, value);
                 }
             }
             
