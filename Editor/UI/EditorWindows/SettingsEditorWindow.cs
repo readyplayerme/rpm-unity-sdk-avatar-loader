@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 using ReadyPlayerMe.Core;
@@ -6,6 +7,7 @@ using ReadyPlayerMe.Core.Analytics;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
+    [Obsolete("Use SettingsEditor instead")]
     public class SettingsEditorWindow : EditorWindowBase
     {
         private const string EDITOR_WINDOW_NAME = "rpm settings";
@@ -18,8 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             "We are constantly adding new features and improvements to our SDK. Enable analytics and help us in building even better free tools for more developers. This data is used for internal purposes only and is not shared with third parties.";
         private const string ANALYTICS_PRIVACY_TOOLTIP = "Click to read our Privacy Policy.";
         private const string LOGGING_ENABLED_TOOLTIP = "Enable for detailed console logging of RPM Unity SDK at Runtime and in Editor.";
-        private const string ANALYTICS_PRIVACY_URL =
-            "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
+        private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
         private const string CACHING_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
 
         private bool initialized;
@@ -34,7 +35,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private SubdomainField subdomainField;
         private AvatarConfigFields avatarConfigFields;
 
-        [MenuItem("Ready Player Me/Settings", priority = 1)]
+        [Obsolete("Use SettingsEditor instead")]
         public static void ShowWindowMenu()
         {
             var window = (SettingsEditorWindow) GetWindow(typeof(SettingsEditorWindow));
