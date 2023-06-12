@@ -35,9 +35,9 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <param name="guid">The avatar guid (identifier).</param>
         /// <param name="path">The path to save the file.</param>
         /// <param name="saveInProject">If true it will save in the project folder instead of the persistant data path.</param>
-        public static void SaveToFile(this AvatarMetadata metadata, string guid, string path, bool saveInProject = false)
+        public static void SaveToFile(this AvatarMetadata metadata, string guid, string path)
         {
-            DirectoryUtility.ValidateAvatarSaveDirectory(guid, saveInProject);
+            DirectoryUtility.ValidateAvatarSaveDirectory(guid);
             var json = JsonConvert.SerializeObject(metadata);
             File.WriteAllText(path, json);
         }

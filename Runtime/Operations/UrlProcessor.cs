@@ -18,8 +18,6 @@ namespace ReadyPlayerMe.AvatarLoader
         private const string URL_STRING_IS_NULL = "Url string is null";
         private const string PROCESSING_COMPLETED = "Processing completed.";
 
-        private bool SaveInProjectFolder { get; set; }
-
         public int Timeout { get; set; }
         public Action<float> ProgressChanged { get; set; }
 
@@ -36,7 +34,6 @@ namespace ReadyPlayerMe.AvatarLoader
                 throw Fail(FailureType.UrlProcessError, URL_STRING_IS_NULL);
             }
 
-            SaveInProjectFolder = context.SaveInProjectFolder;
             try
             {
                 context.AvatarUri = await ProcessUrl(context.Url, context.ParametersHash, token);
@@ -86,12 +83,12 @@ namespace ReadyPlayerMe.AvatarLoader
                 var avatarUri = new AvatarUri();
 
                 avatarUri.Guid = ExtractGuidFromUrl(url);
-                var fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder, paramsHash)}/{avatarUri.Guid}";
+                var fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, paramsHash)}/{avatarUri.Guid}";
                 avatarUri.ModelUrl = $"{url}{avatarApiParameters}";
                 avatarUri.ImageUrl = url.Replace(".glb", ".png");
                 avatarUri.LocalModelPath = $"{fileName}{GLB_EXTENSION}";
                 avatarUri.MetadataUrl = GetMetadataUrl(url);
-                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid, SaveInProjectFolder)}/{avatarUri.Guid}";
+                fileName = $"{DirectoryUtility.GetAvatarSaveDirectory(avatarUri.Guid)}/{avatarUri.Guid}";
                 avatarUri.LocalMetadataPath = $"{fileName}{JSON_EXTENSION}";
 
                 SDKLogger.Log(TAG, PROCESSING_COMPLETED);

@@ -49,16 +49,6 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The <see cref="AvatarContext" />.</returns>
         private AvatarContext ProcessAvatarGameObject(AvatarContext context)
         {
-#if UNITY_EDITOR
-            if (context.SaveInProjectFolder)
-            {
-                Object.DestroyImmediate((Object) context.Data);
-                AssetDatabase.Refresh();
-                var path = $"{DirectoryUtility.GetRelativeProjectPath(context.AvatarUri.Guid)}/{context.AvatarUri.Guid}.glb";
-                var avatarAsset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                context.Data = Object.Instantiate(avatarAsset);
-            }
-#endif
             GameObject oldInstance = GameObject.Find(context.AvatarUri.Guid);
             if (oldInstance)
             {
