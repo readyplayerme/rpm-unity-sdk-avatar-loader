@@ -8,7 +8,7 @@
 <!-- Replace the branch with the dependency, if no dependency is required than set this to develop -->
 ## Dependencies
 ```Package
-Core: branch
+Core: develop
 ```
 
 ## Description
