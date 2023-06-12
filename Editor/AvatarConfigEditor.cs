@@ -1,10 +1,11 @@
-﻿using ReadyPlayerMe.Core.Editor;
+﻿using System;
+using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.AvatarLoader.Core
+namespace ReadyPlayerMe.AvatarLoader
 {
-    [CustomEditor(typeof(AvatarConfig))]
+    [Obsolete("Use AvatarConfigNewEditor instead")]
     public class AvatarConfigEditor : UnityEditor.Editor
     {
         private const string USE_DRACO_COMPRESSION = "UseDracoCompression";
