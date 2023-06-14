@@ -2,6 +2,7 @@
 using System.Linq;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
