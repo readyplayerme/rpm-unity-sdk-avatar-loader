@@ -16,6 +16,9 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string DIALOG_OK = "Ok";
         private const string DIALOG_CANCEL = "Cancel";
         private const string USE_DRACO_COMPRESSION = "UseDracoCompression";
+        private const string ADD_MORPH_TARGET = "Add Morph Target";
+        private const string DELETE_MORPH_TARGET = "Delete Morph Target";
+        private const string REMOVE_BUTTON_TEXT = "Remove";
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -88,7 +91,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private void OnAddButtonClicked()
         {
-            Undo.RecordObject(avatarConfigTarget, "Add Morph Target");
+            Undo.RecordObject(avatarConfigTarget, ADD_MORPH_TARGET);
             avatarConfigTarget.MorphTargets.Add(AvatarMorphTarget.MorphTargetAvatarAPI[0]);
             EditorUtility.SetDirty(avatarConfigTarget);
             CreateNewElement(0);
@@ -108,12 +111,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
         private PopupField<Label> CreatePopupField(int defaultIndex, VisualElement parent)
         {
-            return new PopupField<Label>("",
+            return new PopupField<Label>(string.Empty,
                 morphTargetLabels,
                 defaultIndex,
                 x =>
                 {
                     avatarConfigTarget.MorphTargets[GetIndex(morphTargetsParentVisualElement[parent])] = x.text;
+                    morphTargetsParentVisualElement[parent] = x.text;
                     return x.text;
                 },
                 x => x.text);
@@ -123,12 +127,12 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             var removeButton = new Button(() =>
             {
-                Undo.RecordObject(avatarConfigTarget, "Delete Morph Target");
+                Undo.RecordObject(avatarConfigTarget, DELETE_MORPH_TARGET);
                 avatarConfigTarget.MorphTargets.RemoveAt(GetIndex(morphTargetsParentVisualElement[parent]));
                 selectedMorphTargets.Remove(parent);
                 EditorUtility.SetDirty(avatarConfigTarget);
             });
-            removeButton.text = "Remove";
+            removeButton.text = REMOVE_BUTTON_TEXT;
             return removeButton;
         }
 
