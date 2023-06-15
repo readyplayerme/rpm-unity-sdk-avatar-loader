@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/CommonStyle.uss?fileID=7433441132597879392&amp;guid=af10d225241bded4188e82d92db9230f&amp;type=3#CommonStyle" />
+    <ui:IMGUIContainer name="DefaultInspector" />
+    <ui:Foldout text="Morph Targets">
+        <ui:VisualElement name="SelectedMorphTargets" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);" />
+        <ui:Button text="Add" display-tooltip-when-elided="true" name="AddButton" />
+    </ui:Foldout>
+</ui:UXML>
