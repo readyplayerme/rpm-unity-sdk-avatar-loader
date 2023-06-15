@@ -1,27 +1,33 @@
-using System.Collections.Generic;
 using ReadyPlayerMe.AvatarLoader.Editor;
+using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Analytics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using ObjectField = UnityEditor.UIElements.ObjectField;
 
 public class SetupGuide : EditorWindow
 {
     private const string SETUP_GUIDE = "SetupGuide";
+    private const string STUDIO_URL = "https://studio.readyplayer.me";
+    private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
     [SerializeField] private VisualTreeAsset visualTreeAsset;
 
     private VisualElement[] panel;
 
     private VisualElement currentPanel;
-    private int currentPanelIndex = 0;
+    private int currentPanelIndex;
+
+    private ObjectField avatarConfigField;
 
     private Button backButton;
     private Button nextButton;
     private Button finishSetupButton;
     private Button openQuickStartButton;
 
-
     [MenuItem("Ready Player Me/Setup Guide")]
-    public static void ShowExample()
+    public static void ShowWindow()
     {
         var window = GetWindow<SetupGuide>();
         window.titleContent = new GUIContent(SETUP_GUIDE);
@@ -31,18 +37,97 @@ public class SetupGuide : EditorWindow
     public void CreateGUI()
     {
         visualTreeAsset.CloneTree(rootVisualElement);
+        panel = new[]
+        {
+            InitializeSubdomainPanel(),
+            InitializedAvatarConfigPanel(),
+            InitializeAnalyticsPanel()
+        };
 
+        InitializeFooter();
+        StartStateMachine();
+    }
+
+    private VisualElement InitializeSubdomainPanel()
+    {
         var subdomainPanel = rootVisualElement.Q<VisualElement>("SubdomainPanel");
         subdomainPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
 
+        subdomainPanel.Q<Label>("StudioUrl").RegisterCallback<MouseUpEvent>(x =>
+        {
+            Application.OpenURL(STUDIO_URL);
+        });
+
+        var subdomainTemplate = subdomainPanel.Q<SubdomainTemplate>();
+        var subdomainField = subdomainTemplate.Q<TextField>("SubdomainField");
+
+        var useDemoSubdomainToggle = subdomainPanel.Q<Toggle>("UseDemoSubdomainToggle");
+        if (CoreSettingsHandler.CoreSettings.Subdomain == "demo")
+        {
+            useDemoSubdomainToggle.value = true;
+        }
+
+        subdomainPanel.Q<Toggle>("UseDemoSubdomainToggle").RegisterValueChangedCallback(x =>
+        {
+            if (x.newValue)
+            {
+                subdomainTemplate.SetSubdomain("demo");
+            }
+        });
+
+        subdomainField.RegisterValueChangedCallback(x =>
+        {
+            useDemoSubdomainToggle.SetValueWithoutNotify(x.newValue == "demo");
+        });
+
+        return subdomainPanel;
+    }
+
+    private VisualElement InitializedAvatarConfigPanel()
+    {
         var avatarConfigPanel = rootVisualElement.Q<VisualElement>("AvatarConfigPanel");
         avatarConfigPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
 
+        avatarConfigField = avatarConfigPanel.Q<ObjectField>("AvatarConfigField");
+        avatarConfigField.RegisterValueChangedCallback(x =>
+        {
+            nextButton.SetEnabled(x.newValue != null);
+        });
+
+        return avatarConfigPanel;
+    }
+
+    private VisualElement InitializeAnalyticsPanel()
+    {
         var analyticsPanel = rootVisualElement.Q<VisualElement>("AnalyticsPanel");
         analyticsPanel.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
 
-        panel = new[] { subdomainPanel, avatarConfigPanel, analyticsPanel };
+        analyticsPanel.Q<Label>("PrivacyUrl").RegisterCallback<MouseUpEvent>(x =>
+        {
+            Application.OpenURL(ANALYTICS_PRIVACY_URL);
+        });
 
+        var analyticsEnabledToggle = analyticsPanel.Q<Toggle>("AnalyticsEnabledToggle");
+        analyticsEnabledToggle.SetValueWithoutNotify(AnalyticsEditorLogger.IsEnabled);
+        analyticsEnabledToggle.RegisterValueChangedCallback(x =>
+        {
+            if (x.newValue)
+            {
+                AnalyticsEditorLogger.Enable();
+            }
+            else
+            {
+                AnalyticsEditorLogger.Disable();
+            }
+            ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, x.newValue);
+
+        });
+
+        return analyticsPanel;
+    }
+
+    private void InitializeFooter()
+    {
         nextButton = rootVisualElement.Q<Button>("NextButton");
         nextButton.clicked += NextPanel;
 
@@ -54,7 +139,6 @@ public class SetupGuide : EditorWindow
 
         openQuickStartButton = rootVisualElement.Q<Button>("OpenQuickStartButton");
         openQuickStartButton.clicked += OnOpenQuickStartButton;
-        StartStateMachine();
     }
 
 
@@ -87,6 +171,7 @@ public class SetupGuide : EditorWindow
             case 1:
                 SetVisibility(backButton, true);
                 SetDisplay(nextButton, true);
+                nextButton.SetEnabled(avatarConfigField.value != null);
                 SetDisplay(finishSetupButton, false);
                 SetDisplay(openQuickStartButton, false);
                 break;
@@ -107,12 +192,10 @@ public class SetupGuide : EditorWindow
         }
     }
 
-
     private void StartStateMachine()
     {
-        panel[currentPanelIndex].style.display = new StyleEnum<DisplayStyle>(DisplayStyle.Flex);
+        SetDisplay(panel[currentPanelIndex], true);
     }
-
 
     private void SetVisibility(VisualElement visualElement, bool enable)
     {
