@@ -199,6 +199,8 @@ public class SetupGuide : EditorWindow
 
     private void OnOpenQuickStartButton()
     {
+        Close();
+
         if (!new QuickStartHelper().Open())
         {
             EditorUtility.DisplayDialog(SETUP_GUIDE, "No quick start sample found.", "OK");
