@@ -5,9 +5,9 @@ using UnityEditor;
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
     [InitializeOnLoad]
-    public static class FirstTimeSetup
+    public static class OneTimeSetup
     {
-        static FirstTimeSetup()
+        static OneTimeSetup()
         {
             EntryPoint.Startup += OnStartup;
         }
