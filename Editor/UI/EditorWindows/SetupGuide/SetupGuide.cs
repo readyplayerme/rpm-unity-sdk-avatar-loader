@@ -39,7 +39,7 @@ public class SetupGuide : EditorWindow
     private Button finishSetupButton;
     private Button openQuickStartButton;
 
-    [MenuItem("Ready Player Me/Setup Guide")]
+    [MenuItem("Ready Player Me/Re-run Setup")]
     public static void ShowWindow()
     {
         var window = GetWindow<SetupGuide>();
