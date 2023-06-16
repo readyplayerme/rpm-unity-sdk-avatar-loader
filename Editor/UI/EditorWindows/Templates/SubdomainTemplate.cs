@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.Analytics;
@@ -19,10 +16,16 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string QUICKSTART_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/quickstart#before-you-begin";
         private const string WEB_VIEW_PARTNER_SAVE_KEY = "WebViewPartnerSubdomainName";
 
-        public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits> { }
-        public new class UxmlTraits : VisualElement.UxmlTraits { }
+        public new class UxmlFactory : UxmlFactory<SubdomainTemplate, UxmlTraits>
+        {
+        }
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+        }
 
         private string partnerSubdomain;
+        private TextField subdomainField;
+
 
         public SubdomainTemplate()
         {
@@ -30,7 +33,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             visualTree.CloneTree(this);
 
             partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
-            var subdomainField = this.Q<TextField>("SubdomainField");
+            subdomainField = this.Q<TextField>("SubdomainField");
             subdomainField.value = partnerSubdomain;
 
             var errorIcon = this.Q<VisualElement>("ErrorIcon");
@@ -42,6 +45,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             
             subdomainField.RegisterValueChangedCallback(OnSubdomainChanged(errorIcon));
             subdomainField.RegisterCallback<FocusOutEvent>(OnSubdomainFocusOut);
+        }
+        
+        public void SetSubdomain(string subdomain)
+        {
+            subdomainField.SetValueWithoutNotify(subdomain);
+            partnerSubdomain = subdomain;
+            SaveSubdomain();
         }
 
         private static void OnSubdomainHelpClicked()
@@ -76,7 +86,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             return !partnerSubdomain.All(char.IsWhiteSpace) && !partnerSubdomain.Contains('/') && !EditorUtilities.IsUrlShortcodeValid(partnerSubdomain);
         }
 
-        public void SaveSubdomain()
+        private void SaveSubdomain()
         {
             EditorPrefs.SetString(WEB_VIEW_PARTNER_SAVE_KEY, partnerSubdomain);
             var subDomain = CoreSettingsHandler.CoreSettings.Subdomain;

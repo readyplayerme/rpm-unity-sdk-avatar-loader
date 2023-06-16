@@ -1,5 +1,0 @@
-Label {
-    font-size: 12px;
-    -unity-font-style: normal;
-    color: rgb(255, 255, 255);
-}
