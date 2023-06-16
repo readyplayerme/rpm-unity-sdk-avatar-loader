@@ -1,7 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Template name="HeaderTemplate" src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/Templates/HeaderTemplate.uxml?fileID=9197481963319205126&amp;guid=07a53a11b73eff34685f226bf17a42d4&amp;type=3#HeaderTemplate" />
-    <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/SetupGuide/SetupGuide.uss?fileID=7433441132597879392&amp;guid=b667ca29b45f4ff4ea310c4fdae055b1&amp;type=3#SetupGuide" />
-    <Style src="project://database/Assets/Ready%20Player%20Me/Avatar%20Loader/Editor/UI/EditorWindows/CommonStyle.uss?fileID=7433441132597879392&amp;guid=af10d225241bded4188e82d92db9230f&amp;type=3#CommonStyle" />
+    <ui:Template name="HeaderTemplate" src="../Templates/HeaderTemplate.uxml" />
+    <Style src="../CommonStyle.uss" />
     <ui:Instance template="HeaderTemplate" name="HeaderTemplate" style="flex-shrink: 0;" />
     <ui:VisualElement name="SubdomainPanel" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); margin-top: 0; height: 250px; flex-shrink: 0; display: none;">
         <ui:VisualElement name="Heading" class="heading" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
