@@ -90,18 +90,17 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             catch (CustomException error)
             {
-                string message;
-                FailureType failureType;
-                if (error.FailureType == FailureType.MetadataParseError)
+                var message = error.Message;
+                var failureType = error.FailureType;
+                
+                if (failureType == FailureType.MetadataParseError)
                 {
                     failureType = error.FailureType;
-                    message = error.Message;
                 }
-                else
+                else if (failureType != FailureType.NoInternetConnection)
                 {
                     failureType = FailureType.MetadataDownloadError;
                     message = $"Failed to download metadata into memory. {error}";
-
                 }
 
                 SDKLogger.Log(TAG, message);
@@ -142,7 +141,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// <returns>The avatar metadata as an <see cref="AvatarMetadata" /> structure.</returns>
         private AvatarMetadata ParseResponse(string response)
         {
-            var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings()
+            var metadata = JsonConvert.DeserializeObject<AvatarMetadata>(response, new JsonSerializerSettings
             {
                 DateFormatString = METADATA_TIME_FORMAT
             });

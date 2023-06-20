@@ -59,7 +59,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, LOADING_MODEL_FROM_CACHE);
-                context.Bytes = File.ReadAllBytes(context.AvatarUri.LocalModelPath);
+                context.Bytes = await File.ReadAllBytesAsync(context.AvatarUri.LocalModelPath, token);
                 return context;
             }
 
@@ -104,11 +104,16 @@ namespace ReadyPlayerMe.AvatarLoader
 
             try
             {
-                Response response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
+                var response = await dispatcher.DownloadIntoMemory(url, token, Timeout);
                 return response.Data;
             }
-            catch (Exception exception)
+            catch (CustomException exception)
             {
+                if (exception.FailureType == FailureType.NoInternetConnection)
+                {
+                    throw;
+                }
+
                 throw Fail($"Failed to download glb model into memory. {exception}");
             }
         }
@@ -143,8 +148,13 @@ namespace ReadyPlayerMe.AvatarLoader
                 ResponseFile response = await dispatcher.DownloadIntoFile(url, path, token, Timeout);
                 return response.Data;
             }
-            catch (Exception exception)
+            catch (CustomException exception)
             {
+                if (exception.FailureType == FailureType.NoInternetConnection)
+                {
+                    throw;
+                }
+
                 throw Fail($"Failed to download glb model into file. {exception}");
             }
         }
