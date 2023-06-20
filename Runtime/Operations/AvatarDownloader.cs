@@ -59,7 +59,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 && File.Exists(context.AvatarUri.LocalModelPath))
             {
                 SDKLogger.Log(TAG, LOADING_MODEL_FROM_CACHE);
-                context.Bytes = await File.ReadAllBytesAsync(context.AvatarUri.LocalModelPath, token);
+                context.Bytes = File.ReadAllBytes(context.AvatarUri.LocalModelPath);
                 return context;
             }
 
