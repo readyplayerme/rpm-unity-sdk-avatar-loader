@@ -22,6 +22,9 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
             DeleteFolder(path);
+#if UNITY_EDITOR
+            DeleteFolder(DirectoryUtility.GetAvatarsPersistantPath());
+#endif
         }
 
         private static void DeleteFolder(string path)
