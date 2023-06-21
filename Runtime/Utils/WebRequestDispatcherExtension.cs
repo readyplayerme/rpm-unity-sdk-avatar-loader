@@ -127,13 +127,12 @@ namespace ReadyPlayerMe.AvatarLoader
             var response = await webRequestDispatcher.SendRequest<ResponseFile>(url, HttpMethod.GET, headers, downloadHandler: downloadHandler,
                 ctx: token);
             token.ThrowCustomExceptionIfCancellationRequested();
-
-            await response.ReadFile(path, token);
             if (!response.IsSuccess)
             {
                 throw new CustomException(FailureType.DownloadError, response.Error);
             }
 
+            await response.ReadFile(path, token);
             return response;
         }
 
