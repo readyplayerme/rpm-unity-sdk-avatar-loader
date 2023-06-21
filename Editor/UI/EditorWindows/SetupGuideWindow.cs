@@ -1,3 +1,4 @@
+using System;
 using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace ReadyPlayerMe.AvatarLoader.Editor
 {
-    [InitializeOnLoad]
+    [Obsolete("Use SetupGuide instead")]
     public class SetupGuideWindow : EditorWindow
     {
         private const string WINDOW_NAME = "Setup Guide";
@@ -68,7 +69,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             AnalyticsEditorLogger.EventLogger.LogCloseProject();
         }
 
-        [MenuItem("Ready Player Me/Re-run Setup")]
+        [Obsolete("Use SetupGuide instead")]
         public static void ShowWindow()
         {
             GetWindow(typeof(SetupGuideWindow), false, WINDOW_NAME);

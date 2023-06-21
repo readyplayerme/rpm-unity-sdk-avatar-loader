@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -44,29 +42,25 @@ namespace ReadyPlayerMe.AvatarLoader
             }
             catch (CustomException exception)
             {
-                throw new CustomException(FailureType.AvatarRenderError, exception.Message);
+                if (exception.FailureType != FailureType.NoInternetConnection)
+                {
+                    throw new CustomException(FailureType.AvatarRenderError, exception.Message);
+                }
+
+                throw;
             }
         }
 
         /// <summary>
         /// Requests an avatar render URL asynchronously
         /// </summary>
-        /// <param name="payload">The binary data of the avatar model .glb file.</param>
+        /// <param name="url">The url for avatar render texture.</param>
         /// <param name="token">Can be used to cancel the operation.</param>
-        public async Task<Texture2D> RequestAvatarRender(string url, CancellationToken token = new CancellationToken())
+        private async Task<Texture2D> RequestAvatarRender(string url, CancellationToken token = new CancellationToken())
         {
             var webRequestDispatcher = new WebRequestDispatcher();
             webRequestDispatcher.ProgressChanged += ProgressChanged;
-
-            try
-            {
-                return await webRequestDispatcher.DownloadTexture(url, token);
-
-            }
-            catch (CustomException exception)
-            {
-                throw new CustomException(exception.FailureType, exception.Message);
-            }
+            return await webRequestDispatcher.DownloadTexture(url, token);
         }
     }
 }
