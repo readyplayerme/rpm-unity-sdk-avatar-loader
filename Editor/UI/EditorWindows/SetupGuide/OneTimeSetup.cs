@@ -20,6 +20,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 AnalyticsEditorLogger.Enable();
                 SetupGuide.ShowWindow();
+                ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, true);
             }
 
             if (AnalyticsEditorLogger.IsEnabled)

@@ -132,8 +132,6 @@ public class SetupGuide : EditorWindow
             {
                 AnalyticsEditorLogger.Disable();
             }
-            ProjectPrefs.SetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE, x.newValue);
-
         });
 
         return analyticsPanel;
