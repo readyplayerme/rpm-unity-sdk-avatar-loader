@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.Settings.Editor
         private const string DOCS_URL = "https://bit.ly/UnitySDKDocs";
         private const string FAQ_URL = "https://docs.readyplayer.me/overview/frequently-asked-questions/game-engine-faq";
         private const string DISCORD_URL = "https://bit.ly/UnitySDKDiscord";
-        
+
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         private bool isCacheEmpty;
@@ -136,7 +136,7 @@ namespace ReadyPlayerMe.Settings.Editor
 
         private void ShowCacheDirectory()
         {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            var path = DirectoryUtility.GetAvatarsPersistantPath();
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

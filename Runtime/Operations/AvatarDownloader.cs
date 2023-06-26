@@ -54,6 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader
             {
                 throw new InvalidDataException($"Expected cast {typeof(string)} instead got ");
             }
+            DirectoryUtility.ValidateAvatarSaveDirectory(context.AvatarUri.Guid, context.ParametersHash);
 
             if ((!context.IsUpdateRequired || Application.internetReachability == NetworkReachability.NotReachable)
                 && File.Exists(context.AvatarUri.LocalModelPath))
@@ -65,7 +66,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
             if (context.IsUpdateRequired)
             {
-                AvatarCache.DeleteAvatarModel(context.AvatarUri.Guid, context.SaveInProjectFolder);
+                AvatarCache.DeleteAvatarModel(context.AvatarUri.Guid, context.ParametersHash);
             }
 
             if (downloadInMemory)

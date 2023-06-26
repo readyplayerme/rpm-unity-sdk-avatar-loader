@@ -122,7 +122,6 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var context = new AvatarContext();
             context.Url = url;
-            context.SaveInProjectFolder = SaveInProjectFolder;
             context.AvatarCachingEnabled = avatarCachingEnabled;
             context.AvatarConfig = AvatarConfig;
             context.ParametersHash = AvatarCache.GetAvatarConfigurationHash(AvatarConfig);

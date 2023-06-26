@@ -22,6 +22,9 @@ namespace ReadyPlayerMe.AvatarLoader
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
             DeleteFolder(path);
+#if UNITY_EDITOR
+            DeleteFolder(DirectoryUtility.GetAvatarsPersistantPath());
+#endif
         }
 
         private static void DeleteFolder(string path)
@@ -38,38 +41,40 @@ namespace ReadyPlayerMe.AvatarLoader
             }
 #endif
         }
-        
-        /// Deletes stored data a specific avatar from persistent cache.
-        public static void DeleteAvatarFolder(string guid, bool saveInProjectFolder = false)
+
+        /// Deletes all data for a specific avatar variant (based on parameter hash) from persistent cache.
+        public static void DeleteAvatarVariantFolder(string guid, string paramHash)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
+            DeleteFolder($"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}/{paramHash}");
+        }
+
+        /// Deletes stored data a specific avatar from persistent cache.
+        public static void DeleteAvatarFolder(string guid)
+        {
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}";
             DeleteFolder(path);
         }
-        
-        /// deletes a specific avatar model from persistent cache, while leaving the metadata.json file
-        public static void DeleteAvatarModel(string guid, bool saveInProjectFolder = false)
+
+        /// deletes a specific avatar model (.glb file) from persistent cache, while leaving the metadata.json file
+        public static void DeleteAvatarModel(string guid, string parametersHash)
         {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath(saveInProjectFolder)}/{guid}";
+            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{guid}/{parametersHash}";
             if (Directory.Exists(path))
             {
                 var info = new DirectoryInfo(path);
 
-                if (saveInProjectFolder)
-                {
 #if UNITY_EDITOR
-                    foreach (DirectoryInfo dir in info.GetDirectories())
-                    {
-                        AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
-                    }
-#endif
-                }
-                else
+                foreach (DirectoryInfo dir in info.GetDirectories())
                 {
-                    foreach (DirectoryInfo dir in info.GetDirectories())
-                    {
-                        Directory.Delete(dir.FullName, true);
-                    }
+                    AssetDatabase.DeleteAsset($"Assets/{DirectoryUtility.DefaultAvatarFolder}/{guid}/{dir.Name}");
                 }
+
+#else
+                foreach (DirectoryInfo dir in info.GetDirectories())
+                {
+                    Directory.Delete(dir.FullName, true);
+                }
+#endif
             }
         }
 

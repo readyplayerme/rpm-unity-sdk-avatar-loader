@@ -31,7 +31,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private AvatarUrlField avatarUrlField;
 
         private double startTime;
-        
+
         [Obsolete("Use AvatarLoaderEditor instead")]
         public static void ShowWindowMenu()
         {
@@ -103,7 +103,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             useVoiceToAnim = EditorPrefs.GetBool(VOICE_TO_ANIM_SAVE_KEY);
 
             if (EditorPrefs.GetBool(MODEL_CACHING_SAVE_KEY)) EditorPrefs.SetBool(MODEL_CACHING_SAVE_KEY, false);
-            SetEditorWindowName(EDITOR_WINDOW_NAME,WINDOW_HEADING);
+            SetEditorWindowName(EDITOR_WINDOW_NAME, WINDOW_HEADING);
             initialized = true;
         }
 
@@ -188,9 +188,8 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
-
-            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name)}/{avatar.name}.prefab");
-
+            var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
+            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
             Selection.activeObject = args.Avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);
         }

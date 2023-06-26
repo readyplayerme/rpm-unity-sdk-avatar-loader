@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             avatarLoader.clicked += () =>
             {
-                if (urlField.TryGetUrl(out string url))
+                if (urlField.TryGetUrl(out var url))
                 {
                     LoadAvatar(url);
                 }
@@ -116,8 +116,13 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
             if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
             if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
+            if (avatarLoaderSettings == null)
+            {
+                avatarLoaderSettings = AvatarLoaderSettings.LoadSettings();
+            }
 
-            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name)}/{avatar.name}.prefab");
+            var paramHash = AvatarCache.GetAvatarConfigurationHash(avatarLoaderSettings.AvatarConfig);
+            EditorUtilities.CreatePrefab(avatar, $"{DirectoryUtility.GetRelativeProjectPath(avatar.name, paramHash)}/{avatar.name}.prefab");
 
             Selection.activeObject = args.Avatar;
             AnalyticsEditorLogger.EventLogger.LogAvatarLoaded(EditorApplication.timeSinceStartup - startTime);

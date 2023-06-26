@@ -110,7 +110,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         private void SaveMetadataToFile(AvatarContext avatarContext)
         {
-            avatarContext.Metadata.SaveToFile(avatarContext.AvatarUri.Guid, avatarContext.AvatarUri.LocalMetadataPath, avatarContext.SaveInProjectFolder);
+            avatarContext.Metadata.SaveToFile(avatarContext.AvatarUri.Guid, avatarContext.AvatarUri.LocalMetadataPath);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace ReadyPlayerMe.AvatarLoader
         /// </remarks>
         private static bool IsUpdateRequired(AvatarContext context)
         {
-            if (context.SaveInProjectFolder || !context.AvatarCachingEnabled)
+            if (!context.AvatarCachingEnabled)
             {
                 return true;
             }

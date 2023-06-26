@@ -18,7 +18,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             Guid = SHORT_CODE,
             ModelUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
-            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH)}/{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
+            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, RANDOM_PARAM_HASH)}/{SHORT_CODE}{TestUtils.GLB_SUFFIX}",
             MetadataUrl = $"{TestUtils.API_URL_PREFIX}{SHORT_CODE}{TestUtils.JSON_SUFFIX}",
             LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE)}{SHORT_CODE}{TestUtils.JSON_SUFFIX}"
         };
@@ -27,7 +27,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         {
             Guid = GUID,
             ModelUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.GLB_SUFFIX}",
-            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH)}/{GUID}{TestUtils.GLB_SUFFIX}",
+            LocalModelPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID, RANDOM_PARAM_HASH)}/{GUID}{TestUtils.GLB_SUFFIX}",
             MetadataUrl = $"{TestUtils.API_URL_PREFIX}{GUID}{TestUtils.JSON_SUFFIX}",
             LocalMetadataPath = $"{DirectoryUtility.GetAvatarSaveDirectory(GUID)}{GUID}{TestUtils.JSON_SUFFIX}"
         };
@@ -36,7 +36,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Process_Avatar_Url()
         {
             AvatarUri avatarUri;
-            var dir = DirectoryUtility.GetAvatarSaveDirectory(GUID, false, RANDOM_PARAM_HASH);
+            var dir = DirectoryUtility.GetAvatarSaveDirectory(GUID, RANDOM_PARAM_HASH);
             var jsonDir = DirectoryUtility.GetAvatarSaveDirectory(GUID);
 
             var urlProcessor = new UrlProcessor();
@@ -61,7 +61,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Process_Avatar_Short_Code()
         {
             AvatarUri avatarUri;
-            var dir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH);
+            var dir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, RANDOM_PARAM_HASH);
             var jsonDir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE);
 
             var urlProcessor = new UrlProcessor();
@@ -86,7 +86,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
         public async Task Process_Avatar_Short_Code_Url()
         {
             AvatarUri avatarUri;
-            var dir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, false, RANDOM_PARAM_HASH);
+            var dir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE, RANDOM_PARAM_HASH);
             var jsonDir = DirectoryUtility.GetAvatarSaveDirectory(SHORT_CODE);
 
             var urlProcessor = new UrlProcessor();

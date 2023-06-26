@@ -54,7 +54,7 @@ namespace ReadyPlayerMe.AvatarLoader.Tests
                 throw;
             }
 
-            metadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath, false);
+            metadata.SaveToFile(TestAvatarData.DefaultAvatarUri.Guid, TestUtils.TestJsonFilePath);
 
             Assert.AreEqual(true, File.Exists(TestUtils.TestJsonFilePath));
         }
