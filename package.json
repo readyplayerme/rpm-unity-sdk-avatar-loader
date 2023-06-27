@@ -11,7 +11,8 @@
   "dependencies": {
     "com.unity.ugui": "1.0.0",
     "com.unity.nuget.newtonsoft-json": "3.0.2",
-    "com.readyplayerme.webview":"1.2.0"
+    "com.readyplayerme.webview":"1.2.0",
+    "com.atteneder.gltfast": "5.0.4"
   },
   "keywords": [
     "avatar",
