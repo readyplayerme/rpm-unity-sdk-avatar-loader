@@ -10,7 +10,8 @@
   "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.ugui": "1.0.0",
-    "com.unity.nuget.newtonsoft-json": "3.0.2"
+    "com.unity.nuget.newtonsoft-json": "3.0.2",
+    "com.readyplayerme.webview":"1.2.0"
   },
   "keywords": [
     "avatar",
