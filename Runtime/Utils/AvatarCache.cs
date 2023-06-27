@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ReadyPlayerMe.Core;
 using UnityEditor;
 using UnityEngine;
@@ -40,6 +43,15 @@ namespace ReadyPlayerMe.AvatarLoader
                 File.Delete(path);
             }
 #endif
+        }
+
+        public static string[] GetExistingAvatarIds()
+        {
+            var path = DirectoryUtility.GetAvatarsDirectoryPath();
+            if (!Directory.Exists(path)) return Array.Empty<string>();
+            var directoryInfo = new DirectoryInfo(path);
+            var avatarIds = directoryInfo.GetDirectories().Select(subdir => subdir.Name).ToArray();
+            return avatarIds;
         }
 
         /// Deletes all data for a specific avatar variant (based on parameter hash) from persistent cache.
