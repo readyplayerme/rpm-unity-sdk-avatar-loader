@@ -25,15 +25,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         static SetupGuideWindow()
         {
-            EntryPoint.Startup += OnStartup;
-        }
-
-        /// <summary>
-        ///     This method is called when Unity Editor is closed or this package is removed.
-        /// </summary>
-        private void OnDestroy()
-        {
-            EntryPoint.Startup -= OnStartup;
+            EditorApplication.update += OnStartup;
         }
 
         /// <summary>
@@ -54,6 +46,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 AnalyticsEditorLogger.EventLogger.IdentifyUser();
                 EditorApplication.quitting += OnQuit;
             }
+            EditorApplication.update -= OnStartup;
         }
 
         private static bool CanShowWindow()
@@ -85,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 new SubdomainPanel(),
                 new AvatarConfigPanel(),
-                new AnalyticsPanel(),
+                new AnalyticsPanel()
             };
 
             header ??= new Header(WINDOW_NAME);
@@ -105,7 +98,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 fontSize = BUTTON_FONT_SIZE,
                 padding = new RectOffset(10, 10, 5, 5),
                 fixedHeight = 30,
-                stretchWidth = true,
+                stretchWidth = true
             };
         }
 
@@ -202,7 +195,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         {
             if (!new QuickStartHelper().Open())
             {
-                EditorUtility.DisplayDialog(WINDOW_NAME,"No quick start sample found.","OK" );
+                EditorUtility.DisplayDialog(WINDOW_NAME, "No quick start sample found.", "OK");
             }
         }
     }
