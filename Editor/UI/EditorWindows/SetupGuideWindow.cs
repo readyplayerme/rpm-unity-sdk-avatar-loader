@@ -25,15 +25,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         static SetupGuideWindow()
         {
-            EntryPoint.Startup += OnStartup;
-        }
-
-        /// <summary>
-        ///     This method is called when Unity Editor is closed or this package is removed.
-        /// </summary>
-        private void OnDestroy()
-        {
-            EntryPoint.Startup -= OnStartup;
+            EditorApplication.update += OnStartup;
         }
 
         /// <summary>
@@ -54,6 +46,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 AnalyticsEditorLogger.EventLogger.IdentifyUser();
                 EditorApplication.quitting += OnQuit;
             }
+            EditorApplication.update -= OnStartup;
         }
 
         private static bool CanShowWindow()
