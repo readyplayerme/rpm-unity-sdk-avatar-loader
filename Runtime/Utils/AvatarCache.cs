@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ReadyPlayerMe.Core;
@@ -124,7 +123,7 @@ namespace ReadyPlayerMe.AvatarLoader
         public static float GetCacheSizeInMb()
         {
             var path = DirectoryUtility.GetAvatarsDirectoryPath();
-            return DirectoryUtility.GetFolderSizeInMb(path);
+            return !Directory.Exists(path) ? 0 : DirectoryUtility.GetFolderSizeInMb(path);
         }
 
         public static float GetAvatarDataSizeInMb(string avatarGuid)

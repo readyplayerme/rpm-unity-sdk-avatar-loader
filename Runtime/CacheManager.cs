@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -9,37 +7,6 @@ namespace ReadyPlayerMe.AvatarLoader
     public static class CacheManager
     {
         private const string TAG = nameof(CacheManager);
-
-        /// Total size of avatar stored in persistent cache. Returns total bytes.
-        public static float GetCacheSizeMb()
-        {
-            var path = DirectoryUtility.GetAvatarsDirectoryPath();
-            return GetFolderSizeInMb(path);
-        }
-
-        public static float GetDirectorySizeInMb(DirectoryInfo directoryInfo)
-        {
-            // Add file sizes.
-            FileInfo[] fileInfos = directoryInfo.GetFiles();
-            var size = fileInfos.Sum(fi => fi.Length);
-
-            // Add subdirectory sizes.
-            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
-            size += directoryInfos.Sum(DirectoryUtility.GetDirectorySize);
-            return size / 1000000f;
-        }
-
-        public static float GetFolderSizeInMb(string folderPath)
-        {
-            return !Directory.Exists(folderPath) ? 0 : GetDirectorySizeInMb(new DirectoryInfo(folderPath));
-        }
-
-        /// Total size of an avatars data stored in persistent cache. Returns total bytes.
-        public static float GetAvatarDataSizeInMb(string avatarGuid)
-        {
-            var path = $"{DirectoryUtility.GetAvatarsDirectoryPath()}/{avatarGuid}";
-            return GetFolderSizeInMb(path);
-        }
 
         public static void EnforceCacheLimit(AvatarCacheConfig config, AvatarManifest manifest)
         {
@@ -82,7 +49,7 @@ namespace ReadyPlayerMe.AvatarLoader
 
         public static void EnforceCacheSize(float cacheSizeLimitMb, AvatarManifest manifest)
         {
-            var currentCacheSize = GetCacheSizeMb();
+            var currentCacheSize = AvatarCache.GetCacheSizeInMb();
             if (currentCacheSize <= cacheSizeLimitMb)
             {
                 Debug.Log("Avatar cache size is below limit.");
@@ -101,7 +68,7 @@ namespace ReadyPlayerMe.AvatarLoader
                 }
 
                 var avatarId = queue.Dequeue();
-                var avatarSize = GetAvatarDataSizeInMb(avatarId);
+                var avatarSize = AvatarCache.GetAvatarDataSizeInMb(avatarId);
                 AvatarCache.DeleteAvatarFolder(avatarId);
                 manifest.RemoveAvatar(avatarId);
                 currentCacheSize -= avatarSize;
