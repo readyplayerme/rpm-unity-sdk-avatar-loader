@@ -10,7 +10,7 @@ namespace ReadyPlayerMe.AvatarLoader
 {
     public class AvatarManifest
     {
-        private static readonly string RELATIVE_PATH = "/AvatarManifest.json";
+        private const string RELATIVE_PATH = "/AvatarManifest.json";
         private Dictionary<string, DateTime> avatarRecords = new Dictionary<string, DateTime>();
         public Dictionary<string, DateTime> AvatarRecords => avatarRecords;
 
@@ -64,10 +64,11 @@ namespace ReadyPlayerMe.AvatarLoader
         private void WriteToFile(string json)
         {
             var path = GetFilePath();
-            var fileStream = new FileStream(path, FileMode.Create);
 
-            using var writer = new StreamWriter(fileStream);
-            writer.Write(json);
+            using (var writer = new StreamWriter(path, false))
+            {
+                writer.Write(json);
+            }
         }
 
         private string GetFilePath()
