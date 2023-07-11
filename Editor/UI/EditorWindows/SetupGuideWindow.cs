@@ -34,15 +34,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         private static void OnStartup()
         {
-            if (ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE)) return;
+            EditorApplication.update -= OnStartup;
+            if (ProjectPrefs.GetBool(ProjectPrefs.FIRST_TIME_SETUP_DONE)) return;
             if (AnalyticsEditorLogger.IsEnabled)
             {
                 EditorApplication.quitting += OnQuit;
             }
             AnalyticsEditorLogger.Enable();
             ShowWindow();
-
-            EditorApplication.update -= OnStartup;
         }
 
         /// <summary>
