@@ -25,7 +25,10 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         static SetupGuideWindow()
         {
-            EditorApplication.update += OnStartup;
+            if (!ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE))
+            {
+                EditorApplication.update += OnStartup;
+            }
         }
 
         /// <summary>
@@ -34,24 +37,14 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         private static void OnStartup()
         {
-            if (CanShowWindow())
-            {
-                AnalyticsEditorLogger.Enable();
-                ShowWindow();
-            }
-
             if (AnalyticsEditorLogger.IsEnabled)
             {
-                AnalyticsEditorLogger.EventLogger.LogOpenProject();
-                AnalyticsEditorLogger.EventLogger.IdentifyUser();
                 EditorApplication.quitting += OnQuit;
             }
-            EditorApplication.update -= OnStartup;
-        }
+            AnalyticsEditorLogger.Enable();
+            ShowWindow();
 
-        private static bool CanShowWindow()
-        {
-            return !ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE);
+            EditorApplication.update -= OnStartup;
         }
 
         /// <summary>
@@ -199,4 +192,5 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             }
         }
     }
+
 }
