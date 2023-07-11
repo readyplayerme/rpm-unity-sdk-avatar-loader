@@ -25,10 +25,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         static SetupGuideWindow()
         {
-            if (!ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE))
-            {
-                EditorApplication.update += OnStartup;
-            }
+            EditorApplication.update += OnStartup;
         }
 
         /// <summary>
@@ -37,6 +34,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         /// </summary>
         private static void OnStartup()
         {
+            if (ProjectPrefs.GetBool(FIRST_TIME_SETUP_DONE)) return;
             if (AnalyticsEditorLogger.IsEnabled)
             {
                 EditorApplication.quitting += OnQuit;
