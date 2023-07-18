@@ -21,7 +21,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string ANALYTICS_PRIVACY_TOOLTIP = "Click to read our Privacy Policy.";
         private const string LOGGING_ENABLED_TOOLTIP = "Enable for detailed console logging of RPM Unity SDK at Runtime and in Editor.";
         private const string ANALYTICS_PRIVACY_URL = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/help-us-improve-the-unity-sdk";
-        private const string CACHING_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-caching";
 
         private bool initialized;
         private bool analyticsEnabled;
@@ -131,7 +130,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 Layout.Horizontal(() =>
                 {
                     GUILayout.Label("Avatar Caching", HeadingStyle);
-                    DocumentationButton.Draw(CACHING_DOCS_LINK);
+                    DocumentationButton.Draw(DocumentationContext.AvatarCaching);
                     GUILayout.FlexibleSpace();
                 });
 

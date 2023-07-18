@@ -28,8 +28,6 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
         private const string AVATAR_CONFIG = "Avatar Config";
         private const string GLTF_DEFER_AGENT = "GLTF defer agent";
         private const string AVATAR_CACHING_TOGGLE_LABEL = "Avatar caching enabled";
-        private const string AVATAR_CONFIG_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/avatar-configuration";
-        private const string DEFER_AGENT_DOCS_LINK = "https://docs.readyplayer.me/ready-player-me/integration-guides/unity/optimize/defer-agents";
 
         private readonly GUILayoutOption objectFieldWidth = GUILayout.Width(280);
 
@@ -62,7 +60,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(AVATAR_CONFIG, AVATAR_CONFIG_TOOLTIP), GUILayout.Width(81));
-                DocumentationButton.Draw(AVATAR_CONFIG_DOCS_LINK);
+                DocumentationButton.Draw(DocumentationContext.AvatarConfig);
                 GUILayout.Space(49);
 
                 avatarConfig = EditorGUILayout.ObjectField(avatarConfig, typeof(AvatarConfig), false, objectFieldWidth) as AvatarConfig;
@@ -80,7 +78,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
             {
                 GUILayout.Space(15);
                 EditorGUILayout.LabelField(new GUIContent(GLTF_DEFER_AGENT, DEFER_AGENT_TOOLTIP), GUILayout.Width(100));
-                DocumentationButton.Draw(DEFER_AGENT_DOCS_LINK);
+                DocumentationButton.Draw(DocumentationContext.GltfDeferAgent);
                 GUILayout.Space(30);
 
                 gltfDeferAgent = EditorGUILayout.ObjectField(gltfDeferAgent, typeof(GLTFDeferAgent), false, objectFieldWidth) as GLTFDeferAgent;
