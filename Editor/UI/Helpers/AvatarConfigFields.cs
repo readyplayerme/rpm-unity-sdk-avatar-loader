@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using ReadyPlayerMe.Core;
+using ReadyPlayerMe.Core.Analytics;
 using ReadyPlayerMe.Core.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -103,6 +104,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 if (cachingEnabled != avatarCachingEnabled && avatarLoaderSettings != null)
                 {
                     avatarLoaderSettings.AvatarCachingEnabled = avatarCachingEnabled;
+                    AnalyticsEditorLogger.EventLogger.LogSetCachingEnabled(avatarLoaderSettings.AvatarCachingEnabled);
                     SaveAvatarLoaderSettings();
                 }
             });
@@ -116,6 +118,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                 GUI.enabled = !isCacheEmpty;
                 if (GUILayout.Button(CLEAR_LOCAL_AVATAR_CACHE, avatarCachingButtonStyle))
                 {
+                    AnalyticsEditorLogger.EventLogger.LogClearLocalCache();
                     TryClearCache();
                     isCacheEmpty = AvatarCache.IsCacheEmpty();
                 }
@@ -123,6 +126,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                 if (GUILayout.Button(SHOW_CACHING_FOLDER_BUTTON_TEXT, avatarCachingButtonStyle))
                 {
+                    AnalyticsEditorLogger.EventLogger.LogShowInExplorer();
                     var path = DirectoryUtility.GetAvatarsDirectoryPath();
                     if (!Directory.Exists(path))
                     {

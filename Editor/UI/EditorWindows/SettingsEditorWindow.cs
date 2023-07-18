@@ -152,6 +152,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
 
                     if (GUILayout.Button(new GUIContent("(Privacy Policy)", ANALYTICS_PRIVACY_TOOLTIP), privacyPolicyStyle))
                     {
+                        AnalyticsEditorLogger.EventLogger.LogViewPrivacyPolicy();
                         Application.OpenURL(ANALYTICS_PRIVACY_URL);
                     }
 
@@ -173,6 +174,7 @@ namespace ReadyPlayerMe.AvatarLoader.Editor
                     sdkLoggingEnabled = EditorGUILayout.ToggleLeft(new GUIContent("Logging enabled", LOGGING_ENABLED_TOOLTIP), sdkLoggingEnabled, GUILayout.Width(125));
                     if (sdkLoggingEnabled != SDKLogger.IsLoggingEnabled())
                     {
+                        AnalyticsEditorLogger.EventLogger.LogSetLoggingEnabled(sdkLoggingEnabled);
                         SDKLogger.EnableLogging(sdkLoggingEnabled);
                     }
                 });
