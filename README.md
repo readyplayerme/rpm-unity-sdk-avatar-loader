@@ -1,8 +1,12 @@
-# Ready Player Me Unity SDK - Avatar Loader Module
+# Ready Player Me Avatar Loader - DEPRECATED
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-avatar-loader)](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/releases/latest) [![GitHub Discussions](https://img.shields.io/github/discussions/readyplayerme/rpm-unity-sdk-avatar-loader)](https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/discussions)
 
-**Ready Player Me Unity SDK** is an extension to www.readyplayer.me avatar platform, which helps you load and display avatars created on the website.
+**This repository has been deprecated as it has been merged into: [Ready Player Me Core](https://github.com/readyplayerme/rpm-unity-sdk-core.git).**
+
+Please note that this repository is no longer actively maintained or supported. We recommend that you update to Ready Player Me Core 3.0 or later.
+
+For historical purposes, the code and documentation will remain available in this repository.
 
 Please visit the online documentation and join our public `discord` community.
 
@@ -11,8 +15,3 @@ Please visit the online documentation and join our public `discord` community.
 ![](https://i.imgur.com/FgbNsPN.png) **[Discord Channel]( https://discord.gg/9veRUu2 )**
 
 :octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-avatar-loader/discussions )**
-
-## How to install
-
-The Avatar Loader module is managed and installed automatically with the [Unity Core](https://github.com/readyplayerme/Unity-Core) module. 
-Please refer to the **[Quick Start guide]( https://github.com/readyplayerme/Unity-Core#readme )** for instructions on how to install the Unity Core module.
