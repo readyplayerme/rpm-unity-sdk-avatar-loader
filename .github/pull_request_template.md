@@ -1,3 +1,12 @@
+<!-- 
+  NOTICE: This repository has been deprecated in favor of a new repository.
+  Please submit your pull request to the new repository: [Ready Player Me Core](https://github.com/readyplayerme/rpm-unity-sdk-core.git).
+  
+  This repository is no longer actively maintained or supported.
+  Thank you for your understanding.
+-->
+
+
 <!-- Copy the TICKETID for this task from Jira and add it to the PR name in brackets -->
 <!-- PR name should look like: [TICKETID] My Pull Request -->
 
