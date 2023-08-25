@@ -7,6 +7,14 @@ assignees: ''
 
 ---
 
+<!-- 
+  NOTICE: This repository has been deprecated in favor of a new repository.
+  If you are experiencing this issue in the deprecated repository, we recommend checking the new repository: [Ready Player Me Core](https://github.com/readyplayerme/rpm-unity-sdk-core.git).
+  
+  This repository is no longer actively maintained or supported.
+  Thank you for your understanding.
+-->
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. e.g. I'm always frustrated when [...]
 
